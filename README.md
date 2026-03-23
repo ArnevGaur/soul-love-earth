@@ -1,16 +1,48 @@
-# React + Vite
+# Soul Love & Earth — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite + Tailwind CSS v4
 
-Currently, two official plugins are available:
+## Folder Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```
+src/
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.jsx
+│   │   └── Footer.jsx
+│   ├── home/
+│   │   ├── Hero.jsx
+│   │   ├── ValueProps.jsx
+│   │   ├── FeaturedProducts.jsx
+│   │   ├── Categories.jsx
+│   │   ├── Story.jsx
+│   │   └── Testimonials.jsx
+│   └── ui/
+│       ├── ProductCard.jsx
+│       └── Badge.jsx
+├── pages/
+│   └── HomePage.jsx
+├── App.jsx
+├── main.jsx
+└── index.css
+```
 
-## React Compiler
+## Dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run dev
+```
 
-## Expanding the ESLint configuration
+## Brand Colors
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Token         | Hex       | Usage              |
+|---------------|-----------|--------------------|
+| teal-500      | #3d9089   | Primary brand      |
+| gold-400      | #d4a843   | Accent / labels    |
+| cream         | #faf8f3   | Background         |
+| charcoal      | #2c2c2c   | Body text          |
+
+## Fonts
+
+- **Display:** Cormorant Garamond (headings)
+- **Body:** Jost (UI text, labels, buttons)
