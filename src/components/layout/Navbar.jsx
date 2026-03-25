@@ -84,7 +84,7 @@ export default function Navbar() {
                     fontWeight: 500,
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    color: '#2c2c2c',
+                    color: '#ffffff',
                     textDecoration: 'none',
                     paddingBottom: '2px',
                     borderBottom: '1px solid transparent',
@@ -95,7 +95,7 @@ export default function Navbar() {
                     e.target.style.borderBottomColor = '#d4a843'
                   }}
                   onMouseLeave={e => {
-                    e.target.style.color = '#2c2c2c'
+                    e.target.style.color = '#ffffff'
                     e.target.style.borderBottomColor = 'transparent'
                   }}
                 >
@@ -109,18 +109,18 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <button
               aria-label="Search"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2c2c2c', padding: '4px', transition: 'color 0.2s' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ffffff', padding: '4px', transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#3d9089'}
-              onMouseLeave={e => e.currentTarget.style.color = '#2c2c2c'}
+              onMouseLeave={e => e.currentTarget.style.color = '#ffffff'}
             >
               <Search size={18} strokeWidth={1.5} />
             </button>
 
             <button
               aria-label="Cart"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2c2c2c', padding: '4px', position: 'relative', transition: 'color 0.2s' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ffffff', padding: '4px', position: 'relative', transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#3d9089'}
-              onMouseLeave={e => e.currentTarget.style.color = '#2c2c2c'}
+              onMouseLeave={e => e.currentTarget.style.color = '#ffffff'}
             >
               <ShoppingBag size={18} strokeWidth={1.5} />
               <span style={{
@@ -145,7 +145,7 @@ export default function Navbar() {
             <button
               aria-label="Menu"
               onClick={() => setMenuOpen(!menuOpen)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2c2c2c', padding: '4px', display: 'none' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ffffff', padding: '4px', display: 'none' }}
               className="show-mobile"
             >
               {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
@@ -180,14 +180,14 @@ export default function Navbar() {
               fontFamily: 'Cormorant Garamond, serif',
               fontSize: '2.5rem',
               fontWeight: 400,
-              color: '#2c2c2c',
+              color: '#ffffff',
               textDecoration: 'none',
               letterSpacing: '0.02em',
               transition: 'color 0.2s',
               animationDelay: `${i * 0.06}s`,
             }}
             onMouseEnter={e => e.target.style.color = '#3d9089'}
-            onMouseLeave={e => e.target.style.color = '#2c2c2c'}
+            onMouseLeave={e => e.target.style.color = '#ffffff'}
           >
             {link.label}
           </Link>
