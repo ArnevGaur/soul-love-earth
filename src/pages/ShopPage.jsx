@@ -31,6 +31,15 @@ export default function ShopPage() {
   const [sortIdx,    setSortIdx]    = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
 
+  // Sync state with URL params
+  useEffect(() => {
+    const q = searchParams.get('q') || ''
+    const cat = searchParams.get('cat') || ''
+    setSearch(q)
+    setSearchInput(q)
+    setCategoryId(cat)
+  }, [searchParams])
+
   // Load categories once
   useEffect(() => {
     fetchCategories()

@@ -12,7 +12,7 @@ const OFFERS = [
     code: 'SPRING20',
     validUntil: 'Valid until April 30',
     type: 'Earthen Cookware',
-    link: '/shop?cat=earthen-cookware' /* dummy link */
+    link: '/shop?cat=1'
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const OFFERS = [
     code: 'AUTO APPLIED',
     validUntil: 'Ongoing Offer',
     type: 'Organic Herbs',
-    link: '/shop?cat=wellness'
+    link: '/shop?cat=6'
   },
   {
     id: 3,
