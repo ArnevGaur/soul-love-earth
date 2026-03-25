@@ -33,7 +33,7 @@ export default function Navbar() {
           backgroundColor: scrolled ? 'rgba(250, 248, 243, 0.96)' : 'transparent',
           backdropFilter: scrolled ? 'blur(12px)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(61, 144, 137, 0.15)' : '1px solid transparent',
-          padding: scrolled ? '0.75rem 2rem' : '1.5rem 2rem',
+          padding: scrolled ? '0.75rem 2rem' : '0.875rem 2rem',
         }}
       >
         <nav style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -45,7 +45,7 @@ export default function Navbar() {
               alt="Soul Love & Earth"
               style={{ height: scrolled ? '40px' : '52px', transition: 'height 0.4s ease', width: 'auto' }}
             />
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}>
               <span style={{
                 fontFamily: 'Cormorant Garamond, serif',
                 fontSize: scrolled ? '1.1rem' : '1.3rem',
@@ -84,7 +84,7 @@ export default function Navbar() {
                     fontWeight: 500,
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    color: '#ffffff',
+                    color: '#0f1f1e',
                     textDecoration: 'none',
                     paddingBottom: '2px',
                     borderBottom: '1px solid transparent',
@@ -95,7 +95,7 @@ export default function Navbar() {
                     e.target.style.borderBottomColor = '#d4a843'
                   }}
                   onMouseLeave={e => {
-                    e.target.style.color = '#ffffff'
+                    e.target.style.color = '#0f1f1e'
                     e.target.style.borderBottomColor = 'transparent'
                   }}
                 >
@@ -109,18 +109,18 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <button
               aria-label="Search"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ffffff', padding: '4px', transition: 'color 0.2s' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0f1f1e', padding: '4px', transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#3d9089'}
-              onMouseLeave={e => e.currentTarget.style.color = '#ffffff'}
+              onMouseLeave={e => e.currentTarget.style.color = '#0f1f1e'}
             >
               <Search size={18} strokeWidth={1.5} />
             </button>
 
             <button
               aria-label="Cart"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ffffff', padding: '4px', position: 'relative', transition: 'color 0.2s' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0f1f1e', padding: '4px', position: 'relative', transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#3d9089'}
-              onMouseLeave={e => e.currentTarget.style.color = '#ffffff'}
+              onMouseLeave={e => e.currentTarget.style.color = '#0f1f1e'}
             >
               <ShoppingBag size={18} strokeWidth={1.5} />
               <span style={{
@@ -145,7 +145,7 @@ export default function Navbar() {
             <button
               aria-label="Menu"
               onClick={() => setMenuOpen(!menuOpen)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ffffff', padding: '4px', display: 'none' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0f1f1e', padding: '4px', display: 'none' }}
               className="show-mobile"
             >
               {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
@@ -180,14 +180,14 @@ export default function Navbar() {
               fontFamily: 'Cormorant Garamond, serif',
               fontSize: '2.5rem',
               fontWeight: 400,
-              color: '#ffffff',
+              color: '#0f1f1e',
               textDecoration: 'none',
               letterSpacing: '0.02em',
               transition: 'color 0.2s',
               animationDelay: `${i * 0.06}s`,
             }}
             onMouseEnter={e => e.target.style.color = '#3d9089'}
-            onMouseLeave={e => e.target.style.color = '#ffffff'}
+            onMouseLeave={e => e.target.style.color = '#0f1f1e'}
           >
             {link.label}
           </Link>
