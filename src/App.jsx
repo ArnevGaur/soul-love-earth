@@ -6,6 +6,7 @@ import OffersPage from './pages/OffersPage'
 import ContactPage from './pages/ContactPage'
 import BlogPage from './pages/BlogPage'
 import CheckoutPage from './pages/CheckoutPage'
+import ProductPage from './pages/ProductPage'
 import WhatsAppButton from './components/ui/WhatsAppButton'
 import { CartProvider } from './context/CartContext'
 import './index.css'
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
         </Routes>
         <WhatsAppButton />
       </BrowserRouter>
