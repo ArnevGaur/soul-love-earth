@@ -6,7 +6,7 @@ export const translations = {
   en: {
     dir: 'ltr',
     nav: {
-      shop: 'Shop', story: 'Our Story', blog: 'Blog', offers: 'Offers',
+      shop: 'Shop', home: 'Home', story: 'Our Story', blog: 'Blog', offers: 'Offers',
       hospitality: 'Hospitality',
       myOrders: 'My Orders',
       contact: 'Contact', login: 'Login', register: 'Register',
@@ -158,7 +158,7 @@ export const translations = {
   ar: {
     dir: 'rtl',
     nav: {
-      shop: 'المتجر', story: 'قصتنا', blog: 'المدونة',
+      shop: 'المتجر', home: 'الرئيسية', story: 'قصتنا', blog: 'المدونة',
       offers: 'العروض', hospitality: 'الضيافة',
       myOrders: 'طلباتي', contact: 'تواصل معنا',
       login: 'تسجيل الدخول', register: 'إنشاء حساب',

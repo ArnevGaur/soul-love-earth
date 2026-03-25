@@ -21,6 +21,7 @@ import { LanguageProvider } from './context/LanguageContext'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import OrdersPage from './pages/OrdersPage'
+import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
 import './index.css'
 
@@ -47,6 +48,7 @@ function AnimatedRoutes() {
         <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
         <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
         <Route path="/orders" element={<PageTransition><OrdersPage /></PageTransition>} />
+        <Route path="/hospitality" element={<PageTransition><HospitalityPage /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   )

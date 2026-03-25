@@ -49,14 +49,14 @@ const categories = [
 
 export default function Categories() {
   const { t, lang } = useLanguage()
-  const h = t.home
+  const h = t?.home || {}
 
   return (
     <section style={{
       backgroundColor: '#faf8f3',
       padding: '6rem 2rem',
     }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }} dir={t.dir}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }} dir={t?.dir}>
 
         {/* Header */}
         <div style={{
@@ -81,7 +81,7 @@ export default function Categories() {
               marginBottom: '0.75rem',
             }}>
               <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
-              {h.collectionsSub}
+              {t?.home?.collectionsSub}
             </span>
             <h2 style={{
               fontFamily: 'Cormorant Garamond, serif',
@@ -90,7 +90,7 @@ export default function Categories() {
               color: '#2c2c2c',
               lineHeight: 1.1,
             }}>
-              {h.collectionsTitle}
+              {t?.home?.collectionsTitle}
             </h2>
           </div>
 
@@ -120,7 +120,7 @@ export default function Categories() {
               e.currentTarget.style.borderColor = '#3d9089'
             }}
           >
-            {h.viewAll} <ArrowRight size={13} strokeWidth={2} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
+            {t?.home?.viewAll} <ArrowRight size={13} strokeWidth={2} style={{ transform: t?.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
           </Link>
         </div>
 
@@ -132,7 +132,7 @@ export default function Categories() {
         }}>
           {categories.map((cat) => (
             <Link
-              key={cat.title}
+              key={cat.titleEn}
               to={cat.href}
               style={{ textDecoration: 'none' }}
             >
@@ -147,7 +147,7 @@ export default function Categories() {
                 onMouseEnter={e => {
                   e.currentTarget.querySelector('.cat-img').style.transform = 'scale(1.06)'
                   e.currentTarget.querySelector('.cat-overlay').style.opacity = '1'
-                  e.currentTarget.querySelector('.cat-arrow').style.transform = t.dir === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)'
+                  e.currentTarget.querySelector('.cat-arrow').style.transform = t?.dir === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.querySelector('.cat-img').style.transform = 'scale(1)'
@@ -223,7 +223,7 @@ export default function Categories() {
                       transition: 'transform 0.3s ease',
                     }}
                   >
-                    {h.explore} <ArrowRight size={11} strokeWidth={2} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
+                    {h?.explore} <ArrowRight size={11} strokeWidth={2} style={{ transform: t?.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
                   </span>
                 </div>
               </div>

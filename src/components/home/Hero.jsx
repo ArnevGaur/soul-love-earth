@@ -5,7 +5,7 @@ import { useLanguage } from '../../context/LanguageContext'
 
 export default function Hero() {
   const { t, lang } = useLanguage()
-  const h = t.home
+  const h = t?.home || {}
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function Hero() {
         padding: '0 2rem',
         width: '100%',
         paddingLeft: 'clamp(2rem, 6vw, 6rem)',
-        direction: t.dir,
+        direction: t?.dir,
       }}>
 
         {/* Label */}
@@ -105,8 +105,8 @@ export default function Hero() {
           transition: 'all 0.9s ease 0.35s',
           whiteSpace: 'pre-line',
         }}>
-          {h.heroTitle.split('\n')[0]}<br />
-          <em style={{ fontStyle: 'italic', color: '#a3dbd3' }}>{h.heroTitle.split('\n')[1]}</em>
+          {h?.heroTitle?.split('\n')[0]}<br />
+          <em style={{ fontStyle: 'italic', color: '#a3dbd3' }}>{h?.heroTitle?.split('\n')[1]}</em>
         </h1>
 
         {/* Subtext */}
@@ -160,7 +160,7 @@ export default function Hero() {
               e.currentTarget.style.transform = 'translateY(0)'
             }}
           >
-            {h.shopNow} <ArrowRight size={14} strokeWidth={2} style={{ transform: t.dir === 'ar' ? 'rotate(180deg)' : 'none' }} />
+            {h?.shopNow} <ArrowRight size={14} strokeWidth={2} style={{ transform: t?.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
           </Link>
 
           <Link

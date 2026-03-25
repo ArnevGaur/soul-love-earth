@@ -19,21 +19,20 @@ export default function Navbar() {
   const navigate = useNavigate()
 
   const navLinks = [
-    { label: t.nav.shop,    href: '/shop' },
-    { label: t.nav.hospitality, href: '#', isHospitality: true },
-    { label: t.nav.story,   href: '/story' },
-    { label: t.nav.offers,  href: '/offers' },
-    { label: t.nav.myOrders, href: '/orders' },
-    { label: t.nav.blog,    href: '/blog' },
-    { label: t.nav.contact, href: '/contact' },
+    { label: t?.nav?.home || 'HOME', href: '/' },
+    { label: t?.nav?.shop,    href: '/shop' },
+    { label: t?.nav?.hospitality, href: '/hospitality', isHospitality: true },
+    { label: t?.nav?.offers,  href: '/offers' },
+    { label: t?.nav?.myOrders, href: '/orders' },
+    { label: t?.nav?.contact, href: '/contact' },
   ]
 
   const hospitalityLinks = [
-    { label: t.hospitality.bedLinens, href: '/shop?cat=7' },
-    { label: t.hospitality.towels, href: '/shop?cat=8' },
-    { label: t.hospitality.chaffings, href: '/shop?cat=9' },
-    { label: t.hospitality.bathrobes, href: '/shop?cat=10' },
-    { label: t.hospitality.pillowCovers, href: '/shop?cat=11' },
+    { label: t?.hospitality?.bedLinens, href: '/shop?cat=7' },
+    { label: t?.hospitality?.towels, href: '/shop?cat=8' },
+    { label: t?.hospitality?.chaffings, href: '/shop?cat=9' },
+    { label: t?.hospitality?.bathrobes, href: '/shop?cat=10' },
+    { label: t?.hospitality?.pillowCovers, href: '/shop?cat=11' },
   ]
 
   useEffect(() => {
@@ -87,205 +86,222 @@ export default function Navbar() {
           left: 0,
           right: 0,
           zIndex: 100,
-          transition: 'all 0.4s ease',
-          backgroundColor: scrolled ? 'rgba(250, 248, 243, 0.96)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(61, 144, 137, 0.15)' : '1px solid transparent',
-          padding: scrolled ? '0.75rem 2rem' : '0.875rem 2rem',
+          transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+          backgroundColor: scrolled ? 'rgba(250, 248, 243, 0.98)' : 'transparent',
+          backgroundImage: scrolled ? 'none' : 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 65%, rgba(0,0,0,0) 100%)',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(61, 144, 137, 0.12)' : 'none',
+          padding: scrolled ? '0.65rem 1.75rem' : '1.15rem 1.75rem',
         }}
       >
-        <nav style={{ position: 'relative', maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <nav style={{ 
+          position: 'relative', 
+          maxWidth: '1700px', 
+          margin: '0 auto', 
+          display: 'grid', 
+          gridTemplateColumns: '1fr auto 1fr', 
+          alignItems: 'center' 
+        }}>
 
-          {/* Logo */}
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-            <img
-              src="/logo.png"
-              alt="Soul Love & Earth"
-              style={{ height: scrolled ? '40px' : '52px', transition: 'height 0.4s ease', width: 'auto' }}
-            />
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}>
-              <span style={{
-                fontFamily: 'Cormorant Garamond, serif',
-                fontSize: scrolled ? '1.1rem' : '1.3rem',
-                fontWeight: 500,
-                color: '#3d9089',
-                transition: 'font-size 0.4s ease',
-                letterSpacing: '0.02em',
-              }}>
-                Soul Love & Earth
-              </span>
-              <span style={{
-                fontFamily: 'Jost, sans-serif',
-                fontSize: '0.6rem',
-                fontWeight: 400,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: '#d4a843',
-                opacity: scrolled ? 0 : 1,
-                transition: 'opacity 0.3s ease',
-              }}>
-                Conscious Living
-              </span>
-            </div>
-          </Link>
+          {/* Logo Section */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', textDecoration: 'none' }}>
+              <img
+                src="/logo.png"
+                alt="Soul Love & Earth"
+                style={{ height: scrolled ? '36px' : '46px', transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)', width: 'auto' }}
+              />
+              <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+                <span style={{
+                  fontFamily: 'Cormorant Garamond, serif',
+                  fontSize: scrolled ? '1.15rem' : '1.4rem',
+                  fontWeight: 500,
+                  color: scrolled ? '#1a2e2c' : '#ffffff',
+                  transition: 'all 0.45s ease',
+                  letterSpacing: '0.01em',
+                  whiteSpace: 'nowrap'
+                }}>
+                  Soul Love & Earth
+                </span>
+                <span style={{
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.6rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  color: '#d4a843',
+                  transition: 'all 0.45s ease',
+                  marginTop: '4px',
+                  opacity: 0.95
+                }}>
+                  Conscious Living
+                </span>
+              </div>
+            </Link>
+          </div>
 
-          {/* Desktop Nav Links */}
-          <ul style={{ display: 'flex', gap: '1.5rem', listStyle: 'none', margin: 0, padding: 0 }}
-              className="hidden-mobile">
-            {navLinks.map(link => (
-              <li key={link.label} style={{ position: 'relative' }}
-                  onMouseEnter={() => link.isHospitality && setHospOpen(true)}
-                  onMouseLeave={() => link.isHospitality && setHospOpen(false)}>
-                <Link
-                  to={link.href}
-                  style={{
-                    fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.72rem',
-                    fontWeight: 500,
-                    letterSpacing: '0.1em',
-                    whiteSpace: 'nowrap',
-                    textTransform: 'uppercase',
-                    color: '#0f1f1e',
-                    textDecoration: 'none',
-                    paddingBottom: '2px',
-                    borderBottom: '1px solid transparent',
-                    transition: 'color 0.2s, border-color 0.2s',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.25rem'
-                  }}
-                  onMouseEnter={e => {
-                    e.target.style.color = '#3d9089'
-                    e.target.style.borderBottomColor = '#d4a843'
-                  }}
-                  onMouseLeave={e => {
-                    e.target.style.color = '#0f1f1e'
-                    e.target.style.borderBottomColor = 'transparent'
-                  }}
-                >
-                  {link.label}
-                  {link.isHospitality && <ChevronDown size={12} style={{ transform: hospOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />}
-                </Link>
+          {/* Center Navigation links */}
+          <div className="hidden-mobile" style={{ display: 'flex', justifyContent: 'center', marginRight: '2.5rem' }}>
+            <ul style={{ display: 'flex', gap: '1.2rem', listStyle: 'none', margin: 0, padding: 0 }}>
+              {navLinks.map(link => (
+                <li key={link.label} style={{ position: 'relative' }}
+                    onMouseEnter={() => link.isHospitality && setHospOpen(true)}
+                    onMouseLeave={() => link.isHospitality && setHospOpen(false)}>
+                  <Link
+                    to={link.href}
+                    style={{
+                      fontFamily: 'Jost, sans-serif',
+                      fontSize: '0.72rem',
+                      fontWeight: 500,
+                      letterSpacing: '0.12rem',
+                      whiteSpace: 'nowrap',
+                      textTransform: 'uppercase',
+                      color: scrolled ? '#1a2e2c' : '#ffffff',
+                      textDecoration: 'none',
+                      padding: '0.75rem 0',
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem'
+                    }}
+                    onMouseEnter={e => {
+                      e.target.style.color = '#d4a843'
+                    }}
+                    onMouseLeave={e => {
+                      e.target.style.color = scrolled ? '#1a2e2c' : '#ffffff'
+                    }}
+                  >
+                    {link.label}
+                    {link.isHospitality && <ChevronDown size={12} style={{ transform: hospOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />}
+                  </Link>
 
-                {link.isHospitality && hospOpen && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '100%',
-                    [lang === 'ar' ? 'right' : 'left']: '-2rem',
-                    width: '240px',
-                    paddingTop: '10px', // Invisible bridge for hover
-                    zIndex: 1000,
-                    animation: 'dropdownFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                    transformOrigin: 'top',
-                  }}>
+                  {link.isHospitality && hospOpen && (
                     <div style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
-                      borderRadius: '12px',
-                      padding: '1rem 0',
-                      border: '1px solid rgba(61, 144, 137, 0.15)',
-                      overflow: 'hidden'
+                      position: 'absolute',
+                      top: '100%',
+                      [lang === 'ar' ? 'right' : 'left']: '-2rem',
+                      width: '240px',
+                      paddingTop: '10px',
+                      zIndex: 1000,
+                      animation: 'dropdownFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                      transformOrigin: 'top',
                     }}>
-                      {hospitalityLinks.map(hLink => (
-                        <Link
-                          key={hLink.label}
-                          to={hLink.href}
-                          onClick={() => setHospOpen(false)}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '0.875rem 2rem',
-                            fontFamily: 'Jost, sans-serif',
-                            fontSize: '0.85rem',
-                            fontWeight: 400,
-                            letterSpacing: '0.04em',
-                            color: '#0a1d1c',
-                            textDecoration: 'none',
-                            transition: 'all 0.25s ease',
-                            borderLeft: lang === 'en' ? '3px solid transparent' : 'none',
-                            borderRight: lang === 'ar' ? '3px solid transparent' : 'none',
-                          }}
-                          onMouseEnter={e => {
-                            e.target.style.backgroundColor = 'rgba(61, 144, 137, 0.08)'
-                            e.target.style.color = '#3d9089'
-                            e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = '#d4a843'
-                          }}
-                          onMouseLeave={e => {
-                            e.target.style.backgroundColor = 'transparent'
-                            e.target.style.color = '#0a1d1c'
-                            e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = 'transparent'
-                          }}
-                        >
-                          {hLink.label}
-                        </Link>
-                      ))}
+                      <div style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.94)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
+                        borderRadius: '12px',
+                        padding: '1rem 0',
+                        border: '1px solid rgba(61, 144, 137, 0.15)',
+                        overflow: 'hidden'
+                      }}>
+                        {hospitalityLinks.map(hLink => (
+                          <Link
+                            key={hLink.label}
+                            to={hLink.href}
+                            onClick={() => setHospOpen(false)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '0.875rem 2rem',
+                              fontFamily: 'Jost, sans-serif',
+                              fontSize: '0.85rem',
+                              fontWeight: 400,
+                              letterSpacing: '0.04em',
+                              color: '#1a2e2c',
+                              textDecoration: 'none',
+                              transition: 'all 0.25s ease',
+                              borderLeft: lang === 'en' ? '3px solid transparent' : 'none',
+                              borderRight: lang === 'ar' ? '3px solid transparent' : 'none',
+                            }}
+                            onMouseEnter={e => {
+                              e.target.style.backgroundColor = 'rgba(61, 144, 137, 0.08)'
+                              e.target.style.color = '#3d9089'
+                              e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = '#d4a843'
+                            }}
+                            onMouseLeave={e => {
+                              e.target.style.backgroundColor = 'transparent'
+                              e.target.style.color = '#1a2e2c'
+                              e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = 'transparent'
+                            }}
+                          >
+                            {hLink.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          {/* Right Icons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {/* Right Icons Section */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1.25rem' }}>
 
             {/* Language Toggle */}
             <button
               onClick={toggleLang}
               title={lang === 'en' ? 'Switch to Arabic' : 'Switch to English'}
               style={{
-                background: 'none', border: '1.5px solid rgba(61,144,137,0.35)', cursor: 'pointer',
+                background: 'none', border: scrolled ? '1.5px solid rgba(61,144,137,0.35)' : '1.5px solid rgba(255,255,255,0.4)', cursor: 'pointer',
                 padding: '0.3rem 0.65rem', borderRadius: '100px',
                 fontFamily: lang === 'ar' ? 'Arial, sans-serif' : 'Jost, sans-serif',
                 fontSize: lang === 'ar' ? '0.85rem' : '0.7rem',
                 fontWeight: 600, letterSpacing: lang === 'ar' ? 0 : '0.08em',
-                color: '#3d9089', transition: 'all 0.2s',
+                color: scrolled ? '#3d9089' : '#ffffff', transition: 'all 0.25s ease',
                 lineHeight: 1.2,
               }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(61,144,137,0.1)'; e.currentTarget.style.borderColor = '#3d9089' }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.borderColor = 'rgba(61,144,137,0.35)' }}
+              onMouseEnter={e => { 
+                e.currentTarget.style.backgroundColor = scrolled ? 'rgba(61,144,137,0.1)' : 'rgba(255,255,255,0.15)'; 
+                e.currentTarget.style.borderColor = scrolled ? '#3d9089' : '#ffffff' 
+              }}
+              onMouseLeave={e => { 
+                e.currentTarget.style.backgroundColor = 'transparent'; 
+                e.currentTarget.style.borderColor = scrolled ? 'rgba(61,144,137,0.35)' : 'rgba(255,255,255,0.4)' 
+              }}
             >
               {lang === 'en' ? 'عربي' : 'EN'}
             </button>
 
             {/* Login / Register — desktop only */}
-            <Link
-              to="/login"
-              className="hidden-mobile"
-              style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0f1f1e', textDecoration: 'none', transition: 'color 0.2s' }}
-              onMouseEnter={e => e.target.style.color = '#3d9089'}
-              onMouseLeave={e => e.target.style.color = '#0f1f1e'}
-            >{t.nav.login}</Link>
+            <div className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+              <Link
+                to="/login"
+                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: scrolled ? '#0f1f1e' : '#ffffff', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => e.target.style.color = '#d4a843'}
+                onMouseLeave={e => e.target.style.color = scrolled ? '#0f1f1e' : '#ffffff'}
+              >{t?.nav?.login}</Link>
 
-            <Link
-              to="/register"
-              className="hidden-mobile"
-              style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.45rem 1rem', backgroundColor: '#3d9089', color: 'white', textDecoration: 'none', borderRadius: '3px', transition: 'background-color 0.2s' }}
-              onMouseEnter={e => e.target.style.backgroundColor = '#2d7070'}
-              onMouseLeave={e => e.target.style.backgroundColor = '#3d9089'}
-            >{t.nav.register}</Link>
+              <Link
+                to="/register"
+                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.45rem 1rem', backgroundColor: scrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)', border: scrolled ? 'none' : '1px solid rgba(255,255,255,0.4)', color: 'white', textDecoration: 'none', borderRadius: '4px', transition: 'all 0.3s ease', backdropFilter: scrolled ? 'none' : 'blur(4px)' }}
+                onMouseEnter={e => e.target.style.backgroundColor = scrolled ? '#2d7070' : 'rgba(255, 255, 255, 0.35)'}
+                onMouseLeave={e => e.target.style.backgroundColor = scrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)'}
+              >{t?.nav?.register}</Link>
+            </div>
 
             {/* Search */}
             <button
                aria-label="Search"
                onClick={() => setSearchOpen(!searchOpen)}
-               style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0f1f1e', padding: '4px', transition: 'color 0.2s' }}
-               onMouseEnter={e => e.currentTarget.style.color = '#3d9089'}
-               onMouseLeave={e => e.currentTarget.style.color = '#0f1f1e'}
+               style={{ background: 'none', border: 'none', cursor: 'pointer', color: scrolled ? '#0f1f1e' : '#ffffff', padding: '4px', transition: 'all 0.2s' }}
+               onMouseEnter={e => e.currentTarget.style.color = '#d4a843'}
+               onMouseLeave={e => e.currentTarget.style.color = scrolled ? '#0f1f1e' : '#ffffff'}
              >
-              {searchOpen ? <X size={18} strokeWidth={1.5} /> : <Search size={18} strokeWidth={1.5} />}
+              {searchOpen ? <X size={20} strokeWidth={1.5} /> : <Search size={20} strokeWidth={1.5} />}
             </button>
 
             <button
               aria-label="Cart"
               onClick={() => setCartDrawerOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0f1f1e', padding: '4px', position: 'relative', transition: 'color 0.2s' }}
-              onMouseEnter={e => e.currentTarget.style.color = '#3d9089'}
-              onMouseLeave={e => e.currentTarget.style.color = '#0f1f1e'}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: scrolled ? '#0f1f1e' : '#ffffff', padding: '4px', position: 'relative', transition: 'all 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#d4a843'}
+              onMouseLeave={e => e.currentTarget.style.color = scrolled ? '#0f1f1e' : '#ffffff'}
             >
-              <ShoppingBag size={18} strokeWidth={1.5} />
+              <ShoppingBag size={20} strokeWidth={1.5} />
               <span style={{
                 position: 'absolute',
                 top: '-2px',
@@ -293,7 +309,7 @@ export default function Navbar() {
                 width: '14px',
                 height: '14px',
                 borderRadius: '50%',
-                backgroundColor: '#d4a843',
+                backgroundColor: '#47b5a4',
                 color: 'white',
                 fontSize: '0.55rem',
                 fontFamily: 'Jost, sans-serif',
@@ -308,10 +324,10 @@ export default function Navbar() {
             <button
               aria-label="Menu"
               onClick={() => setMenuOpen(!menuOpen)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0f1f1e', padding: '4px', display: 'none' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: scrolled ? '#0f1f1e' : '#ffffff', padding: '4px', display: 'none' }}
               className="show-mobile"
             >
-              {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+              {menuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
             </button>
           </div>
 
@@ -465,11 +481,9 @@ export default function Navbar() {
             <Link
               to={link.href}
               onClick={(e) => {
+                setMenuOpen(false)
                 if (link.isHospitality) {
-                  e.preventDefault()
-                  setHospOpen(!hospOpen)
-                } else {
-                  setMenuOpen(false)
+                  setHospOpen(false)
                 }
               }}
               style={{
