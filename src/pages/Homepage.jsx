@@ -2,6 +2,7 @@ import Navbar from '../components/layout/Navbar'
 import Hero from '../components/home/Hero'
 import ValueProps from '../components/home/ValueProps'
 import Categories from '../components/home/Categories'
+import Story from '../components/home/Story'
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
         <Hero />
         <ValueProps />
         <Categories />
+        <Story />
         {/* More sections coming next */}
       </main>
     </>
