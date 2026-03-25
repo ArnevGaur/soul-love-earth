@@ -7,4 +7,14 @@ export default defineConfig({
     tailwindcss(),
     react(),
   ],
+  server: {
+    proxy: {
+      '/api-proxy': {
+        target: 'https://soullovenearth.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api-proxy/, ''),
+        secure: true,
+      }
+    }
+  }
 })
