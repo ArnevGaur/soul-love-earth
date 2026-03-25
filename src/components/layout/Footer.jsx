@@ -4,26 +4,26 @@ import { useState } from 'react'
 
 const footerLinks = {
   Shop: [
-    { label: 'Earthen Cookware', href: '/shop/earthen-cookware' },
-    { label: 'Copperware', href: '/shop/copperware' },
-    { label: 'Home Décor', href: '/shop/home-decor' },
-    { label: 'Hotel Amenities', href: '/shop/hotel-amenities' },
-    { label: 'Handmade Footwear', href: '/shop/footwear' },
-    { label: 'Wellness', href: '/shop/wellness' },
+    { label: 'Earthen Cookware', href: '/shop?cat=1' },
+    { label: 'Copperware', href: '/shop?cat=2' },
+    { label: 'Home Décor', href: '/shop?cat=3' },
+    { label: 'Hotel Amenities', href: '/shop?cat=4' },
+    { label: 'Handmade Footwear', href: '/shop?cat=5' },
+    { label: 'Wellness', href: '/shop?cat=6' },
   ],
   Company: [
     { label: 'Our Story', href: '/story' },
-    { label: 'Sustainability', href: '/sustainability' },
-    { label: 'Artisan Partners', href: '/artisans' },
     { label: 'Offers', href: '/offers' },
     { label: 'Blog', href: '/blog' },
-  ],
-  Support: [
     { label: 'Contact Us', href: '/contact' },
-    { label: 'Shipping Policy', href: '/shipping' },
-    { label: 'Returns & Exchanges', href: '/returns' },
-    { label: 'FAQ', href: '/faq' },
-    { label: 'Track Order', href: '/track' },
+  ],
+  'Legal & Privacy': [
+    { label: 'Pricing & Delivery', href: '/pricing-delivery' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Return Policy', href: '/return-policy' },
+    { label: 'Report a Scam', href: '/report-scam' },
+    { label: 'Terms & Conditions', href: '/terms' },
+    { label: 'Review Terms', href: '/review-terms' },
   ],
 }
 
@@ -150,8 +150,8 @@ export default function Footer() {
         margin: '0 auto',
         padding: '4rem 2rem 3rem',
         display: 'grid',
-        gridTemplateColumns: '2fr 1fr 1fr 1fr',
-        gap: '3rem',
+        gridTemplateColumns: '1.8fr 1fr 1fr 1.2fr',
+        gap: '2.5rem',
       }}
         className="footer-grid"
       >
@@ -289,10 +289,14 @@ export default function Footer() {
             © {new Date().getFullYear()} Soul Love &amp; Earth. All rights reserved.
           </span>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
-            {['Privacy Policy', 'Terms of Service', 'Sitemap'].map(item => (
+            {[
+              { label: 'Privacy Policy', to: '/privacy-policy' },
+              { label: 'Terms', to: '/terms' },
+              { label: 'Return Policy', to: '/return-policy' },
+            ].map(item => (
               <Link
-                key={item}
-                to="/"
+                key={item.label}
+                to={item.to}
                 style={{
                   fontFamily: 'Jost, sans-serif',
                   fontSize: '0.72rem',
@@ -304,7 +308,7 @@ export default function Footer() {
                 onMouseEnter={e => e.target.style.color = 'rgba(250,248,243,0.7)'}
                 onMouseLeave={e => e.target.style.color = 'rgba(250,248,243,0.35)'}
               >
-                {item}
+                {item.label}
               </Link>
             ))}
           </div>
