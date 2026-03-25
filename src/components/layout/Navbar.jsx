@@ -1,18 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Menu, X, ShoppingBag, Search, Loader2 } from 'lucide-react'
+import { Menu, X, ShoppingBag, Search, User } from 'lucide-react'
 import { fetchProducts } from '../../services/opencart'
 import { useCart } from '../../context/CartContext'
+import { useLanguage } from '../../context/LanguageContext'
 import CartDrawer from './CartDrawer'
-
-const navLinks = [
-  { label: 'Home',       href: '/' },
-  { label: 'Shop',       href: '/shop' },
-  { label: 'Our Story',  href: '/story' },
-  { label: 'Offers',     href: '/offers' },
-  { label: 'Blog',       href: '/blog' },
-  { label: 'Contact',    href: '/contact' },
-]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -22,7 +14,16 @@ export default function Navbar() {
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const { cartCount, setCartDrawerOpen } = useCart()
+  const { lang, t, toggleLang } = useLanguage()
   const navigate = useNavigate()
+
+  const navLinks = [
+    { label: t.nav.shop,    href: '/shop' },
+    { label: t.nav.story,   href: '/story' },
+    { label: t.nav.offers,  href: '/offers' },
+    { label: t.nav.blog,    href: '/blog' },
+    { label: t.nav.contact, href: '/contact' },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -152,7 +153,45 @@ export default function Navbar() {
           </ul>
 
           {/* Right Icons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLang}
+              title={lang === 'en' ? 'Switch to Arabic' : 'Switch to English'}
+              style={{
+                background: 'none', border: '1.5px solid rgba(61,144,137,0.35)', cursor: 'pointer',
+                padding: '0.3rem 0.65rem', borderRadius: '100px',
+                fontFamily: lang === 'ar' ? 'Arial, sans-serif' : 'Jost, sans-serif',
+                fontSize: lang === 'ar' ? '0.85rem' : '0.7rem',
+                fontWeight: 600, letterSpacing: lang === 'ar' ? 0 : '0.08em',
+                color: '#3d9089', transition: 'all 0.2s',
+                lineHeight: 1.2,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(61,144,137,0.1)'; e.currentTarget.style.borderColor = '#3d9089' }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.borderColor = 'rgba(61,144,137,0.35)' }}
+            >
+              {lang === 'en' ? 'عربي' : 'EN'}
+            </button>
+
+            {/* Login / Register — desktop only */}
+            <Link
+              to="/login"
+              className="hidden-mobile"
+              style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0f1f1e', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={e => e.target.style.color = '#3d9089'}
+              onMouseLeave={e => e.target.style.color = '#0f1f1e'}
+            >{t.nav.login}</Link>
+
+            <Link
+              to="/register"
+              className="hidden-mobile"
+              style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.45rem 1rem', backgroundColor: '#3d9089', color: 'white', textDecoration: 'none', borderRadius: '3px', transition: 'background-color 0.2s' }}
+              onMouseEnter={e => e.target.style.backgroundColor = '#2d7070'}
+              onMouseLeave={e => e.target.style.backgroundColor = '#3d9089'}
+            >{t.nav.register}</Link>
+
+            {/* Search */}
             <button
                aria-label="Search"
                onClick={() => setSearchOpen(!searchOpen)}

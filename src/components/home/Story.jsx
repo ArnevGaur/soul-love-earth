@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext'
 
 export default function Story() {
+  const { t, lang } = useLanguage()
+  const h = t.home
+
   return (
     <section style={{
       backgroundColor: '#1a2e2c',
@@ -15,6 +19,7 @@ export default function Story() {
         minHeight: '580px',
       }}
         className="story-grid"
+        dir={t.dir}
       >
 
         {/* Left — Image */}
@@ -57,7 +62,7 @@ export default function Story() {
               fontWeight: 300,
               color: 'white',
               lineHeight: 1,
-            }}>10+</div>
+            }}>{h.yearsOfCraft.split(' ')[0]}</div>
             <div style={{
               fontFamily: 'Jost, sans-serif',
               fontSize: '0.65rem',
@@ -66,7 +71,7 @@ export default function Story() {
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.85)',
               marginTop: '0.25rem',
-            }}>Years of Craft</div>
+            }}>{h.yearsOfCraft.split(' ').slice(1).join(' ')}</div>
           </div>
         </div>
 
@@ -92,7 +97,7 @@ export default function Story() {
             marginBottom: '1.5rem',
           }}>
             <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
-            Our Story
+            {h.storySub}
           </span>
 
           {/* Headline */}
@@ -103,9 +108,10 @@ export default function Story() {
             color: '#faf8f3',
             lineHeight: 1.15,
             marginBottom: '1.5rem',
+            whiteSpace: 'pre-line',
           }}>
-            Blending tradition<br />
-            <em style={{ fontStyle: 'italic', color: '#a3dbd3' }}>with purpose</em>
+            {h.storyTitle.split('\n')[0]}<br />
+            <em style={{ fontStyle: 'italic', color: '#a3dbd3' }}>{h.storyTitle.split('\n')[1] || ''}</em>
           </h2>
 
           {/* Body */}
@@ -118,7 +124,7 @@ export default function Story() {
             marginBottom: '1rem',
             maxWidth: '440px',
           }}>
-            Soul Love and Earth was born from a simple belief — that the things we bring into our homes should honour the planet that provides them. We work with artisan communities across India to create products that are beautiful, sustainable, and deeply intentional.
+            {h.storyP1}
           </p>
 
           <p style={{
@@ -130,7 +136,7 @@ export default function Story() {
             marginBottom: '2.5rem',
             maxWidth: '440px',
           }}>
-            Every piece tells a story of skilled hands, ethical sourcing, and a commitment to leaving the world better than we found it.
+            {h.storyP2}
           </p>
 
           {/* Stats row */}
@@ -142,11 +148,7 @@ export default function Story() {
             borderBottom: '1px solid rgba(250,248,243,0.1)',
             padding: '1.5rem 0',
           }}>
-            {[
-              { num: '50+', label: 'Artisan Partners' },
-              { num: '200+', label: 'Products' },
-              { num: '15+', label: 'States Sourced' },
-            ].map(stat => (
+            {h.stats.map(stat => (
               <div key={stat.label}>
                 <div style={{
                   fontFamily: 'Cormorant Garamond, serif',
@@ -197,7 +199,7 @@ export default function Story() {
               e.currentTarget.style.color = '#faf8f3'
             }}
           >
-            Read Our Story <ArrowRight size={14} strokeWidth={2} />
+            {h.readStory} <ArrowRight size={14} strokeWidth={2} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
           </Link>
 
         </div>

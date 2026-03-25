@@ -1,10 +1,14 @@
 import { useCart } from '../../context/CartContext'
+import { useLanguage } from '../../context/LanguageContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { X, Trash2, Plus, Minus } from 'lucide-react'
 
 export default function CartDrawer() {
   const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal } = useCart()
+  const { t, lang } = useLanguage()
+  const c = t.cart
   const navigate = useNavigate()
+  const isRtl = lang === 'ar'
 
   return (
     <>
@@ -14,8 +18,7 @@ export default function CartDrawer() {
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           backgroundColor: 'rgba(15, 31, 30, 0.4)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
+          backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
           zIndex: 1001,
           opacity: cartDrawerOpen ? 1 : 0,
           pointerEvents: cartDrawerOpen ? 'auto' : 'none',
@@ -23,16 +26,17 @@ export default function CartDrawer() {
         }}
       />
 
-      {/* Drawer */}
+      {/* Drawer — slides in from right (LTR) or left (RTL) */}
       <div style={{
-        position: 'fixed', top: 0, right: 0, bottom: 0,
+        position: 'fixed', top: 0, [isRtl ? 'left' : 'right']: 0, bottom: 0,
         width: '100%', maxWidth: '420px',
         backgroundColor: '#faf8f3',
         zIndex: 1002,
-        boxShadow: '-10px 0 30px rgba(0,0,0,0.1)',
-        transform: cartDrawerOpen ? 'translateX(0)' : 'translateX(100%)',
+        boxShadow: isRtl ? '10px 0 30px rgba(0,0,0,0.1)' : '-10px 0 30px rgba(0,0,0,0.1)',
+        transform: cartDrawerOpen ? 'translateX(0)' : isRtl ? 'translateX(-100%)' : 'translateX(100%)',
         transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         display: 'flex', flexDirection: 'column',
+        direction: t.dir,
       }}>
         {/* Header */}
         <div style={{
@@ -40,7 +44,7 @@ export default function CartDrawer() {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           backgroundColor: 'white'
         }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#1a2e2c', margin: 0 }}>Your Cart</h2>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#1a2e2c', margin: 0 }}>{c.title}</h2>
           <button onClick={() => setCartDrawerOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#1a2e2c', padding: '4px' }}>
             <X size={20} strokeWidth={1.5} />
           </button>
@@ -50,14 +54,14 @@ export default function CartDrawer() {
         <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
           {cartItems.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#999', marginTop: '3rem', fontFamily: 'var(--font-body)' }}>
-              Your cart is empty.<br /><br />
+              {c.empty}<br /><br />
               <button 
                 onClick={() => setCartDrawerOpen(false)}
                 style={{
                   padding: '0.8rem 2rem', backgroundColor: 'var(--color-teal-500)', color: 'white', border: 'none',
                   fontFamily: 'var(--font-body)', fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', cursor: 'pointer'
                 }}
-              >Continue Shopping</button>
+              >{c.continueShopping}</button>
             </div>
           ) : (
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -92,24 +96,21 @@ export default function CartDrawer() {
         {cartItems.length > 0 && (
           <div style={{ padding: '1.5rem', backgroundColor: 'white', borderTop: '1px solid rgba(61, 144, 137, 0.15)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: '#1a2e2c' }}>
-              <span>Subtotal</span>
+              <span>{c.subtotal}</span>
               <span style={{ fontWeight: 500 }}>AED {cartTotal.toFixed(2)}</span>
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#999', marginBottom: '1.5rem', textAlign: 'center' }}>
-              Shipping & taxes calculated at checkout.
+              {c.shipping}
             </p>
             <button 
-              onClick={() => {
-                setCartDrawerOpen(false)
-                navigate('/checkout')
-              }}
+              onClick={() => { setCartDrawerOpen(false); navigate('/checkout') }}
               style={{
                 width: '100%', padding: '1.2rem', backgroundColor: 'var(--color-teal-600)', color: 'white', border: 'none',
                 fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
                 transition: 'background-color 0.2s', display: 'flex', justifyContent: 'center', alignItems: 'center'
               }}
             >
-              Secure Checkout
+              {c.checkout}
             </button>
           </div>
         )}

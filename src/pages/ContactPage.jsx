@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export default function ContactPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const { t } = useLanguage()
+  const c = t.contact
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -64,7 +67,7 @@ export default function ContactPage() {
           <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px', margin: '0 auto' }}>
             <span className="section-label animate-fade-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
               <span style={{ width: '32px', height: '1px', backgroundColor: 'var(--color-gold-400)' }} />
-              Get In Touch
+              {c.title}
               <span style={{ width: '32px', height: '1px', backgroundColor: 'var(--color-gold-400)' }} />
             </span>
             <h1 className="animate-fade-up delay-100" style={{
@@ -73,7 +76,7 @@ export default function ContactPage() {
               fontWeight: 300,
               lineHeight: 1.1,
             }}>
-              We're Here for You
+              {c.sub}
             </h1>
             <p className="animate-fade-up delay-200" style={{
               fontFamily: 'var(--font-body)',
@@ -219,10 +222,10 @@ export default function ContactPage() {
               boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
             }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--color-charcoal)', marginBottom: '0.5rem', lineHeight: 1.2 }}>
-                Send a Message
+                {c.title}
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: '#666', marginBottom: '2.5rem' }}>
-                We'd love to hear from you. Fill out the form below and we'll be in touch shortly.
+                {c.sub}
               </p>
 
               {submitted ? (
@@ -239,15 +242,15 @@ export default function ContactPage() {
                   }}>
                     <Send color="white" size={24} />
                   </div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--color-teal-800)', marginBottom: '0.5rem' }}>Message Sent!</h3>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-teal-700)' }}>Thank you for reaching out. A member of our team will get back to you within 24 hours.</p>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--color-teal-800)', marginBottom: '0.5rem' }}>{c.sent}</h3>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-teal-700)' }}></p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} dir={t.dir}>
                   
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="contact-form-grid">
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      <label htmlFor="name" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>FULL NAME *</label>
+                      <label htmlFor="name" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>{c.yourName.toUpperCase()}</label>
                       <input 
                         type="text" 
                         id="name" 
@@ -264,7 +267,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      <label htmlFor="email" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>EMAIL ADDRESS *</label>
+                      <label htmlFor="email" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>{c.email.toUpperCase()}</label>
                       <input 
                         type="email" 
                         id="email" 
@@ -283,7 +286,7 @@ export default function ContactPage() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label htmlFor="subject" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>SUBJECT</label>
+                    <label htmlFor="subject" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>{c.subject.toUpperCase()}</label>
                     <input 
                       type="text" 
                       id="subject" 
@@ -300,7 +303,7 @@ export default function ContactPage() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label htmlFor="message" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>YOUR MESSAGE *</label>
+                    <label htmlFor="message" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>{c.message.toUpperCase()}</label>
                     <textarea 
                       id="message" 
                       name="message" 
@@ -333,9 +336,9 @@ export default function ContactPage() {
                     {isSubmitting ? (
                       <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span className="spinner" style={{ width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
-                        SENDING...
+                        {c.sending.toUpperCase()}
                       </span>
-                    ) : 'SEND MESSAGE'}
+                    ) : c.send.toUpperCase()}
                   </button>
                 </form>
               )}

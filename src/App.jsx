@@ -16,11 +16,15 @@ import ReviewTermsPage from './pages/ReviewTermsPage'
 import WhatsAppButton from './components/ui/WhatsAppButton'
 import RouteProgress from './components/ui/RouteProgress'
 import { CartProvider } from './context/CartContext'
+import { LanguageProvider } from './context/LanguageContext'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 import './index.css'
 
 export default function App() {
   return (
-    <CartProvider>
+    <LanguageProvider>
+      <CartProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/"     element={<HomePage />} />
@@ -37,10 +41,13 @@ export default function App() {
           <Route path="/report-scam" element={<ReportScamPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/review-terms" element={<ReviewTermsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
         <RouteProgress />
         <WhatsAppButton />
       </BrowserRouter>
     </CartProvider>
+    </LanguageProvider>
   )
 }
