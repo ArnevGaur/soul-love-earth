@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 import HomePage from './pages/Homepage'
 import ShopPage from './pages/ShopPage'
 import StoryPage from './pages/StoryPage'
@@ -20,32 +21,43 @@ import { LanguageProvider } from './context/LanguageContext'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import OrdersPage from './pages/OrdersPage'
+import PageTransition from './components/layout/PageTransition'
 import './index.css'
+
+function AnimatedRoutes() {
+  const location = useLocation()
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/"     element={<PageTransition><HomePage /></PageTransition>} />
+        <Route path="/shop" element={<PageTransition><ShopPage /></PageTransition>} />
+        <Route path="/story" element={<PageTransition><StoryPage /></PageTransition>} />
+        <Route path="/offers" element={<PageTransition><OffersPage /></PageTransition>} />
+        <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+        <Route path="/blog" element={<PageTransition><BlogPage /></PageTransition>} />
+        <Route path="/checkout" element={<PageTransition><CheckoutPage /></PageTransition>} />
+        <Route path="/product/:id" element={<PageTransition><ProductPage /></PageTransition>} />
+        <Route path="/pricing-delivery" element={<PageTransition><PricingDeliveryPage /></PageTransition>} />
+        <Route path="/privacy-policy" element={<PageTransition><PrivacyPolicyPage /></PageTransition>} />
+        <Route path="/return-policy" element={<PageTransition><ReturnPolicyPage /></PageTransition>} />
+        <Route path="/report-scam" element={<PageTransition><ReportScamPage /></PageTransition>} />
+        <Route path="/terms" element={<PageTransition><TermsPage /></PageTransition>} />
+        <Route path="/review-terms" element={<PageTransition><ReviewTermsPage /></PageTransition>} />
+        <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+        <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+        <Route path="/orders" element={<PageTransition><OrdersPage /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  )
+}
 
 export default function App() {
   return (
     <LanguageProvider>
       <CartProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/"     element={<HomePage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/story" element={<StoryPage />} />
-          <Route path="/offers" element={<OffersPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/pricing-delivery" element={<PricingDeliveryPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/return-policy" element={<ReturnPolicyPage />} />
-          <Route path="/report-scam" element={<ReportScamPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/review-terms" element={<ReviewTermsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-        </Routes>
+        <AnimatedRoutes />
         <RouteProgress />
         <WhatsAppButton />
       </BrowserRouter>
