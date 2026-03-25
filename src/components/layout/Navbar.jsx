@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu, X, ShoppingBag, Search, Loader2 } from 'lucide-react'
 import { fetchProducts } from '../../services/opencart'
+import { useCart } from '../../context/CartContext'
+import CartDrawer from './CartDrawer'
 
 const navLinks = [
   { label: 'Home',       href: '/' },
@@ -19,6 +21,7 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
+  const { cartCount, setCartDrawerOpen } = useCart()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -162,6 +165,7 @@ export default function Navbar() {
 
             <button
               aria-label="Cart"
+              onClick={() => setCartDrawerOpen(true)}
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0f1f1e', padding: '4px', position: 'relative', transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#3d9089'}
               onMouseLeave={e => e.currentTarget.style.color = '#0f1f1e'}
@@ -182,7 +186,7 @@ export default function Navbar() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-              }}>0</span>
+              }}>{cartCount}</span>
             </button>
 
             {/* Mobile hamburger */}
@@ -321,6 +325,8 @@ export default function Navbar() {
           )}
         </nav>
       </header>
+
+      <CartDrawer />
 
       {/* Mobile Menu Drawer */}
       <div style={{

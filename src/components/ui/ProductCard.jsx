@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { ShoppingBag } from 'lucide-react'
+import { useCart } from '../../context/CartContext'
 
 const BASE_URL = import.meta.env.VITE_OPENCART_URL
 
 export default function ProductCard({ product }) {
+  const { addToCart } = useCart()
   const image = product.thumb
     ? (product.thumb.startsWith('http') ? product.thumb : `${BASE_URL}/${product.thumb}`)
     : 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
@@ -42,7 +44,11 @@ export default function ProductCard({ product }) {
           {/* Add to cart overlay */}
           <button
             className="pc-btn"
-            onClick={e => { e.preventDefault(); e.stopPropagation() }}
+            onClick={e => { 
+              e.preventDefault()
+              e.stopPropagation()
+              addToCart(product)
+            }}
             style={{
               position: 'absolute', bottom: 0, left: 0, right: 0,
               padding: '0.75rem',
