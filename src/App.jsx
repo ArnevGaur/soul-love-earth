@@ -19,6 +19,7 @@ import { CartProvider } from './context/CartContext'
 import { LanguageProvider } from './context/LanguageContext'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import OrdersPage from './pages/OrdersPage'
 import './index.css'
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/review-terms" element={<ReviewTermsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
         <RouteProgress />
         <WhatsAppButton />

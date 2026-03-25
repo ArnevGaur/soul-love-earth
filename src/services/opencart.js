@@ -45,6 +45,38 @@ const mockProducts = [
   { product_id: '23', name: 'Silk Pillow Cover Set',      price: 'AED 95.00',  special: null,        category_id: '11', thumb: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?w=800&q=80', images: angles(['photo-1584100936595-c0654b55a2e6']), description: 'Hypoallergenic silk pillow covers for a restful, skin-friendly sleep. Includes 2 covers.', tags: ['Silk', 'Wellness', 'Restful'], reviews: [] },
 ]
 
+const mockOrders = [
+  {
+    id: 'ORD-7241',
+    date: 'March 15, 2025',
+    status: 'delivered',
+    total: 'AED 435.00',
+    items: [
+      { name: 'Clay Cooking Pot', quantity: 1, price: 'AED 85.00' },
+      { name: 'Copper Water Bottle', quantity: 2, price: 'AED 110.00' },
+      { name: 'Eco Toiletry Kit', quantity: 1, price: 'AED 130.00' },
+    ]
+  },
+  {
+    id: 'ORD-8912',
+    date: 'March 22, 2025',
+    status: 'shipped',
+    total: 'AED 195.00',
+    items: [
+      { name: 'Leather Kolhapuri Sandals', quantity: 1, price: 'AED 195.00' },
+    ]
+  },
+  {
+    id: 'ORD-9055',
+    date: 'March 24, 2025',
+    status: 'processing',
+    total: 'AED 250.00',
+    items: [
+      { name: 'Premium Cotton Bed Sheet', quantity: 1, price: 'AED 250.00' },
+    ]
+  }
+]
+
 export async function fetchProducts({
   categoryId = '',
   search     = '',
@@ -81,4 +113,9 @@ export async function fetchProduct(id) {
 export async function fetchCategories() {
   await new Promise(r => setTimeout(r, 300))
   return mockCategories
+}
+
+export async function fetchOrders() {
+  await new Promise(r => setTimeout(r, 500))
+  return mockOrders
 }

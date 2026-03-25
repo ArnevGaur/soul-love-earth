@@ -23,6 +23,7 @@ export default function Navbar() {
     { label: t.nav.hospitality, href: '#', isHospitality: true },
     { label: t.nav.story,   href: '/story' },
     { label: t.nav.offers,  href: '/offers' },
+    { label: t.nav.myOrders, href: '/orders' },
     { label: t.nav.blog,    href: '/blog' },
     { label: t.nav.contact, href: '/contact' },
   ]
@@ -129,7 +130,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav Links */}
-          <ul style={{ display: 'flex', gap: '2.5rem', listStyle: 'none', margin: 0, padding: 0 }}
+          <ul style={{ display: 'flex', gap: '1.5rem', listStyle: 'none', margin: 0, padding: 0 }}
               className="hidden-mobile">
             {navLinks.map(link => (
               <li key={link.label} style={{ position: 'relative' }}
@@ -139,9 +140,10 @@ export default function Navbar() {
                   to={link.href}
                   style={{
                     fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.78rem',
+                    fontSize: '0.72rem',
                     fontWeight: 500,
-                    letterSpacing: '0.12em',
+                    letterSpacing: '0.1em',
+                    whiteSpace: 'nowrap',
                     textTransform: 'uppercase',
                     color: '#0f1f1e',
                     textDecoration: 'none',
