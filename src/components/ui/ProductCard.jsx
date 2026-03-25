@@ -1,14 +1,19 @@
 import { Link } from 'react-router-dom'
 import { ShoppingBag } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
+import { useLanguage } from '../../context/LanguageContext'
 
 const BASE_URL = import.meta.env.VITE_OPENCART_URL
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
+  const { t } = useLanguage()
   const image = product.thumb
     ? (product.thumb.startsWith('http') ? product.thumb : `${BASE_URL}/${product.thumb}`)
     : 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
+
+  // Format "Add to Bag — <price>" based on language context
+  const addToCartText = t.product.addToCart.replace('{price}', product.special ? product.special : product.price)
 
   return (
     <Link to={`/product/${product.product_id}`} style={{ textDecoration: 'none' }}>

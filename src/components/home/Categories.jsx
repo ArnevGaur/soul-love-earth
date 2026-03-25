@@ -1,52 +1,62 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext'
 
 const categories = [
   {
-    title: 'Earthen Cookware',
-    desc: 'Traditional clay pots & pans for healthy, flavourful cooking.',
+    titleEn: 'Earthen Cookware', titleAr: 'الأواني الفخارية',
+    descEn: 'Traditional clay pots & pans for healthy, flavourful cooking.',
+    descAr: 'الأواني والمقالي الطينية التقليدية لطهي صحي ولذيذ.',
     image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80',
     href: '/shop/earthen-cookware',
   },
   {
-    title: 'Copperware',
-    desc: 'Handcrafted copper vessels for wellness and modern aesthetics.',
+    titleEn: 'Copperware', titleAr: 'الأواني النحاسية',
+    descEn: 'Handcrafted copper vessels for wellness and modern aesthetics.',
+    descAr: 'أوعية نحاسية مصنوعة يدويًا للصحة والجمال الحديث.',
     image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&q=80',
     href: '/shop/copperware',
   },
   {
-    title: 'Home Décor',
-    desc: 'Sustainable décor that brings warmth and intention to every space.',
+    titleEn: 'Home Décor', titleAr: 'ديكور المنزل',
+    descEn: 'Sustainable décor that brings warmth and intention to every space.',
+    descAr: 'ديكور مستدام يضفي الدفء والنية على كل مساحة.',
     image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80',
     href: '/shop/home-decor',
   },
   {
-    title: 'Hotel Amenities',
-    desc: 'Biodegradable hospitality supplies for eco-conscious properties.',
+    titleEn: 'Hotel Amenities', titleAr: 'مستلزمات الفنادق',
+    descEn: 'Biodegradable hospitality supplies for eco-conscious properties.',
+    descAr: 'مستلزمات ضيافة قابلة للتحلل للفنادق المهتمة بالبيئة.',
     image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
     href: '/shop/hotel-amenities',
   },
   {
-    title: 'Handmade Footwear',
-    desc: 'Artisan-crafted footwear rooted in comfort and natural materials.',
+    titleEn: 'Handmade Footwear', titleAr: 'أحذية مصنوعة يدوياً',
+    descEn: 'Artisan-crafted footwear rooted in comfort and natural materials.',
+    descAr: 'أحذية مصنوعة بحرفية ترتكز على الراحة والمواد الطبيعية.',
     image: 'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=800&q=80',
     href: '/shop/footwear',
   },
   {
-    title: 'Wellness',
-    desc: 'Natural self-care essentials for a mindful daily routine.',
+    titleEn: 'Wellness', titleAr: 'عافية',
+    descEn: 'Natural self-care essentials for a mindful daily routine.',
+    descAr: 'أساسيات العناية الذاتية الطبيعية لروتين يومي واعي.',
     image: 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=800&q=80',
     href: '/shop/wellness',
   },
 ]
 
 export default function Categories() {
+  const { t, lang } = useLanguage()
+  const h = t.home
+
   return (
     <section style={{
       backgroundColor: '#faf8f3',
       padding: '6rem 2rem',
     }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }} dir={t.dir}>
 
         {/* Header */}
         <div style={{
@@ -71,7 +81,7 @@ export default function Categories() {
               marginBottom: '0.75rem',
             }}>
               <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
-              Collections
+              {h.collectionsSub}
             </span>
             <h2 style={{
               fontFamily: 'Cormorant Garamond, serif',
@@ -80,7 +90,7 @@ export default function Categories() {
               color: '#2c2c2c',
               lineHeight: 1.1,
             }}>
-              Shop by Category
+              {h.collectionsTitle}
             </h2>
           </div>
 
@@ -110,7 +120,7 @@ export default function Categories() {
               e.currentTarget.style.borderColor = '#3d9089'
             }}
           >
-            View All <ArrowRight size={13} strokeWidth={2} />
+            {h.viewAll} <ArrowRight size={13} strokeWidth={2} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
           </Link>
         </div>
 
@@ -137,7 +147,7 @@ export default function Categories() {
                 onMouseEnter={e => {
                   e.currentTarget.querySelector('.cat-img').style.transform = 'scale(1.06)'
                   e.currentTarget.querySelector('.cat-overlay').style.opacity = '1'
-                  e.currentTarget.querySelector('.cat-arrow').style.transform = 'translateX(4px)'
+                  e.currentTarget.querySelector('.cat-arrow').style.transform = t.dir === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.querySelector('.cat-img').style.transform = 'scale(1)'
@@ -149,7 +159,7 @@ export default function Categories() {
                 <img
                   className="cat-img"
                   src={cat.image}
-                  alt={cat.title}
+                  alt={lang === 'ar' ? cat.titleAr : cat.titleEn}
                   style={{
                     width: '100%',
                     height: '100%',
@@ -186,7 +196,7 @@ export default function Categories() {
                     marginBottom: '0.35rem',
                     letterSpacing: '0.01em',
                   }}>
-                    {cat.title}
+                    {lang === 'ar' ? cat.titleAr : cat.titleEn}
                   </h3>
                   <p style={{
                     fontFamily: 'Jost, sans-serif',
@@ -196,7 +206,7 @@ export default function Categories() {
                     lineHeight: 1.6,
                     marginBottom: '0.75rem',
                   }}>
-                    {cat.desc}
+                    {lang === 'ar' ? cat.descAr : cat.descEn}
                   </p>
                   <span
                     className="cat-arrow"
@@ -213,7 +223,7 @@ export default function Categories() {
                       transition: 'transform 0.3s ease',
                     }}
                   >
-                    Explore <ArrowRight size={11} strokeWidth={2} />
+                    {h.explore} <ArrowRight size={11} strokeWidth={2} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
                   </span>
                 </div>
               </div>

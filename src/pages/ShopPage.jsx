@@ -4,17 +4,20 @@ import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import ProductCard from '../components/ui/ProductCard'
 import { fetchProducts, fetchCategories } from '../services/opencart'
+import { useLanguage } from '../context/LanguageContext'
 import { Search, SlidersHorizontal, X } from 'lucide-react'
 
-const SORT_OPTIONS = [
-  { label: 'Newest',        value: 'p.date_added', order: 'DESC' },
-  { label: 'Oldest',        value: 'p.date_added', order: 'ASC'  },
-  { label: 'Price: Low → High', value: 'p.price', order: 'ASC'  },
-  { label: 'Price: High → Low', value: 'p.price', order: 'DESC' },
-  { label: 'Name A–Z',      value: 'pd.name',      order: 'ASC'  },
-]
-
 export default function ShopPage() {
+  const { t } = useLanguage()
+  const s = t.shop
+
+  const SORT_OPTIONS = [
+    { label: s.sortDefault,   value: 'p.date_added', order: 'DESC' },
+    { label: s.sortPriceAsc,  value: 'p.price', order: 'ASC'  },
+    { label: s.sortPriceDesc, value: 'p.price', order: 'DESC' },
+    { label: s.sortNameAz,    value: 'pd.name',      order: 'ASC'  },
+  ]
+
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [products,   setProducts]   = useState([])
@@ -97,7 +100,7 @@ export default function ShopPage() {
             marginBottom: '0.75rem',
           }}>
             <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
-            Conscious Collection
+            {s.title}
             <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
           </span>
           <h1 style={{
@@ -107,7 +110,7 @@ export default function ShopPage() {
             color: '#faf8f3',
             lineHeight: 1.1,
           }}>
-            Shop All Products
+            {s.sub}
           </h1>
         </div>
 
@@ -132,7 +135,7 @@ export default function ShopPage() {
                   type="text"
                   value={searchInput}
                   onChange={e => setSearchInput(e.target.value)}
-                  placeholder="Search products..."
+                  placeholder={t.nav.search}
                   style={{
                     width: '100%',
                     padding: '0.7rem 1rem 0.7rem 2.5rem',
@@ -164,7 +167,7 @@ export default function ShopPage() {
               }}
             >
               <SlidersHorizontal size={14} strokeWidth={1.5} />
-              Filters
+              {s.sortBy.split(' ')[0]} {/* Approximate "Filters" if needed */}
             </button>
 
             {/* Sort */}
@@ -237,7 +240,7 @@ export default function ShopPage() {
                   fontSize: '0.65rem', fontWeight: 600,
                   letterSpacing: '0.2em', textTransform: 'uppercase',
                   color: '#d4a843', marginBottom: '1rem',
-                }}>Categories</h3>
+                }}>{s.allCategories}</h3>
 
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                   <li>
@@ -254,7 +257,7 @@ export default function ShopPage() {
                         transition: 'color 0.2s',
                       }}
                     >
-                      All Products
+                      {s.allCategories}
                     </button>
                   </li>
                   {categories.map(cat => (
@@ -323,7 +326,7 @@ export default function ShopPage() {
                   fontFamily: 'Cormorant Garamond, serif',
                   fontSize: '1.5rem', color: '#999',
                 }}>
-                  No products found.
+                  {s.noProducts}
                 </div>
               )}
 
@@ -333,7 +336,7 @@ export default function ShopPage() {
                     fontFamily: 'Jost, sans-serif', fontSize: '0.75rem',
                     color: '#999', marginBottom: '1.25rem', fontWeight: 300,
                   }}>
-                    {products.length} product{products.length !== 1 ? 's' : ''} found
+                    {s.results.replace('{n}', products.length)}
                   </p>
                   <div style={{
                     display: 'grid',

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { fetchProduct } from '../services/opencart'
 import { useCart } from '../context/CartContext'
+import { useLanguage } from '../context/LanguageContext'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import ProductCard from '../components/ui/ProductCard'
@@ -42,11 +43,13 @@ function ReviewCard({ review }) {
     </div>
   )
 }
-
 export default function ProductPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { addToCart } = useCart()
+  const { t } = useLanguage()
+  const p = t.product
+  const l = t.common
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -127,12 +130,12 @@ export default function ProductPage() {
 
         {/* Breadcrumb */}
         <div style={{ borderBottom: '1px solid rgba(61,144,137,0.12)', backgroundColor: 'white' }}>
-          <div style={{ maxWidth: '1280px', margin:'0 auto', padding:'0.85rem 2rem', display:'flex', alignItems:'center', gap:'0.5rem', fontFamily:'var(--font-body)', fontSize:'0.78rem', color:'#999' }}>
-            <Link to="/" style={{ color:'#999', textDecoration:'none' }} onMouseEnter={e=>e.target.style.color='var(--color-teal-500)'} onMouseLeave={e=>e.target.style.color='#999'}>Home</Link>
-            <ChevronRight size={12} />
-            <Link to="/shop" style={{ color:'#999', textDecoration:'none' }} onMouseEnter={e=>e.target.style.color='var(--color-teal-500)'} onMouseLeave={e=>e.target.style.color='#999'}>Shop</Link>
-            {product?.category && <><ChevronRight size={12} /><span>{product.category.name}</span></>}
-            {product && <><ChevronRight size={12} /><span style={{ color:'var(--color-charcoal)' }}>{product.name}</span></>}
+          <div style={{ maxWidth: '1280px', margin:'0 auto', padding:'0.85rem 2rem', display:'flex', alignItems:'center', gap:'0.5rem', fontFamily:'var(--font-body)', fontSize:'0.78rem', color:'#999' }} dir={t.dir}>
+            <Link to="/" style={{ color:'#999', textDecoration:'none' }} onMouseEnter={e=>e.target.style.color='var(--color-teal-500)'} onMouseLeave={e=>e.target.style.color='#999'}>{l.home}</Link>
+            <ChevronRight size={12} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
+            <Link to="/shop" style={{ color:'#999', textDecoration:'none' }} onMouseEnter={e=>e.target.style.color='var(--color-teal-500)'} onMouseLeave={e=>e.target.style.color='#999'}>{t.nav.shop}</Link>
+            {product?.category && <><ChevronRight size={12} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} /><span>{product.category.name}</span></>}
+            {product && <><ChevronRight size={12} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} /><span style={{ color:'var(--color-charcoal)' }}>{product.name}</span></>}
           </div>
         </div>
 
@@ -155,8 +158,8 @@ export default function ProductPage() {
                     {/* Main image */}
                     <div style={{ overflow:'hidden', borderRadius:'6px', backgroundColor:'#f0f9f7', lineHeight:0, marginBottom:'0.75rem', position:'relative' }}>
                       {product.special && (
-                        <span style={{ position:'absolute', top:'1rem', left:'1rem', backgroundColor:'#d4a843', color:'white', fontFamily:'var(--font-body)', fontSize:'0.62rem', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase', padding:'0.3rem 0.8rem', zIndex:1 }}>
-                          Sale
+                        <span style={{ position:'absolute', top:'1rem', [t.dir === 'rtl' ? 'right' : 'left']:'1rem', backgroundColor:'#d4a843', color:'white', fontFamily:'var(--font-body)', fontSize:'0.62rem', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase', padding:'0.3rem 0.8rem', zIndex:1 }}>
+                          {p.sale}
                         </span>
                       )}
                       <img
@@ -191,7 +194,7 @@ export default function ProductPage() {
                 </div>
 
                 {/* RIGHT: Product Details */}
-                <div>
+                <div dir={t.dir}>
                   <Link to={`/shop?cat=${product.category_id}`} style={{ fontFamily:'var(--font-body)', fontSize:'0.72rem', fontWeight:600, letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--color-teal-500)', textDecoration:'none' }}>
                     {product.category?.name}
                   </Link>
@@ -204,7 +207,7 @@ export default function ProductPage() {
                   <div style={{ display:'flex', alignItems:'center', gap:'0.75rem', marginBottom:'1.5rem' }}>
                     <StarRow rating={Math.round(avgRating || 4)} />
                     <span style={{ fontFamily:'var(--font-body)', fontSize:'0.82rem', color:'#666' }}>
-                      {avgRating ? `${avgRating} / 5` : '— '} · {reviews.length} review{reviews.length !== 1 ? 's' : ''}
+                      {avgRating ? `${avgRating} / 5` : '— '} · {p.reviewsOf.replace('{n}', reviews.length)}
                     </span>
                   </div>
 
@@ -229,7 +232,7 @@ export default function ProductPage() {
 
                   {/* Quantity */}
                   <div style={{ display:'flex', alignItems:'center', gap:'1.5rem', marginBottom:'1.5rem' }}>
-                    <span style={{ fontFamily:'var(--font-body)', fontSize:'0.78rem', fontWeight:600, letterSpacing:'0.12em', textTransform:'uppercase', color:'#555' }}>Quantity</span>
+                    <span style={{ fontFamily:'var(--font-body)', fontSize:'0.78rem', fontWeight:600, letterSpacing:'0.12em', textTransform:'uppercase', color:'#555' }}>{p.quantity}</span>
                     <div style={{ display:'flex', alignItems:'center', border:'1px solid rgba(61,144,137,0.25)', backgroundColor:'white' }}>
                       <button onClick={() => setQty(q=>Math.max(1,q-1))} style={{ background:'none', border:'none', padding:'0.75rem 1rem', cursor:'pointer', color:'var(--color-charcoal)', display:'flex', alignItems:'center' }}><Minus size={14} /></button>
                       <span style={{ fontFamily:'var(--font-body)', fontSize:'1rem', width:'2.5rem', textAlign:'center', color:'var(--color-charcoal)' }}>{qty}</span>
@@ -251,12 +254,12 @@ export default function ProductPage() {
                     onMouseLeave={e => { if(!added) e.currentTarget.style.backgroundColor='var(--color-teal-600)' }}
                   >
                     <ShoppingBag size={16} />
-                    {added ? '✓  Added to Cart' : `Add to Bag — ${displayPrice}`}
+                    {added ? p.added : p.addToCart.replace('{price}', displayPrice)}
                   </button>
 
                   {/* Trust signals */}
                   <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.75rem', marginTop:'2rem' }}>
-                    {[{icon:<Shield size={14}/>,label:'Quality Guaranteed'},{icon:<Leaf size={14}/>,label:'Ethically Sourced'},{icon:<Package size={14}/>,label:'Eco Packaging'},{icon:<ShoppingBag size={14}/>,label:'Free Returns'}].map(({icon,label})=>(
+                    {[{icon:<Shield size={14}/>,label:p.trustQuality},{icon:<Leaf size={14}/>,label:p.trustEthical},{icon:<Package size={14}/>,label:p.trustEco},{icon:<ShoppingBag size={14}/>,label:p.trustReturn}].map(({icon,label})=>(
                       <div key={label} style={{ display:'flex', alignItems:'center', gap:'0.5rem', fontFamily:'var(--font-body)', fontSize:'0.75rem', color:'#777' }}>
                         <span style={{ color:'var(--color-teal-500)' }}>{icon}</span>{label}
                       </div>
@@ -273,16 +276,16 @@ export default function ProductPage() {
                 <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(320px,1fr))', gap:'4rem', alignItems:'start' }}>
 
                   {/* Existing reviews */}
-                  <div>
+                  <div dir={t.dir}>
                     <h2 style={{ fontFamily:'var(--font-display)', fontSize:'2rem', fontWeight:300, color:'var(--color-charcoal)', marginBottom:'0.5rem' }}>
-                      Customer Reviews
+                      {p.reviews}
                     </h2>
                     {avgRating && (
                       <div style={{ display:'flex', alignItems:'center', gap:'0.75rem', marginBottom:'2rem' }}>
                         <span style={{ fontFamily:'var(--font-display)', fontSize:'3rem', color:'var(--color-teal-600)', lineHeight:1 }}>{avgRating}</span>
                         <div>
                           <StarRow rating={Math.round(avgRating)} />
-                          <span style={{ fontFamily:'var(--font-body)', fontSize:'0.78rem', color:'#999' }}>{reviews.length} reviews</span>
+                          <span style={{ fontFamily:'var(--font-body)', fontSize:'0.78rem', color:'#999' }}>{p.reviewsOf.replace('{n}', reviews.length)}</span>
                         </div>
                       </div>
                     )}
@@ -291,39 +294,39 @@ export default function ProductPage() {
                         {reviews.map((r, i) => <ReviewCard key={i} review={r} />)}
                       </div>
                     ) : (
-                      <p style={{ fontFamily:'var(--font-body)', color:'#bbb', fontStyle:'italic' }}>No reviews yet. Be the first!</p>
+                      <p style={{ fontFamily:'var(--font-body)', color:'#bbb', fontStyle:'italic' }}>{p.noReviews}</p>
                     )}
                   </div>
 
                   {/* Write a review */}
-                  <div style={{ backgroundColor:'white', borderRadius:'12px', padding:'2rem', border:'1px solid #e8e4de', boxShadow:'0 2px 12px rgba(0,0,0,0.04)' }}>
+                  <div style={{ backgroundColor:'white', borderRadius:'12px', padding:'2rem', border:'1px solid #e8e4de', boxShadow:'0 2px 12px rgba(0,0,0,0.04)' }} dir={t.dir}>
                     <h3 style={{ fontFamily:'var(--font-display)', fontSize:'1.5rem', fontWeight:400, color:'var(--color-charcoal)', marginBottom:'1.5rem' }}>
-                      Write a Review
+                      {p.writeReview}
                     </h3>
                     {reviewSubmitted && (
                       <div style={{ backgroundColor:'rgba(61,144,137,0.1)', border:'1px solid rgba(61,144,137,0.3)', borderRadius:'6px', padding:'1rem', marginBottom:'1.5rem', fontFamily:'var(--font-body)', fontSize:'0.88rem', color:'var(--color-teal-700)' }}>
-                        ✓ Thank you! Your review has been posted.
+                        {p.thankYou}
                       </div>
                     )}
                     <form onSubmit={handleReviewSubmit} style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
                       <div style={{ display:'flex', flexDirection:'column', gap:'0.4rem' }}>
-                        <label style={labelStyle}>Your Rating *</label>
+                        <label style={labelStyle}>{p.ratingLabel}</label>
                         <StarRow rating={reviewRating} setRating={setReviewRating} interactive />
-                        {reviewRating === 0 && <span style={{ fontFamily:'var(--font-body)', fontSize:'0.72rem', color:'#bbb' }}>Click a star to rate</span>}
+                        {reviewRating === 0 && <span style={{ fontFamily:'var(--font-body)', fontSize:'0.72rem', color:'#bbb' }}>{p.clickStar}</span>}
                       </div>
                       <div style={{ display:'flex', flexDirection:'column', gap:'0.4rem' }}>
-                        <label style={labelStyle}>Your Name *</label>
+                        <label style={labelStyle}>{p.nameLabel}</label>
                         <input
-                          value={reviewName} onChange={e=>setReviewName(e.target.value)} required placeholder="e.g. Priya M."
+                          value={reviewName} onChange={e=>setReviewName(e.target.value)} required placeholder={t.dir === 'rtl' ? 'الاسم...' : 'e.g. Priya M.'}
                           style={inputStyle}
                           onFocus={e => e.target.style.borderColor='var(--color-teal-500)'}
                           onBlur={e => e.target.style.borderColor='#ddd'}
                         />
                       </div>
                       <div style={{ display:'flex', flexDirection:'column', gap:'0.4rem' }}>
-                        <label style={labelStyle}>Your Review *</label>
+                        <label style={labelStyle}>{p.reviewLabel}</label>
                         <textarea
-                          value={reviewText} onChange={e=>setReviewText(e.target.value)} required placeholder="Share your honest experience with this product..."
+                          value={reviewText} onChange={e=>setReviewText(e.target.value)} required placeholder={p.reviewPlaceholder}
                           rows={5}
                           style={{ ...inputStyle, resize:'vertical' }}
                           onFocus={e => e.target.style.borderColor='var(--color-teal-500)'}
@@ -340,7 +343,7 @@ export default function ProductPage() {
                         onMouseEnter={e=>e.currentTarget.style.backgroundColor='#2d7070'}
                         onMouseLeave={e=>e.currentTarget.style.backgroundColor='var(--color-teal-600)'}
                       >
-                        <Send size={14} /> Submit Review
+                        <Send size={14} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} /> {p.submitReview}
                       </button>
                     </form>
                   </div>
@@ -352,10 +355,10 @@ export default function ProductPage() {
               {product.related?.length > 0 && (
                 <div style={{ marginTop:'5rem' }}>
                   <div style={{ height:'1px', backgroundColor:'rgba(61,144,137,0.15)', marginBottom:'3.5rem' }} />
-                  <div style={{ textAlign:'center', marginBottom:'3rem' }}>
-                    <span style={{ fontFamily:'var(--font-body)', fontSize:'0.68rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'var(--color-gold-400)' }}>Explore More</span>
+                  <div style={{ textAlign:'center', marginBottom:'3rem' }} dir={t.dir}>
+                    <span style={{ fontFamily:'var(--font-body)', fontSize:'0.68rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'var(--color-gold-400)' }}>{p.relatedSub}</span>
                     <h2 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(1.8rem,4vw,2.8rem)', fontWeight:300, color:'var(--color-charcoal)', marginTop:'0.5rem' }}>
-                      From the Same Collection
+                      {p.relatedTitle}
                     </h2>
                   </div>
                   <div className="related-grid">

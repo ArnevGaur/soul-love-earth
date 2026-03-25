@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext'
 
 export default function Hero() {
+  const { t, lang } = useLanguage()
+  const h = t.home
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
@@ -62,6 +65,7 @@ export default function Hero() {
         padding: '0 2rem',
         width: '100%',
         paddingLeft: 'clamp(2rem, 6vw, 6rem)',
+        direction: t.dir,
       }}>
 
         {/* Label */}
@@ -83,7 +87,7 @@ export default function Hero() {
             textTransform: 'uppercase',
             color: '#d4a843',
           }}>
-            Conscious Living
+            {lang === 'ar' ? 'حياة واعية' : 'Conscious Living'}
           </span>
         </div>
 
@@ -99,9 +103,10 @@ export default function Hero() {
           opacity: loaded ? 1 : 0,
           transform: loaded ? 'translateY(0)' : 'translateY(24px)',
           transition: 'all 0.9s ease 0.35s',
+          whiteSpace: 'pre-line',
         }}>
-          Live in harmony<br />
-          <em style={{ fontStyle: 'italic', color: '#a3dbd3' }}>with the Earth</em>
+          {h.heroTitle.split('\n')[0]}<br />
+          <em style={{ fontStyle: 'italic', color: '#a3dbd3' }}>{h.heroTitle.split('\n')[1]}</em>
         </h1>
 
         {/* Subtext */}
@@ -117,7 +122,7 @@ export default function Hero() {
           transform: loaded ? 'translateY(0)' : 'translateY(24px)',
           transition: 'all 0.9s ease 0.5s',
         }}>
-          Handcrafted eco-conscious products for your home, hospitality, and everyday rituals — ethically sourced, beautifully made.
+          {h.heroSub}
         </p>
 
         {/* CTAs */}
@@ -155,7 +160,7 @@ export default function Hero() {
               e.currentTarget.style.transform = 'translateY(0)'
             }}
           >
-            Shop Now <ArrowRight size={14} strokeWidth={2} />
+            {h.shopNow} <ArrowRight size={14} strokeWidth={2} style={{ transform: t.dir === 'ar' ? 'rotate(180deg)' : 'none' }} />
           </Link>
 
           <Link
@@ -185,7 +190,7 @@ export default function Hero() {
               e.currentTarget.style.color = '#faf8f3'
             }}
           >
-            Our Story
+            {h.ourStory}
           </Link>
         </div>
 
@@ -210,7 +215,7 @@ export default function Hero() {
           letterSpacing: '0.2em',
           textTransform: 'uppercase',
           color: '#faf8f3',
-        }}>Scroll</span>
+        }}>{lang === 'ar' ? 'قم بالتمرير' : 'Scroll'}</span>
         <div style={{
           width: '1px',
           height: '40px',

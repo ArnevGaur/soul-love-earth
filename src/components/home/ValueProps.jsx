@@ -1,29 +1,12 @@
 import { Leaf, Heart, Globe, Sparkles } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext'
 
-const values = [
-  {
-    icon: Leaf,
-    title: 'Eco-Conscious',
-    desc: 'Every product is thoughtfully crafted with sustainability at its core — from raw material to your doorstep.',
-  },
-  {
-    icon: Heart,
-    title: 'Artisan Made',
-    desc: 'We partner with skilled craftspeople to bring you handmade goods that carry soul, story, and tradition.',
-  },
-  {
-    icon: Globe,
-    title: 'Ethically Sourced',
-    desc: 'Responsible sourcing that supports local communities, fair wages, and regenerative practices.',
-  },
-  {
-    icon: Sparkles,
-    title: 'Mindful Living',
-    desc: 'Curated for homes, hospitality, and everyday rituals — beauty that aligns with your values.',
-  },
-]
+const icons = [Leaf, Heart, Globe, Sparkles]
 
 export default function ValueProps() {
+  const { t } = useLanguage()
+  const h = t.home
+
   return (
     <section style={{
       backgroundColor: '#e8f5f3',
@@ -33,7 +16,7 @@ export default function ValueProps() {
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
-      }}>
+      }} dir={t.dir}>
 
         {/* Section Label */}
         <div style={{
@@ -53,7 +36,7 @@ export default function ValueProps() {
             gap: '0.75rem',
           }}>
             <span style={{ display: 'inline-block', width: '32px', height: '1px', backgroundColor: '#d4a843' }} />
-            Why Soul Love &amp; Earth
+            {h.valuesTitle}
             <span style={{ display: 'inline-block', width: '32px', height: '1px', backgroundColor: '#d4a843' }} />
           </span>
         </div>
@@ -64,14 +47,14 @@ export default function ValueProps() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
           gap: '0',
         }}>
-          {values.map((item, i) => {
-            const Icon = item.icon
+          {h.values.map((item, i) => {
+            const Icon = icons[i] || Leaf
             return (
               <div
                 key={item.title}
                 style={{
                   padding: '2.5rem 2rem',
-                  borderLeft: i === 0 ? '1px solid rgba(61,144,137,0.4)' : 'none',
+                  borderLeft: i === 0 && t.dir === 'ltr' ? '1px solid rgba(61,144,137,0.4)' : t.dir === 'rtl' ? '1px solid rgba(61,144,137,0.4)' : 'none',
                   borderRight: '1px solid rgba(61,144,137,0.4)',
                   borderTop: '1px solid rgba(61,144,137,0.4)',
                   borderBottom: '1px solid rgba(61,144,137,0.4)',
