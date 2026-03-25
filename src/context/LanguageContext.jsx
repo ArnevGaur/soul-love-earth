@@ -7,8 +7,16 @@ export const translations = {
     dir: 'ltr',
     nav: {
       shop: 'Shop', story: 'Our Story', blog: 'Blog', offers: 'Offers',
+      hospitality: 'Hospitality',
       contact: 'Contact', login: 'Login', register: 'Register',
       cart: 'Cart', search: 'Search products…',
+    },
+    hospitality: {
+      bedLinens: 'Bed Linens',
+      towels: 'Towels',
+      chaffings: 'Chaffings',
+      bathrobes: 'Bathrobes',
+      pillowCovers: 'Pillow Covers',
     },
     cart: {
       title: 'Your Cart', empty: 'Your cart is empty.',
@@ -136,9 +144,16 @@ export const translations = {
     dir: 'rtl',
     nav: {
       shop: 'المتجر', story: 'قصتنا', blog: 'المدونة',
-      offers: 'العروض', contact: 'تواصل معنا',
+      offers: 'العروض', hospitality: 'الضيافة', contact: 'تواصل معنا',
       login: 'تسجيل الدخول', register: 'إنشاء حساب',
       cart: 'السلة', search: 'ابحث عن المنتجات…',
+    },
+    hospitality: {
+      bedLinens: 'بياضات الأسرّة',
+      towels: 'مناشف',
+      chaffings: 'أوعية التسخين',
+      bathrobes: 'أرواب الحمام',
+      pillowCovers: 'أغطية الوسائد',
     },
     cart: {
       title: 'سلة التسوق', empty: 'سلة تسوقك فارغة.',

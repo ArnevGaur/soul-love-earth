@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Menu, X, ShoppingBag, Search, User } from 'lucide-react'
+import { Menu, X, ShoppingBag, Search, User, ChevronDown, Loader2 } from 'lucide-react'
 import { fetchProducts } from '../../services/opencart'
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
@@ -15,14 +15,24 @@ export default function Navbar() {
   const [isSearching, setIsSearching] = useState(false)
   const { cartCount, setCartDrawerOpen } = useCart()
   const { lang, t, toggleLang } = useLanguage()
+  const [hospOpen, setHospOpen] = useState(false)
   const navigate = useNavigate()
 
   const navLinks = [
     { label: t.nav.shop,    href: '/shop' },
+    { label: t.nav.hospitality, href: '#', isHospitality: true },
     { label: t.nav.story,   href: '/story' },
     { label: t.nav.offers,  href: '/offers' },
     { label: t.nav.blog,    href: '/blog' },
     { label: t.nav.contact, href: '/contact' },
+  ]
+
+  const hospitalityLinks = [
+    { label: t.hospitality.bedLinens, href: '/shop?cat=7' },
+    { label: t.hospitality.towels, href: '/shop?cat=8' },
+    { label: t.hospitality.chaffings, href: '/shop?cat=9' },
+    { label: t.hospitality.bathrobes, href: '/shop?cat=10' },
+    { label: t.hospitality.pillowCovers, href: '/shop?cat=11' },
   ]
 
   useEffect(() => {
@@ -122,7 +132,9 @@ export default function Navbar() {
           <ul style={{ display: 'flex', gap: '2.5rem', listStyle: 'none', margin: 0, padding: 0 }}
               className="hidden-mobile">
             {navLinks.map(link => (
-              <li key={link.label}>
+              <li key={link.label} style={{ position: 'relative' }}
+                  onMouseEnter={() => link.isHospitality && setHospOpen(true)}
+                  onMouseLeave={() => link.isHospitality && setHospOpen(false)}>
                 <Link
                   to={link.href}
                   style={{
@@ -136,6 +148,9 @@ export default function Navbar() {
                     paddingBottom: '2px',
                     borderBottom: '1px solid transparent',
                     transition: 'color 0.2s, border-color 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem'
                   }}
                   onMouseEnter={e => {
                     e.target.style.color = '#3d9089'
@@ -147,7 +162,66 @@ export default function Navbar() {
                   }}
                 >
                   {link.label}
+                  {link.isHospitality && <ChevronDown size={12} style={{ transform: hospOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />}
                 </Link>
+
+                {link.isHospitality && hospOpen && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    [lang === 'ar' ? 'right' : 'left']: '-2rem',
+                    width: '240px',
+                    paddingTop: '10px', // Invisible bridge for hover
+                    zIndex: 1000,
+                    animation: 'dropdownFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transformOrigin: 'top',
+                  }}>
+                    <div style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
+                      borderRadius: '12px',
+                      padding: '1rem 0',
+                      border: '1px solid rgba(61, 144, 137, 0.15)',
+                      overflow: 'hidden'
+                    }}>
+                      {hospitalityLinks.map(hLink => (
+                        <Link
+                          key={hLink.label}
+                          to={hLink.href}
+                          onClick={() => setHospOpen(false)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '0.875rem 2rem',
+                            fontFamily: 'Jost, sans-serif',
+                            fontSize: '0.85rem',
+                            fontWeight: 400,
+                            letterSpacing: '0.04em',
+                            color: '#0a1d1c',
+                            textDecoration: 'none',
+                            transition: 'all 0.25s ease',
+                            borderLeft: lang === 'en' ? '3px solid transparent' : 'none',
+                            borderRight: lang === 'ar' ? '3px solid transparent' : 'none',
+                          }}
+                          onMouseEnter={e => {
+                            e.target.style.backgroundColor = 'rgba(61, 144, 137, 0.08)'
+                            e.target.style.color = '#3d9089'
+                            e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = '#d4a843'
+                          }}
+                          onMouseLeave={e => {
+                            e.target.style.backgroundColor = 'transparent'
+                            e.target.style.color = '#0a1d1c'
+                            e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = 'transparent'
+                          }}
+                        >
+                          {hLink.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -385,25 +459,60 @@ export default function Navbar() {
         transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
       }}>
         {navLinks.map((link, i) => (
-          <Link
-            key={link.label}
-            to={link.href}
-            onClick={() => setMenuOpen(false)}
-            style={{
-              fontFamily: 'Cormorant Garamond, serif',
-              fontSize: '2.5rem',
-              fontWeight: 400,
-              color: '#0f1f1e',
-              textDecoration: 'none',
-              letterSpacing: '0.02em',
-              transition: 'color 0.2s',
-              animationDelay: `${i * 0.06}s`,
-            }}
-            onMouseEnter={e => e.target.style.color = '#3d9089'}
-            onMouseLeave={e => e.target.style.color = '#0f1f1e'}
-          >
-            {link.label}
-          </Link>
+          <div key={link.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Link
+              to={link.href}
+              onClick={(e) => {
+                if (link.isHospitality) {
+                  e.preventDefault()
+                  setHospOpen(!hospOpen)
+                } else {
+                  setMenuOpen(false)
+                }
+              }}
+              style={{
+                fontFamily: 'Cormorant Garamond, serif',
+                fontSize: '2.5rem',
+                fontWeight: 400,
+                color: '#0f1f1e',
+                textDecoration: 'none',
+                letterSpacing: '0.02em',
+                transition: 'color 0.2s',
+                animationDelay: `${i * 0.06}s`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}
+              onMouseEnter={e => e.target.style.color = '#3d9089'}
+              onMouseLeave={e => e.target.style.color = '#0f1f1e'}
+            >
+              {link.label}
+              {link.isHospitality && <ChevronDown size={24} style={{ transform: hospOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />}
+            </Link>
+            
+            {link.isHospitality && hospOpen && (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginTop: '1rem' }}>
+                {hospitalityLinks.map(hLink => (
+                  <Link
+                    key={hLink.label}
+                    to={hLink.href}
+                    onClick={() => {
+                      setMenuOpen(false)
+                      setHospOpen(false)
+                    }}
+                    style={{
+                      fontFamily: 'Jost, sans-serif',
+                      fontSize: '1.2rem',
+                      color: '#3d9089',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {hLink.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
         <span style={{
           fontFamily: 'Jost, sans-serif',
@@ -427,6 +536,10 @@ export default function Navbar() {
           .show-mobile { display: none !important; }
         }
         
+        @keyframes dropdownFadeIn {
+          from { opacity: 0; transform: translateY(-8px) scaleY(0.95); }
+          to { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
         .search-dropdown {
           transform-origin: top right;
           animation: dropDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
