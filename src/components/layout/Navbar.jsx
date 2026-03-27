@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, ShoppingBag, Search, User, ChevronDown, Loader2 } from 'lucide-react'
+import { Menu, X, ShoppingBag, Search, User, Loader2 } from 'lucide-react'
 import { fetchProducts } from '../../services/opencart'
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
@@ -15,7 +15,6 @@ export default function Navbar() {
   const [isSearching, setIsSearching] = useState(false)
   const { cartCount, setCartDrawerOpen } = useCart()
   const { lang, t, toggleLang } = useLanguage()
-  const [hospOpen, setHospOpen] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -26,19 +25,11 @@ export default function Navbar() {
   const navLinks = [
     { label: t?.nav?.home || 'HOME', href: '/' },
     { label: t?.nav?.shop || 'SHOP', href: '/#categories' },
-    { label: t?.nav?.hospitality, href: '/hospitality', isHospitality: true },
     { label: t?.nav?.offers,  href: '/offers' },
     { label: t?.nav?.myOrders, href: '/orders' },
     { label: t?.nav?.contact, href: '/contact' },
   ]
 
-  const hospitalityLinks = [
-    { label: t?.hospitality?.bedLinens, href: '/shop?cat=7' },
-    { label: t?.hospitality?.towels, href: '/shop?cat=8' },
-    { label: t?.hospitality?.chaffings, href: '/shop?cat=9' },
-    { label: t?.hospitality?.bathrobes, href: '/shop?cat=10' },
-    { label: t?.hospitality?.pillowCovers, href: '/shop?cat=11' },
-  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -151,15 +142,18 @@ export default function Navbar() {
           <div className="hidden-mobile" style={{ display: 'flex', justifyContent: 'center', marginRight: '2.5rem' }}>
             <ul style={{ display: 'flex', gap: '1.2rem', listStyle: 'none', margin: 0, padding: 0 }}>
               {navLinks.map(link => (
-                <li key={link.label} style={{ position: 'relative' }}
-                    onMouseEnter={() => link.isHospitality && setHospOpen(true)}
-                    onMouseLeave={() => link.isHospitality && setHospOpen(false)}>
+                <li key={link.label} style={{ position: 'relative' }}>
                   <Link
                     to={link.href}
                     onClick={(e) => {
-                      if (link.href === '/#categories' && window.location.pathname === '/') {
-                        e.preventDefault()
-                        document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                      if (link.href === '/#categories') {
+                        if (window.location.pathname === '/') {
+                          // Already on home page, just scroll
+                          e.preventDefault()
+                          document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                        }
+                        // If not on homepage, let the Link handle navigation naturally
+                        // The browser will handle the hash scroll after page load
                       }
                     }}
                     style={{
@@ -185,66 +179,7 @@ export default function Navbar() {
                     }}
                   >
                     {link.label}
-                    {link.isHospitality && <ChevronDown size={12} style={{ transform: hospOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />}
                   </Link>
-
-                  {link.isHospitality && hospOpen && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '100%',
-                      [lang === 'ar' ? 'right' : 'left']: '-2rem',
-                      width: '240px',
-                      paddingTop: '10px',
-                      zIndex: 1000,
-                      animation: 'dropdownFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                      transformOrigin: 'top',
-                    }}>
-                      <div style={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.94)',
-                        backdropFilter: 'blur(20px)',
-                        WebkitBackdropFilter: 'blur(20px)',
-                        boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
-                        borderRadius: '12px',
-                        padding: '1rem 0',
-                        border: '1px solid rgba(61, 144, 137, 0.15)',
-                        overflow: 'hidden'
-                      }}>
-                        {hospitalityLinks.map(hLink => (
-                          <Link
-                            key={hLink.label}
-                            to={hLink.href}
-                            onClick={() => setHospOpen(false)}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              padding: '0.875rem 2rem',
-                              fontFamily: 'Jost, sans-serif',
-                              fontSize: '0.85rem',
-                              fontWeight: 400,
-                              letterSpacing: '0.04em',
-                              color: '#1a2e2c',
-                              textDecoration: 'none',
-                              transition: 'all 0.25s ease',
-                              borderLeft: lang === 'en' ? '3px solid transparent' : 'none',
-                              borderRight: lang === 'ar' ? '3px solid transparent' : 'none',
-                            }}
-                            onMouseEnter={e => {
-                              e.target.style.backgroundColor = 'rgba(61, 144, 137, 0.08)'
-                              e.target.style.color = '#3d9089'
-                              e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = '#d4a843'
-                            }}
-                            onMouseLeave={e => {
-                              e.target.style.backgroundColor = 'transparent'
-                              e.target.style.color = '#1a2e2c'
-                              e.target.style[lang === 'ar' ? 'borderRightColor' : 'borderLeftColor'] = 'transparent'
-                            }}
-                          >
-                            {hLink.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </li>
               ))}
             </ul>
@@ -496,14 +431,16 @@ export default function Navbar() {
               to={link.href}
               onClick={(e) => {
                 setMenuOpen(false)
-                if (link.isHospitality) {
-                  setHospOpen(false)
-                }
-                if (link.href === '/#categories' && window.location.pathname === '/') {
-                  e.preventDefault()
-                  setTimeout(() => {
-                    document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
-                  }, 100)
+                if (link.href === '/#categories') {
+                  if (window.location.pathname === '/') {
+                    // Already on home page, just scroll
+                    e.preventDefault()
+                    setTimeout(() => {
+                      document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                    }, 100)
+                  }
+                  // If not on homepage, let the Link handle navigation naturally
+                  // The browser will handle the hash scroll after page load
                 }
               }}
               style={{
@@ -515,39 +452,12 @@ export default function Navbar() {
                 letterSpacing: '0.02em',
                 transition: 'color 0.2s',
                 animationDelay: `${i * 0.06}s`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
               }}
               onMouseEnter={e => e.target.style.color = '#3d9089'}
               onMouseLeave={e => e.target.style.color = '#0f1f1e'}
             >
               {link.label}
-              {link.isHospitality && <ChevronDown size={24} style={{ transform: hospOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />}
             </Link>
-            
-            {link.isHospitality && hospOpen && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginTop: '1rem' }}>
-                {hospitalityLinks.map(hLink => (
-                  <Link
-                    key={hLink.label}
-                    to={hLink.href}
-                    onClick={() => {
-                      setMenuOpen(false)
-                      setHospOpen(false)
-                    }}
-                    style={{
-                      fontFamily: 'Jost, sans-serif',
-                      fontSize: '1.2rem',
-                      color: '#3d9089',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    {hLink.label}
-                  </Link>
-                ))}
-              </div>
-            )}
           </div>
         ))}
         <span style={{

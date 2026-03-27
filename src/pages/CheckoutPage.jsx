@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { ArrowLeft, CheckCircle2, Lock, ShoppingBag, CreditCard, Smartphone, Building2, ShieldCheck, Leaf, RotateCcw } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Lock, ShoppingBag, CreditCard, Smartphone, Building2, ShieldCheck, Leaf, RotateCcw, Check } from 'lucide-react'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 
@@ -9,6 +9,7 @@ import Footer from '../components/layout/Footer'
 const BRAND_TEAL = '#3d9089'
 const BRAND_GOLD = '#d4a843'
 const MID_DARK_GREEN = '#275e5a'
+const REQUIRED_ASTERISK_RED = '#dc2626'
 
 // ── Inline SVG payment logos (no external URLs needed) ──────────────────────
 const VisaLogo = ({ h = 22, greyed }) => (
@@ -98,7 +99,7 @@ function CardNumberField({ cardDigits, setCardDigits, error, setError }) {
         fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
         letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
       }}>
-        Card Number<span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>
+        Card Number<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
       </label>
       <input
         id="cardnumber"
@@ -157,7 +158,7 @@ function CvvField({ cvvDigits, setCvvDigits, error, setError }) {
         fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
         letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
       }}>
-        CVV / Security Code<span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>
+        CVV / Security Code<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
       </label>
       <input
         id="cvv"
@@ -229,7 +230,7 @@ function ExpiryField({ expiryDigits, setExpiryDigits, error, setError }) {
         fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
         letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
       }}>
-        Expiry Date<span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>
+        Expiry Date<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
       </label>
       <input
         id="expiry"
@@ -264,6 +265,209 @@ function ExpiryField({ expiryDigits, setExpiryDigits, error, setError }) {
   )
 }
 
+function CardholderField({ cardholderName, setCardholderName }) {
+  const [focused, setFocused] = useState(false)
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+      <label htmlFor="cardholder" style={{
+        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
+      }}>
+        Name on Card<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
+      </label>
+      <input
+        id="cardholder"
+        type="text"
+        required
+        autoComplete="cc-name"
+        placeholder="AS IT APPEARS ON CARD"
+        value={cardholderName}
+        onChange={(e) => setCardholderName(e.target.value.toUpperCase())}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={{
+          width: '100%', padding: '0.85rem 1rem',
+          border: `1.5px solid ${focused ? MID_DARK_GREEN : '#ddd'}`,
+          borderRadius: '6px',
+          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
+          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
+          boxShadow: focused ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
+          boxSizing: 'border-box',
+          textTransform: 'uppercase',
+        }}
+      />
+    </div>
+  )
+}
+
+function PhoneField() {
+  const [focused, setFocused] = useState(false)
+  const [phoneValue, setPhoneValue] = useState('+971 ')
+  const [phoneError, setPhoneError] = useState('')
+
+  const formatPhoneNumber = (digits) => {
+    if (digits.length <= 2) return digits
+    if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`
+    return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`
+  }
+
+  const handleChange = (e) => {
+    let value = e.target.value
+    
+    // Always start with +971
+    if (!value.startsWith('+971 ')) {
+      value = '+971 ' + value.replace(/^\+971\s*/, '')
+    }
+    
+    // Extract only digits after +971
+    const digitsAfterCountry = value.replace(/^\+971\s*/, '').replace(/\D/g, '')
+    
+    // Limit to 9 digits after country code
+    const limitedDigits = digitsAfterCountry.slice(0, 9)
+    
+    // Format the phone number with spacing
+    if (limitedDigits.length > 0) {
+      value = '+971 ' + formatPhoneNumber(limitedDigits)
+    } else {
+      value = '+971 '
+    }
+    
+    setPhoneValue(value)
+    
+    // Validation
+    if (limitedDigits.length > 0 && limitedDigits.length < 9) {
+      setPhoneError('UAE mobile numbers must have 9 digits after +971.')
+    } else if (limitedDigits.length === 9) {
+      // Check if it starts with valid UAE mobile prefix (5, 3, or 6)
+      const firstDigit = limitedDigits.charAt(0)
+      if (!['5', '3', '6'].includes(firstDigit)) {
+        setPhoneError('UAE mobile numbers must start with 5, 3, or 6 after +971.')
+      } else {
+        setPhoneError('')
+      }
+    } else {
+      setPhoneError('')
+    }
+  }
+
+  const isValidPhone = phoneValue.replace(/^\+971\s*/, '').replace(/\D/g, '').length === 9 && !phoneError
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+      <label htmlFor="phone" style={{
+        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
+      }}>
+        Phone Number<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
+      </label>
+      <div style={{ position: 'relative' }}>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          required
+          autoComplete="tel"
+          placeholder="+971 50 000 0000"
+          value={phoneValue}
+          onChange={handleChange}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          aria-invalid={!!phoneError}
+          aria-describedby={phoneError ? 'phone-error' : undefined}
+          style={{
+            width: '100%', padding: '0.85rem 1rem',
+            border: `1.5px solid ${phoneError ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
+            borderRadius: '6px',
+            fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
+            outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
+            boxShadow: focused && !phoneError ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
+            boxSizing: 'border-box',
+            paddingRight: isValidPhone ? '2.45rem' : '1rem',
+          }}
+        />
+        {isValidPhone && (
+          <Check size={16} style={{ position: 'absolute', top: '50%', right: '0.85rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+        )}
+      </div>
+      {phoneError && (
+        <p id="phone-error" role="alert" style={{
+          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
+        }}>
+          {phoneError}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function EmailField() {
+  const [focused, setFocused] = useState(false)
+  const [emailValue, setEmailValue] = useState('')
+  const [emailError, setEmailError] = useState('')
+
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+  const handleChange = (e) => {
+    const value = e.target.value
+    setEmailValue(value)
+    if (value && !validateEmail(value)) {
+      setEmailError('Please enter a valid email address.')
+    } else {
+      setEmailError('')
+    }
+  }
+
+  const isValidEmail = emailValue !== '' && validateEmail(emailValue) && !emailError
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+      <label htmlFor="email" style={{
+        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
+      }}>
+        Email Address<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
+      </label>
+      <div style={{ position: 'relative' }}>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="arjun@example.com"
+          value={emailValue}
+          onChange={handleChange}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          aria-invalid={!!emailError}
+          aria-describedby={emailError ? 'email-error' : undefined}
+          style={{
+            width: '100%', padding: '0.85rem 1rem',
+            border: `1.5px solid ${emailError ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
+            borderRadius: '6px',
+            fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
+            outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
+            boxShadow: focused && !emailError ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
+            boxSizing: 'border-box',
+            paddingRight: isValidEmail ? '2.45rem' : '1rem',
+          }}
+        />
+        {isValidEmail && (
+          <Check size={16} style={{ position: 'absolute', top: '50%', right: '0.85rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+        )}
+      </div>
+      {emailError && (
+        <p id="email-error" role="alert" style={{
+          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
+        }}>
+          {emailError}
+        </p>
+      )}
+    </div>
+  )
+}
+
 function FormField({ label, id, type = 'text', placeholder, required, autoComplete, half }) {
   const [focused, setFocused] = useState(false)
   return (
@@ -272,7 +476,7 @@ function FormField({ label, id, type = 'text', placeholder, required, autoComple
         fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
         letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
       }}>
-        {label}{required && <span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>}
+        {label}{required && <span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>}
       </label>
       <input
         id={id} name={id} type={type} placeholder={placeholder} required={required} autoComplete={autoComplete}
@@ -299,6 +503,7 @@ export default function CheckoutPage() {
   const [selectedPayment, setSelectedPayment] = useState('card')
   const [cardDigits, setCardDigits] = useState('')
   const [cardNumberError, setCardNumberError] = useState('')
+  const [cardholderName, setCardholderName] = useState('')
   const [expiryDigits, setExpiryDigits] = useState('')
   const [expiryError, setExpiryError] = useState('')
   const [cvvDigits, setCvvDigits] = useState('')
@@ -462,11 +667,11 @@ export default function CheckoutPage() {
                 <SectionHeader number="1" title="Contact Information" />
                 <div className="checkout-two-col">
                   <div className="checkout-field"><FormField id="fname" label="First Name" placeholder="Arjun" required autoComplete="given-name" /></div>
-                  <div className="checkout-field"><FormField id="lname" label="Last Name" placeholder="Mehta" required autoComplete="family-name" /></div>
+                  <div className="checkout-field"><FormField id="lname" label="Last Name" placeholder="Mehta" autoComplete="family-name" /></div>
                 </div>
                 <div className="checkout-two-col" style={{ marginTop: '1.25rem' }}>
-                  <div className="checkout-field"><FormField id="email" type="email" label="Email Address" placeholder="arjun@example.com" required autoComplete="email" /></div>
-                  <div className="checkout-field"><FormField id="phone" type="tel" label="Phone Number" placeholder="+971 50 000 0000" required autoComplete="tel" /></div>
+                  <div className="checkout-field"><EmailField /></div>
+                  <div className="checkout-field"><PhoneField /></div>
                 </div>
               </div>
 
@@ -481,7 +686,7 @@ export default function CheckoutPage() {
                   <div className="checkout-field"><FormField id="address1" label="Street Address" placeholder="123 Conscious Living Street" required autoComplete="address-line1" /></div>
                 </div>
                 <div className="checkout-two-col">
-                  <div className="checkout-field"><FormField id="address2" label="Apartment / Suite (optional)" placeholder="Apt 4B" autoComplete="address-line2" /></div>
+                  <div className="checkout-field"><FormField id="address2" label="Apartment / Suite" placeholder="Apt 4B" required autoComplete="address-line2" /></div>
                   <div className="checkout-field"><FormField id="zip" label="Postal Code" placeholder="00000" required autoComplete="postal-code" /></div>
                 </div>
               </div>
@@ -564,7 +769,9 @@ export default function CheckoutPage() {
                         />
                       </div>
                     </div>
-                    <div className="checkout-field"><FormField id="cardholder" label="Name on Card" placeholder="As it appears on card" required autoComplete="cc-name" /></div>
+                    <div className="checkout-field">
+                      <CardholderField cardholderName={cardholderName} setCardholderName={setCardholderName} />
+                    </div>
                   </div>
                 )}
                 {selectedPayment === 'paypal' && (
