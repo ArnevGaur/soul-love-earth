@@ -146,9 +146,14 @@ export default function Navbar() {
                   <Link
                     to={link.href}
                     onClick={(e) => {
-                      if (link.href === '/#categories' && window.location.pathname === '/') {
-                        e.preventDefault()
-                        document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                      if (link.href === '/#categories') {
+                        if (window.location.pathname === '/') {
+                          // Already on home page, just scroll
+                          e.preventDefault()
+                          document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                        }
+                        // If not on homepage, let the Link handle navigation naturally
+                        // The browser will handle the hash scroll after page load
                       }
                     }}
                     style={{
@@ -426,11 +431,16 @@ export default function Navbar() {
               to={link.href}
               onClick={(e) => {
                 setMenuOpen(false)
-                if (link.href === '/#categories' && window.location.pathname === '/') {
-                  e.preventDefault()
-                  setTimeout(() => {
-                    document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
-                  }, 100)
+                if (link.href === '/#categories') {
+                  if (window.location.pathname === '/') {
+                    // Already on home page, just scroll
+                    e.preventDefault()
+                    setTimeout(() => {
+                      document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                    }, 100)
+                  }
+                  // If not on homepage, let the Link handle navigation naturally
+                  // The browser will handle the hash scroll after page load
                 }
               }}
               style={{
