@@ -130,8 +130,8 @@ export default function CartDrawer() {
                       </button>
                     </div>
                     <div style={{ 
-                      fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 500,
-                      color: '#d4a843', marginBottom: '0.75rem' 
+                      fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 600,
+                      color: '#2c635a', marginBottom: '0.75rem' 
                     }}>
                       {item.special ? item.special : item.price}
                     </div>
@@ -182,7 +182,7 @@ export default function CartDrawer() {
               fontSize: '1rem', color: '#214e41' 
             }}>
               <span style={{ fontWeight: 400 }}>{c.subtotal}</span>
-              <span style={{ fontWeight: 700, color: '#214e41' }}>AED {cartTotal.toFixed(2)}</span>
+              <span style={{ fontWeight: 700, color: '#2c635a' }}>AED {cartTotal.toFixed(2)}</span>
             </div>
             <p style={{ 
               fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', 

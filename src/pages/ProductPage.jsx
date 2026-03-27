@@ -149,21 +149,26 @@ export default function ProductPage() {
       <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px' }}>
 
         {/* Breadcrumb */}
-        <div style={{ borderBottom: '1px solid rgba(33,78,65,0.08)', backgroundColor: '#ffffff' }}>
-          <div style={{ maxWidth: '1280px', margin:'0 auto', padding:'0.75rem 2rem', display:'flex', alignItems:'center', gap:'0.5rem', fontFamily:'Jost, sans-serif', fontSize:'0.75rem', color:'#999', letterSpacing: '0.02em' }} dir={t.dir}>
-            <Link to="/" style={{ color:'#999', textDecoration:'none', transition: 'color 0.2s' }} onMouseEnter={e=>e.target.style.color='#214e41'} onMouseLeave={e=>e.target.style.color='#999'}>{l.home}</Link>
-            <ChevronRight size={12} style={{ opacity: 0.5, transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
-            <Link to="/shop" style={{ color:'#999', textDecoration:'none', transition: 'color 0.2s' }} onMouseEnter={e=>e.target.style.color='#214e41'} onMouseLeave={e=>e.target.style.color='#999'}>{t.nav.shop}</Link>
+        <div style={{ borderBottom: '1px solid rgba(33,78,65,0.08)', backgroundColor: '#fcfbf8' }}>
+          <div style={{ 
+            maxWidth: '1280px', margin:'0 auto', padding:'0.85rem 2rem', 
+            display:'flex', alignItems:'center', gap:'0.75rem', 
+            fontFamily:'Jost, sans-serif', fontSize:'0.7rem', fontWeight: 600,
+            color:'#214e41', letterSpacing: '0.12rem', textTransform: 'uppercase' 
+          }} dir={t.dir}>
+            <Link to="/" style={{ color:'#214e41', textDecoration:'none', transition: 'all 0.2s ease', opacity: 0.75 }} onMouseEnter={e=>e.target.style.color='#d4a843'} onMouseLeave={e=>e.target.style.color='#214e41'}>{l.home}</Link>
+            <span style={{ fontSize: '0.6rem', color: '#d1d1d1' }}>/</span>
+            <Link to="/shop" style={{ color:'#214e41', textDecoration:'none', transition: 'all 0.2s ease', opacity: 0.75 }} onMouseEnter={e=>e.target.style.color='#d4a843'} onMouseLeave={e=>e.target.style.color='#214e41'}>{t.nav.shop}</Link>
             {product?.category && (
               <>
-                <ChevronRight size={12} style={{ opacity: 0.5, transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
-                <Link to={`/shop?cat=${product.category_id}`} style={{ color:'#999', textDecoration:'none', transition: 'color 0.2s' }} onMouseEnter={e=>e.target.style.color='#214e41'} onMouseLeave={e=>e.target.style.color='#999'}>{product.category.name}</Link>
+                <span style={{ fontSize: '0.6rem', color: '#d1d1d1' }}>/</span>
+                <Link to={`/shop?cat=${product.category_id}`} style={{ color:'#214e41', textDecoration:'none', transition: 'all 0.2s ease', opacity: 0.75 }} onMouseEnter={e=>e.target.style.color='#d4a843'} onMouseLeave={e=>e.target.style.color='#214e41'}>{product.category.name}</Link>
               </>
             )}
             {product && (
               <>
-                <ChevronRight size={12} style={{ opacity: 0.5, transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
-                <span style={{ color:'#3d9089', fontWeight: 500 }}>{product.name}</span>
+                <span style={{ fontSize: '0.6rem', color: '#d1d1d1' }}>/</span>
+                <span style={{ color:'#3d9089', fontWeight: 700 }}>{product.name}</span>
               </>
             )}
           </div>
@@ -310,7 +315,7 @@ export default function ProductPage() {
  
                   {/* Price */}
                   <div style={{ display:'flex', alignItems:'baseline', gap:'1rem', marginBottom:'2.5rem' }}>
-                    <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'2.5rem', color:'#d4a843', fontWeight:500 }}>{displayPrice}</span>
+                    <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'2.5rem', color:'#2c635a', fontWeight:500 }}>{displayPrice}</span>
                     {originalPrice && <span style={{ fontFamily:'Jost, sans-serif', fontSize:'1.2rem', color:'#bbb', textDecoration:'line-through', fontWeight: 300 }}>{originalPrice}</span>}
                   </div>
  

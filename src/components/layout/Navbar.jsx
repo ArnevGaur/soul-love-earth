@@ -258,12 +258,14 @@ export default function Navbar() {
               onClick={toggleLang}
               title={lang === 'en' ? 'Switch to Arabic' : 'Switch to English'}
               style={{
-                background: 'none', border: scrolled ? '1.5px solid rgba(61,144,137,0.35)' : '1.5px solid rgba(255,255,255,0.4)', cursor: 'pointer',
+                background: isScrolled ? 'none' : 'rgba(255, 255, 255, 0.08)', 
+                border: isScrolled ? '1.5px solid rgba(61,144,137,0.35)' : '1.5px solid #d4a843', 
+                cursor: 'pointer',
                 padding: '0.3rem 0.65rem', borderRadius: '100px',
                 fontFamily: lang === 'ar' ? 'Arial, sans-serif' : 'Jost, sans-serif',
                 fontSize: lang === 'ar' ? '0.85rem' : '0.7rem',
                 fontWeight: 600, letterSpacing: lang === 'ar' ? 0 : '0.08em',
-                color: scrolled ? '#3d9089' : '#ffffff', transition: 'all 0.25s ease',
+                color: isScrolled ? '#3d9089' : '#d4a843', transition: 'all 0.25s ease',
                 lineHeight: 1.2,
               }}
               onMouseEnter={e => { 

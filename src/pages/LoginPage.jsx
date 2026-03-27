@@ -29,7 +29,7 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '90px', display: 'flex', flexDirection: 'column' }}>
+      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
           <div style={{ width: '100%', maxWidth: '460px' }}>
 

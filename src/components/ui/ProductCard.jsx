@@ -113,7 +113,7 @@ export default function ProductCard({ product }) {
               <>
                 <span style={{
                   fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                  fontWeight: 500, color: '#3d9089',
+                  fontWeight: 500, color: '#2c635a',
                 }}>{product.special}</span>
                 <span style={{
                   fontFamily: 'Jost, sans-serif', fontSize: '0.78rem',
@@ -123,7 +123,7 @@ export default function ProductCard({ product }) {
             ) : (
               <span style={{
                 fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                fontWeight: 500, color: '#2c2c2c',
+                fontWeight: 600, color: '#2c635a',
               }}>{product.price}</span>
             )}
           </div>

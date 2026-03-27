@@ -347,13 +347,13 @@ export default function CheckoutPage() {
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
                         <span>Shipping</span>
-                        <span style={{ color: 'var(--color-charcoal)' }}>AED {shipping.toFixed(2)}</span>
+                        <span style={{ color: '#2c635a', fontWeight: 500 }}>AED {shipping.toFixed(2)}</span>
                       </div>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '2px solid #eee' }}>
                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--color-charcoal)', fontWeight: 600 }}>Total</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'var(--color-teal-600)', fontWeight: 400 }}>AED {finalTotal.toFixed(2)}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 500 }}>AED {finalTotal.toFixed(2)}</span>
                     </div>
                   </>
                 )}
@@ -394,7 +394,7 @@ function SectionHeader({ number, title }) {
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
       <div style={{
         width: '30px', height: '30px', borderRadius: '50%',
-        backgroundColor: '#214e41', color: 'white',
+        backgroundColor: '#2c635a', color: 'white',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 700, flexShrink: 0,
       }}>{number}</div>
