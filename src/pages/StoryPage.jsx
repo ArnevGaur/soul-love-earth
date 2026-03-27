@@ -10,16 +10,36 @@ export default function StoryPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px' }}>
+      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh' }}>
         
         {/* Hero Section */}
         <section style={{
-          backgroundColor: '#1a2e2c',
+          position: 'relative',
+          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           padding: '6rem 2rem',
           textAlign: 'center',
-          color: '#faf8f3',
+          overflow: 'hidden'
         }}>
-          <span className="section-label animate-fade-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+          {/* Dark overlay for text readability - brighter */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(10,26,24,0.75) 0%, rgba(26,46,44,0.7) 100%)',
+            zIndex: 1
+          }} />
+          
+          <span className="section-label animate-fade-up" style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            gap: '1rem', 
+            marginBottom: '1.5rem',
+            position: 'relative',
+            zIndex: 2
+          }}>
             <span style={{ width: '40px', height: '1px', backgroundColor: 'var(--color-gold-400)' }} />
             About Us
             <span style={{ width: '40px', height: '1px', backgroundColor: 'var(--color-gold-400)' }} />
@@ -31,6 +51,10 @@ export default function StoryPage() {
             maxWidth: '900px',
             margin: '0 auto',
             lineHeight: 1.1,
+            color: '#faf8f3',
+            position: 'relative',
+            zIndex: 2,
+            textShadow: '0 2px 4px rgba(0,0,0,0.2)'
           }}>
             Embracing Earth's Essence
           </h1>
@@ -40,7 +64,10 @@ export default function StoryPage() {
             fontWeight: 300,
             maxWidth: '600px',
             margin: '2rem auto 0',
-            color: 'rgba(250, 248, 243, 0.8)'
+            color: 'rgba(250, 248, 243, 0.92)',
+            position: 'relative',
+            zIndex: 2,
+            textShadow: '0 1px 2px rgba(0,0,0,0.1)'
           }}>
             Our story reflects the belief that every narrative gains significance when it finds listeners willing to pass it on to future generations.
           </p>

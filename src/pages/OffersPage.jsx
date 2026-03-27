@@ -81,15 +81,27 @@ export default function OffersPage() {
         {/* Hero Section */}
         <section style={{
           position: 'relative',
-          minHeight: '60vh',
+          minHeight: '55vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #1a2e2c 0%, #2d4f4d 50%, #1a2e2c 100%)',
-          overflow: 'hidden'
+          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          overflow: 'hidden',
+          padding: '6rem 2rem 4rem'
         }}>
           
-          {/* Decorative Elements */}
+          {/* Dark overlay for text readability - brighter */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(10,26,24,0.75) 0%, rgba(26,46,44,0.7) 100%)',
+            zIndex: 1
+          }} />
+          
+          {/* Elegant accent elements */}
           <div style={{
             position: 'absolute',
             top: '20%',
@@ -99,7 +111,8 @@ export default function OffersPage() {
             borderRadius: '50%',
             background: 'radial-gradient(circle, rgba(212,168,67,0.1) 0%, transparent 70%)',
             opacity: mounted ? 0.6 : 0,
-            transition: 'opacity 1.2s ease 0.5s'
+            transition: 'opacity 1.2s ease 0.5s',
+            zIndex: 2
           }} />
           
           <div style={{
@@ -111,13 +124,14 @@ export default function OffersPage() {
             borderRadius: '50%',
             background: 'radial-gradient(circle, rgba(61,144,137,0.08) 0%, transparent 70%)',
             opacity: mounted ? 0.5 : 0,
-            transition: 'opacity 1.2s ease 0.7s'
+            transition: 'opacity 1.2s ease 0.7s',
+            zIndex: 2
           }} />
 
           {/* Content */}
           <div style={{
             position: 'relative',
-            zIndex: 2,
+            zIndex: 3,
             textAlign: 'center',
             padding: '2rem',
             maxWidth: '900px',
@@ -164,7 +178,8 @@ export default function OffersPage() {
               color: '#ffffff',
               marginBottom: '1.5rem',
               lineHeight: 1.1,
-              letterSpacing: '0.02em'
+              letterSpacing: '0.02em',
+              textShadow: '0 2px 4px rgba(0,0,0,0.2)'
             }}>
               Curated Savings
               <br />
@@ -175,10 +190,11 @@ export default function OffersPage() {
               fontFamily: 'var(--font-body)',
               fontSize: '1.1rem',
               fontWeight: 300,
-              color: 'rgba(255, 255, 255, 0.85)',
+              color: 'rgba(255, 255, 255, 0.92)',
               maxWidth: '600px',
               margin: '0 auto',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              textShadow: '0 1px 2px rgba(0,0,0,0.1)'
             }}>
               Thoughtfully selected promotions designed to enhance your sustainable lifestyle 
               and bring mindful choices into your home.
