@@ -13,7 +13,7 @@ export default function ProductCard({ product }) {
     : 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
 
   // Format "Add to Bag — <price>" based on language context
-  const addToCartText = t.product.addToCart.replace('{price}', product.special ? product.special : product.price)
+  const addToCartText = t?.product?.addToCart?.replace('{price}', product.special ? product.special : product.price) || 'Add to Cart'
 
   return (
     <Link to={`/product/${product.product_id}`} style={{ textDecoration: 'none' }}>

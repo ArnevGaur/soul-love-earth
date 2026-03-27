@@ -1,6 +1,6 @@
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { X, Trash2, Plus, Minus } from 'lucide-react'
 
 export default function CartDrawer() {
@@ -8,6 +8,7 @@ export default function CartDrawer() {
   const { t, lang } = useLanguage()
   const c = t?.cart || {}
   const navigate = useNavigate()
+  const location = useLocation()
   const isRtl = lang === 'ar'
 
   return (
@@ -123,7 +124,11 @@ export default function CartDrawer() {
                         color: '#214e41', margin: '0 0 0.4rem 0' 
                       }}>{item.name}</h4>
                       <button 
-                        onClick={() => removeFromCart(item.product_id)} 
+                        onClick={() => {
+                          const isLast = cartItems.length === 1
+                          removeFromCart(item.product_id)
+                          if (isLast && location.pathname === '/checkout') navigate(-1)
+                        }} 
                         style={{ background: 'none', border: 'none', color: '#cc3300', cursor: 'pointer', padding: '4px', opacity: 0.6 }}
                         onMouseEnter={e => e.currentTarget.style.opacity = 1}
                         onMouseLeave={e => e.currentTarget.style.opacity = 0.6}

@@ -363,11 +363,15 @@ export const translations = {
 }
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(() => localStorage.getItem('sle_lang') || 'en')
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('sle_lang')
+    return (saved === 'ar' || saved === 'en') ? saved : 'en'
+  })
 
   useEffect(() => {
     localStorage.setItem('sle_lang', lang)
-    document.documentElement.dir = translations[lang].dir
+    const tSafe = translations[lang] || translations.en
+    document.documentElement.dir = tSafe.dir
     document.documentElement.lang = lang
   }, [lang])
 

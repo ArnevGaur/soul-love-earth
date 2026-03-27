@@ -25,7 +25,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: t?.nav?.home || 'HOME', href: '/' },
-    { label: t?.nav?.shop,    href: '/#categories' },
+    { label: t?.nav?.shop || 'SHOP', href: '/#categories' },
     { label: t?.nav?.hospitality, href: '/hospitality', isHospitality: true },
     { label: t?.nav?.offers,  href: '/offers' },
     { label: t?.nav?.myOrders, href: '/orders' },
