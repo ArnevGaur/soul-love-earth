@@ -29,6 +29,15 @@ export default function ShopPage() {
   const [search,     setSearch]     = useState(searchParams.get('q') || '')
   const [searchInput, setSearchInput] = useState(searchParams.get('q') || '')
   const [categoryId, setCategoryId] = useState(searchParams.get('cat') || '')
+  
+  // Advanced Filter States
+  const defaultFilters = {
+    minPrice: '', maxPrice: '',
+    inStock: false, outOfStock: false,
+    color: '', sizes: { '10': false, '14': false }
+  }
+  const [filters, setFilters] = useState(defaultFilters)
+  
   const [sortIdx,    setSortIdx]    = useState(0)
   const [sortOpen,   setSortOpen]   = useState(false) // Custom sort dropdown state
   const [filtersOpen, setFiltersOpen] = useState(false) // Controls left Categories sidebar on mobile
@@ -61,6 +70,7 @@ export default function ShopPage() {
         search,
         sort:  sort.value,
         order: sort.order,
+        filters
       })
       setProducts(Array.isArray(data) ? data : data.products || [])
     } catch (err) {
@@ -69,18 +79,20 @@ export default function ShopPage() {
     } finally {
       setLoading(false)
     }
-  }, [categoryId, search, sortIdx])
+  }, [categoryId, search, sortIdx, filters])
 
   useEffect(() => { loadProducts() }, [loadProducts])
 
   const handleSearch = (e) => {
     e.preventDefault()
     setSearch(searchInput)
+    setSortIdx(0)
     setSearchParams({ q: searchInput, cat: categoryId })
   }
 
   const handleCategory = (id) => {
     setCategoryId(id)
+    setSortIdx(0)
     setSearchParams({ q: search, cat: id })
     setFiltersOpen(false)
   }
@@ -466,7 +478,13 @@ export default function ShopPage() {
       <Footer />
       
       {/* Interactive Right Filter Slider */}
-      <FilterPane isOpen={isFilterPaneOpen} onClose={() => setIsFilterPaneOpen(false)} />
+      <FilterPane 
+        isOpen={isFilterPaneOpen} 
+        onClose={() => setIsFilterPaneOpen(false)} 
+        filters={filters}
+        setFilters={setFilters}
+        onClear={() => setFilters(defaultFilters)}
+      />
 
       <style>{`
         @keyframes shimmer {
