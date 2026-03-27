@@ -41,8 +41,27 @@ const mockCategories = [
       { category_id: 'fashion-jewellery', name: 'Jewellery' }
     ]
   },
-  { category_id: 'beauty-health', name: 'Beauty & Health' },
-  { category_id: 'gifts', name: 'Gifts' },
+  {
+    category_id: 'beauty-health',
+    name: 'Beauty & Health',
+    subcategories: [
+      { category_id: 'beauty-health-ayurveda', name: 'Ayurveda & Herbs' }
+    ]
+  },
+  {
+    category_id: 'gifts',
+    name: 'Gifts',
+    subcategories: [
+      { category_id: 'gifts-all', name: 'All Occasions' },
+      { category_id: 'gifts-diwali', name: 'Diwali' },
+      { category_id: 'gifts-eid', name: 'Eid' },
+      { category_id: 'gifts-national-day', name: 'National Day' },
+      { category_id: 'gifts-navratri', name: 'Navratri' },
+      { category_id: 'gifts-ramadan', name: 'Ramadan' },
+      { category_id: 'gifts-valentine', name: 'Valentine' },
+      { category_id: 'gifts-xmas', name: 'X-Mas' },
+    ]
+  },
   { category_id: 'bags', name: 'Bags' },
   { category_id: 'bath-linen', name: 'Bath Linen' },
   { category_id: 'hospitality', name: 'Hospitality' },
