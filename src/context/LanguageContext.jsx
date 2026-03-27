@@ -103,7 +103,7 @@ export const translations = {
     },
     shop: {
       title: 'The Collection',
-      sub: 'Handcrafted, sustainable products for mindful living.',
+      sub: 'Handcrafted, Sustainable Products for Mindful Living.',
       allCategories: 'All Categories', sortBy: 'Sort By',
       sortDefault: 'Sort', sortPriceAsc: 'Price: Low to High',
       sortPriceDesc: 'Price: High to Low', sortNameAz: 'Name: A-Z',

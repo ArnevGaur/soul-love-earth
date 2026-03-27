@@ -64,8 +64,14 @@ const mockCategories = [
   },
   { category_id: 'bags', name: 'Bags' },
   { category_id: 'bath-linen', name: 'Bath Linen' },
-  { category_id: 'hospitality', name: 'Hospitality' },
-  { category_id: 'sustainability', name: 'Sustainability' },
+  {
+    category_id: 'hospitality',
+    name: 'Hospitality',
+    subcategories: [
+      { category_id: 'hospitality-hotel-supplies', name: 'Premium Hotel Supplies' }
+    ]
+  },
+
 ]
 
 // helper: generate 4 slightly varied angle views from a base Unsplash photo ID

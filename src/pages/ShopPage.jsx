@@ -7,6 +7,7 @@ import { fetchProducts, fetchCategories } from '../services/opencart'
 import { useLanguage } from '../context/LanguageContext'
 import { Search, SlidersHorizontal, X, Filter, ChevronDown } from 'lucide-react'
 import FilterPane from '../components/shop/FilterPane'
+import { useRef } from 'react'
 
 export default function ShopPage() {
   const { t } = useLanguage()
@@ -39,9 +40,14 @@ export default function ShopPage() {
   const [filters, setFilters] = useState(defaultFilters)
   
   const [sortIdx,    setSortIdx]    = useState(0)
-  const [sortOpen,   setSortOpen]   = useState(false) // Custom sort dropdown state
-  const [filtersOpen, setFiltersOpen] = useState(false) // Controls left Categories sidebar on mobile
-  const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false) // Controls new right slide-out Filter Pane
+  const [sortOpen,   setSortOpen]   = useState(false)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false)
+
+  // Search suggestion state
+  const [suggestions, setSuggestions]     = useState([])
+  const [showSuggest, setShowSuggest]     = useState(false)
+  const searchRef = useRef(null)
 
   // Sync state with URL params
   useEffect(() => {
@@ -99,6 +105,19 @@ export default function ShopPage() {
 
   const handleSort = (e) => setSortIdx(Number(e.target.value))
 
+  // Live suggestions as user types
+  useEffect(() => {
+    if (!searchInput.trim()) { setSuggestions([]); return }
+    const timer = setTimeout(async () => {
+      try {
+        const data = await fetchProducts({ search: searchInput.trim() })
+        const list = Array.isArray(data) ? data : data.products || []
+        setSuggestions(list.slice(0, 6))
+      } catch { setSuggestions([]) }
+    }, 200)
+    return () => clearTimeout(timer)
+  }, [searchInput])
+
   return (
     <>
       <Navbar />
@@ -150,15 +169,15 @@ export default function ShopPage() {
           }}>
             {/* Search */}
             <form onSubmit={handleSearch} style={{ flex: 1, minWidth: '200px', display: 'flex' }}>
-              <div style={{ position: 'relative', width: '100%', maxWidth: '380px' }}>
+              <div ref={searchRef} style={{ position: 'relative', width: '100%', maxWidth: '380px' }}>
                 <Search size={15} strokeWidth={2} style={{
                   position: 'absolute', left: '1.25rem', top: '50%',
-                  transform: 'translateY(-50%)', color: '#214e41',
+                  transform: 'translateY(-50%)', color: '#214e41', zIndex: 1,
                 }} />
                 <input
                   type="text"
                   value={searchInput}
-                  onChange={e => setSearchInput(e.target.value)}
+                  onChange={e => { setSearchInput(e.target.value); setShowSuggest(true) }}
                   placeholder={t.nav.search}
                   style={{
                     width: '100%',
@@ -167,18 +186,75 @@ export default function ShopPage() {
                     fontSize: '0.85rem',
                     fontWeight: 400,
                     border: '1px solid rgba(33,78,65,0.15)',
-                    borderRadius: '30px',
+                    borderRadius: showSuggest && suggestions.length > 0 ? '20px 20px 0 0' : '30px',
                     backgroundColor: '#ffffff',
                     boxShadow: 'inset 0 2px 6px rgba(33,78,65,0.03)',
                     outline: 'none',
                     color: '#214e41',
                     transition: 'border-color 0.3s, box-shadow 0.3s'
                   }}
-                  onFocus={e => { e.target.style.borderColor = '#d4a843'; e.target.style.boxShadow = '0 0 0 3px rgba(212,168,67,0.1)'; }}
-                  onBlur={e => { e.target.style.borderColor = 'rgba(33,78,65,0.15)'; e.target.style.boxShadow = 'inset 0 2px 6px rgba(33,78,65,0.03)'; }}
+                  onFocus={e => { setShowSuggest(true); e.target.style.borderColor = '#d4a843'; e.target.style.boxShadow = '0 0 0 3px rgba(212,168,67,0.1)'; }}
+                  onBlur={e => { setTimeout(() => setShowSuggest(false), 150); e.target.style.borderColor = 'rgba(33,78,65,0.15)'; e.target.style.boxShadow = 'inset 0 2px 6px rgba(33,78,65,0.03)'; }}
                 />
+
+                {/* Suggestion dropdown */}
+                {showSuggest && suggestions.length > 0 && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0, right: 0,
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #d4a843',
+                    borderTop: 'none',
+                    borderRadius: '0 0 20px 20px',
+                    boxShadow: '0 16px 40px rgba(33,78,65,0.1)',
+                    zIndex: 200,
+                    overflow: 'hidden',
+                  }}>
+                    {suggestions.map((p, i) => (
+                      <div
+                        key={p.product_id}
+                        onMouseDown={() => {
+                          setSearchInput(p.name)
+                          setSearch(p.name)
+                          setSortIdx(0)
+                          setSearchParams({ q: p.name, cat: categoryId })
+                          setShowSuggest(false)
+                        }}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          padding: '0.6rem 1.25rem',
+                          cursor: 'pointer',
+                          borderTop: i > 0 ? '1px solid rgba(33,78,65,0.06)' : 'none',
+                          transition: 'background 0.2s'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.backgroundColor = '#faf8f3'}
+                        onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+                      >
+                        <img
+                          src={p.thumb}
+                          alt={p.name}
+                          style={{ width: '38px', height: '38px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }}
+                          onError={e => e.target.style.display = 'none'}
+                        />
+                        <div style={{ flex: 1, overflow: 'hidden' }}>
+                          <div style={{
+                            fontFamily: 'Jost, sans-serif', fontSize: '0.83rem', fontWeight: 500,
+                            color: '#214e41', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                          }}>{p.name}</div>
+                          <div style={{
+                            fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', fontWeight: 400,
+                            color: p.special ? '#3d9089' : '#888'
+                          }}>{p.special || p.price}</div>
+                        </div>
+                        <Search size={12} color="#d4a843" strokeWidth={2} style={{ flexShrink: 0 }} />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </form>
+
 
             {/* Categories toggle (mobile) & Right Filter Toggle (always visible) */}
             <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>

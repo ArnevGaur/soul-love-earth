@@ -8,7 +8,7 @@ const categories = [
   { labelEn: 'Fashion', labelAr: 'أزياء', subtextEn: 'Timeless, ethical silhouettes', subtextAr: 'تصاميم خالدة وأخلاقية', href: '/shop?cat=fashion', image: '/images/Categories/fashion.jpg' },
   { labelEn: 'Beauty & Health', labelAr: 'الصحة والجمال', subtextEn: 'Botanical extracts & natural care', subtextAr: 'مستخلصات نباتية وعناية طبيعية', href: '/shop?cat=beauty-health', image: '/images/Categories/beauty.png' },
   { labelEn: 'Gifts', labelAr: 'هدايا', subtextEn: 'Thoughtful curations for loved ones', subtextAr: 'تنسيقات مدروسة لمن تحب', href: '/shop?cat=gifts', image: '/images/Categories/gifts.jpg' },
-  { labelEn: 'Sustainability', labelAr: 'استدامة', subtextEn: 'Eco-conscious everyday essentials', subtextAr: 'أساسيات يومية صديقة للبيئة', href: '/shop?cat=sustainability', image: '/images/Categories/sustainability.jpg' },
+  { labelEn: 'Bags', labelAr: 'حقائب', subtextEn: 'Handcrafted sustainable carry', subtextAr: 'حقائب مستدامة مصنوعة يدوياً', href: '/shop?cat=bags', image: '/images/Categories/bags.png' },
   { labelEn: 'Bath Linen', labelAr: 'بياضات الحمام', subtextEn: 'Luxuriously soft organic cotton', subtextAr: 'قطن عضوي ناعم وفاخر', href: '/shop?cat=bath-linen', image: '/images/Categories/linen.jpg' },
   { labelEn: 'Hospitality', labelAr: 'مستلزمات الضيافة', subtextEn: 'Premium amenities for guests', subtextAr: 'وسائل راحة فاخرة للضيوف', href: '/shop?cat=hospitality', image: '/images/Categories/hospitality.jpg' },
 ]
