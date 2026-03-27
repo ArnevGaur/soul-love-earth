@@ -1,8 +1,36 @@
 // Mock data — swap BASE_URL fetch calls when OpenCart API is ready
 
 const mockCategories = [
-  { category_id: 'kitchenware', name: 'Kitchenware' },
-  { category_id: 'home-decor', name: 'Home Decor' },
+  {
+    category_id: 'kitchenware',
+    name: 'Kitchenware',
+    subcategories: [
+      { category_id: 'kitchenware-ceramic', name: 'Ceramic' },
+      { category_id: 'kitchenware-copperware', name: 'Copperware & Metals' },
+      { category_id: 'kitchenware-earthenware', name: 'Earthenware' },
+      { category_id: 'kitchenware-glassware', name: 'Glassware' },
+      { category_id: 'kitchenware-woodenware', name: 'Woodenware' },
+    ]
+  },
+  {
+    category_id: 'home-decor',
+    name: 'Home Decor',
+    subcategories: [
+      { category_id: 'home-decor-bamboo', name: 'Bamboo' },
+      { category_id: 'home-decor-bedsheets', name: 'Bedsheets, Linens & Blankets' },
+      { category_id: 'home-decor-candles', name: 'Candles & Lights' },
+      { category_id: 'home-decor-earthenware', name: 'Earthenware' },
+      { category_id: 'home-decor-garden', name: 'Garden Decor' },
+      { category_id: 'home-decor-glassware', name: 'Glassware' },
+      { category_id: 'home-decor-jute', name: 'Jute' },
+      { category_id: 'home-decor-metals', name: 'Metals' },
+      { category_id: 'home-decor-purse', name: 'Purse' },
+      { category_id: 'home-decor-rugs', name: 'Rugs / Mats' },
+      { category_id: 'home-decor-seagrass', name: 'Seagrass' },
+      { category_id: 'home-decor-towels', name: 'Towels and Bath Robes' },
+      { category_id: 'home-decor-woodenware', name: 'Woodenware' }
+    ]
+  },
   { category_id: 'fashion', name: 'Fashion' },
   { category_id: 'beauty-health', name: 'Beauty & Health' },
   { category_id: 'gifts', name: 'Gifts' },

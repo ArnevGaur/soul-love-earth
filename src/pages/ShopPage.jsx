@@ -269,7 +269,9 @@ export default function ShopPage() {
                       {s.allCategories}
                     </button>
                   </li>
-                  {categories.map(cat => (
+                  {categories.map(cat => {
+                    const isOpen = categoryId === cat.category_id || categoryId.startsWith(`${cat.category_id}-`);
+                    return (
                     <li key={cat.category_id}>
                       <button
                         onClick={() => handleCategory(cat.category_id)}
@@ -279,23 +281,57 @@ export default function ShopPage() {
                           fontFamily: 'Jost, sans-serif',
                           fontSize: '0.82rem',
                           fontWeight: categoryId === cat.category_id ? 500 : 300,
-                          color: categoryId === cat.category_id ? '#3d9089' : '#2c2c2c',
+                          color: isOpen ? '#3d9089' : '#2c2c2c',
                           background: 'none', border: 'none', cursor: 'pointer',
-                          borderBottom: categoryId === cat.category_id ? '1px solid #d4a843' : '1px solid transparent',
-                          transition: 'color 0.2s',
+                          borderBottom: isOpen ? '1px solid rgba(212,168,67,0.3)' : '1px solid transparent',
+                          transition: 'color 0.3s ease-out, border-color 0.3s ease-out',
                         }}
                       >
                         {cat.name}
                       </button>
+
+                      {cat.subcategories && (
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateRows: isOpen ? '1fr' : '0fr',
+                          transition: 'grid-template-rows 0.35s ease-out, opacity 0.3s ease-out',
+                          opacity: isOpen ? 1 : 0,
+                          overflow: 'hidden',
+                        }}>
+                          <div style={{ minHeight: 0 }}>
+                            <ul style={{ listStyle: 'none', padding: '0 0 0 1rem', margin: '0.25rem 0 0.5rem 0' }}>
+                              {cat.subcategories.map(sub => (
+                                <li key={sub.category_id}>
+                                  <button
+                                    onClick={() => handleCategory(sub.category_id)}
+                                    style={{
+                                      width: '100%', textAlign: 'left',
+                                      padding: '0.35rem 0',
+                                      fontFamily: 'Jost, sans-serif',
+                                      fontSize: '0.75rem',
+                                      fontWeight: categoryId === sub.category_id ? 500 : 300,
+                                      color: categoryId === sub.category_id ? '#3d9089' : '#666',
+                                      background: 'none', border: 'none', cursor: 'pointer',
+                                      transition: 'color 0.2s',
+                                    }}
+                                  >
+                                    {sub.name}
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
                     </li>
-                  ))}
+                  )})}
                 </ul>
               </div>
             </aside>
 
             {/* Products Grid */}
             <div style={{ flex: 1 }}>
-              {loading && (
+              {loading && products.length === 0 && (
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
@@ -339,8 +375,12 @@ export default function ShopPage() {
                 </div>
               )}
 
-              {!loading && !error && products.length > 0 && (
-                <>
+              {!error && products.length > 0 && (
+                <div style={{
+                  opacity: loading ? 0.4 : 1,
+                  pointerEvents: loading ? 'none' : 'auto',
+                  transition: 'opacity 0.2s',
+                }}>
                   <p style={{
                     fontFamily: 'Jost, sans-serif', fontSize: '0.75rem',
                     color: '#999', marginBottom: '1.25rem', fontWeight: 300,
@@ -356,7 +396,7 @@ export default function ShopPage() {
                       <ProductCard key={product.product_id} product={product} />
                     ))}
                   </div>
-                </>
+                </div>
               )}
             </div>
           </div>
