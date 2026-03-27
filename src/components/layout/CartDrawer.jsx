@@ -89,7 +89,14 @@ export default function CartDrawer() {
               </div>
               <p style={{ fontSize: '0.9rem', marginBottom: '1.5rem' }}>{c.empty}</p>
               <button 
-                onClick={() => setCartDrawerOpen(false)}
+                onClick={() => {
+                  setCartDrawerOpen(false)
+                  if (location.pathname === '/') {
+                    document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                  } else {
+                    navigate('/#categories')
+                  }
+                }}
                 style={{
                   padding: '0.8rem 2rem', backgroundColor: '#214e41', color: 'white', border: 'none',
                   fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', fontWeight: 600,
