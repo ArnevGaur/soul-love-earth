@@ -14,19 +14,19 @@ A premium, bilingual e-commerce platform built for the **Soul Love & Earth** con
 
 ### 🌍 Full Bilingual Support (Context API)
 - Complete English (LTR) and Arabic (RTL) localization.
-- Dynamic layout flipping and typography adjustments based on the active language.
-- Real-time language switching without page reloads.
+- **Zero-Crash Architecture:** Systemically hardened to handle corrupt or invalid locale data with safe fallbacks.
+- Dynamic layout flipping and typography adjustments.
 
 ### 🛍️ Comprehensive Storefront
 - **Shop Page:** Dynamic filtering by category, search queries, and sorting.
-- **Hospitality Collection:** A dedicated B2B view for hotel amenities and bulk products.
-- **Cart Drawer:** A slide-out global cart with real-time price calculations.
-- **Order Tracking:** A dedicated `/orders` portal.
+- **Product Details:** High-performance sliding carousel with fluid transitions and premium navigation.
+- **Smart Navigation:** Context-aware redirection that returns users to their previous location when emptying the cart from the Checkout view.
+- **Cart Drawer:** A sliding-edge global cart with real-time price parsing and defensive data sanitization.
 
 ### ✨ Premium UI / UX
-- **Apple-Style Transitions:** Smooth, choreographed fade and slide animations between pages.
-- **Glassmorphism:** Frost-glass navigation bars that adapt to scroll state.
-- **Responsive Architecture:** Pixel-perfect on both mobile and 4K desktop screens.
+- **Dynamic Masonry Grid:** Responsive category grid with nested accordion navigation.
+- **Branding Unification:** Harmonized color palette across all primary CTAs using signature **#2c635a** green and **#d4a843** gold.
+- **Geometric Excellence:** Consistent use of pill-shaped (40px) geometry for all buttons, inputs, and badges.
 
 ## Project Structure
 
