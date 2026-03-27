@@ -55,6 +55,10 @@ export default function StoryPage() {
     {
       title: 'Organic Herbs',
       description: 'Explore nature\'s remedies with our sustainably grown, vibrant herbs for your well-being.'
+    },
+    {
+      title: 'Eco-Friendly Gifts',
+      description: 'Share the joy of sustainable living with thoughtfully curated gift sets that inspire conscious choices.'
     }
   ]
 
@@ -388,8 +392,10 @@ export default function StoryPage() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2rem'
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '2rem',
+            alignItems: 'stretch',
+            justifyItems: 'center'
           }}>
             {whatWeDo.map((item, index) => (
               <div
@@ -398,7 +404,9 @@ export default function StoryPage() {
                   opacity: mounted ? 1 : 0,
                   transform: mounted ? 'translateY(0)' : 'translateY(20px)',
                   transition: 'all 0.6s ease',
-                  transitionDelay: `${0.1 * index}s`
+                  transitionDelay: `${0.1 * index}s`,
+                  display: 'flex',
+                  width: '100%'
                 }}
               >
                 <div style={{
@@ -410,7 +418,11 @@ export default function StoryPage() {
                   overflow: 'hidden',
                   transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                   cursor: 'pointer',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.08)'
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                  minHeight: '220px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flex: 1
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
@@ -465,7 +477,7 @@ export default function StoryPage() {
 
         {/* Commitment Section */}
         <section style={{
-          backgroundColor: 'var(--color-teal-50)',
+          backgroundColor: '#ffffff',
           padding: '6rem 2rem',
           textAlign: 'center'
         }}>
