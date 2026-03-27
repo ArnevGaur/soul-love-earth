@@ -129,7 +129,7 @@ export default function ProductCard({ product }) {
 
         {/* Signature gradient line */}
         <div style={{
-          height: '2px',
+          height: '4px',
           background: 'linear-gradient(90deg, #d4a843, #3d9089)',
           opacity: 0.6,
         }} />
