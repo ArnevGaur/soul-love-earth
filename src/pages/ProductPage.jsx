@@ -11,15 +11,15 @@ import { ArrowLeft, ShoppingBag, Star, Shield, Leaf, Package, Minus, Plus, Chevr
 function StarRow({ rating, setRating, interactive = false }) {
   const [hover, setHover] = useState(0)
   return (
-    <div style={{ display: 'flex', gap: '3px' }}>
+    <div style={{ display: 'flex', gap: '4px' }}>
       {[1,2,3,4,5].map(i => (
         <Star
           key={i}
-          size={interactive ? 22 : 14}
+          size={interactive ? 24 : 14}
           fill={(hover || rating) >= i ? '#d4a843' : 'none'}
-          color="#d4a843"
+          color={(hover || rating) >= i ? '#d4a843' : '#e0e0e0'}
           strokeWidth={1.5}
-          style={{ cursor: interactive ? 'pointer' : 'default', transition: 'fill 0.15s' }}
+          style={{ cursor: interactive ? 'pointer' : 'default', transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)' }}
           onMouseEnter={() => interactive && setHover(i)}
           onMouseLeave={() => interactive && setHover(0)}
           onClick={() => interactive && setRating && setRating(i)}
@@ -31,15 +31,31 @@ function StarRow({ rating, setRating, interactive = false }) {
 
 function ReviewCard({ review }) {
   return (
-    <div style={{ padding: '1.75rem', backgroundColor: 'white', borderRadius: '10px', border: '1px solid #ece8e0' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.85rem' }}>
+    <div style={{
+      padding: '2rem',
+      backgroundColor: 'white',
+      borderRadius: '24px',
+      border: '1px solid rgba(33,78,65,0.08)',
+      boxShadow: '0 4px 20px rgba(33,78,65,0.03)',
+      transition: 'transform 0.3s ease',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
         <div>
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-charcoal)', marginBottom: '0.25rem' }}>{review.author}</div>
+          <div style={{
+            fontFamily: 'Jost, sans-serif',
+            fontSize: '1rem', fontWeight: 500,
+            color: '#214e41', marginBottom: '0.35rem'
+          }}>{review.author}</div>
           <StarRow rating={review.rating} />
         </div>
-        <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#bbb' }}>{review.date}</span>
+        <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.78rem', color: '#888', fontWeight: 400 }}>{review.date}</span>
       </div>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: '#666', lineHeight: 1.7, margin: 0 }}>{review.text}</p>
+      <p style={{
+        fontFamily: 'Jost, sans-serif',
+        fontSize: '0.92rem', color: '#555',
+        lineHeight: 1.7, margin: 0,
+        fontWeight: 400
+      }}>{review.text}</p>
     </div>
   )
 }
@@ -128,14 +144,22 @@ export default function ProductPage() {
 
       <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '90px' }}>
 
-        {/* Breadcrumb */}
-        <div style={{ borderBottom: '1px solid rgba(61,144,137,0.12)', backgroundColor: 'white' }}>
-          <div style={{ maxWidth: '1280px', margin:'0 auto', padding:'0.85rem 2rem', display:'flex', alignItems:'center', gap:'0.5rem', fontFamily:'var(--font-body)', fontSize:'0.78rem', color:'#999' }} dir={t.dir}>
-            <Link to="/" style={{ color:'#999', textDecoration:'none' }} onMouseEnter={e=>e.target.style.color='var(--color-teal-500)'} onMouseLeave={e=>e.target.style.color='#999'}>{l.home}</Link>
-            <ChevronRight size={12} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
-            <Link to="/shop" style={{ color:'#999', textDecoration:'none' }} onMouseEnter={e=>e.target.style.color='var(--color-teal-500)'} onMouseLeave={e=>e.target.style.color='#999'}>{t.nav.shop}</Link>
-            {product?.category && <><ChevronRight size={12} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} /><span>{product.category.name}</span></>}
-            {product && <><ChevronRight size={12} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} /><span style={{ color:'var(--color-charcoal)' }}>{product.name}</span></>}
+        {/* Breadcrumb - more minimalist */}
+        <div style={{ borderBottom: '1px solid rgba(61,144,137,0.08)', backgroundColor: '#ffffff' }}>
+          <div style={{
+            maxWidth: '1280px', margin: '0 auto', padding: '0.9rem 2rem',
+            display: 'flex', alignItems: 'center', gap: '0.5rem',
+            fontFamily: 'Jost, sans-serif', fontSize: '0.78rem', color: '#888'
+          }} dir={t.dir}>
+            <Link to="/" style={{ color: '#888', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#d4a843'} onMouseLeave={e => e.target.style.color = '#888'}>{l.home}</Link>
+            <ChevronRight size={11} strokeWidth={1.5} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none', opacity: 0.5 }} />
+            <Link to="/shop" style={{ color: '#888', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#d4a843'} onMouseLeave={e => e.target.style.color = '#888'}>{t.nav.shop}</Link>
+            {product?.category && (
+              <>
+                <ChevronRight size={11} strokeWidth={1.5} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none', opacity: 0.5 }} />
+                <span style={{ fontWeight: 400 }}>{product.category.name}</span>
+              </>
+            )}
           </div>
         </div>
 
@@ -156,36 +180,53 @@ export default function ProductPage() {
                 <div>
                   <div style={{ position: 'sticky', top: '110px' }}>
                     {/* Main image */}
-                    <div style={{ overflow:'hidden', borderRadius:'6px', backgroundColor:'#f0f9f7', lineHeight:0, marginBottom:'0.75rem', position:'relative' }}>
+                    <div style={{
+                      overflow: 'hidden',
+                      borderRadius: '24px',
+                      backgroundColor: '#ffffff',
+                      lineHeight: 0,
+                      marginBottom: '1rem',
+                      position: 'relative',
+                      boxShadow: '0 8px 30px rgba(33,78,65,0.08)',
+                      border: '1px solid rgba(33,78,65,0.05)'
+                    }}>
                       {product.special && (
-                        <span style={{ position:'absolute', top:'1rem', [t.dir === 'rtl' ? 'right' : 'left']:'1rem', backgroundColor:'#d4a843', color:'white', fontFamily:'var(--font-body)', fontSize:'0.62rem', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase', padding:'0.3rem 0.8rem', zIndex:1 }}>
+                        <span style={{
+                          position: 'absolute', top: '1.25rem', [t.dir === 'rtl' ? 'right' : 'left']: '1.25rem',
+                          backgroundColor: '#d4a843', color: 'white',
+                          fontFamily: 'Jost, sans-serif', fontSize: '0.65rem', fontWeight: 700,
+                          letterSpacing: '0.15em', textTransform: 'uppercase',
+                          padding: '0.35rem 1rem', zIndex: 1, borderRadius: '20px'
+                        }}>
                           {p.sale}
                         </span>
                       )}
                       <img
                         src={allImages[activeImg]}
                         alt={product.name}
-                        style={{ width:'100%', aspectRatio:'1/1', objectFit:'cover', transition:'opacity 0.3s ease' }}
-                        onError={e => e.target.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80'}
+                        style={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', transition: 'all 0.5s ease' }}
+                        onError={e => e.target.src = 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80'}
                       />
                     </div>
 
                     {/* Thumbnail strip */}
                     {allImages.length > 1 && (
-                      <div style={{ display:'flex', gap:'0.6rem', overflowX:'auto', paddingBottom:'4px' }}>
+                      <div style={{ display: 'flex', gap: '0.75rem', overflowX: 'auto', padding: '0.2rem 0.2rem 0.5rem' }}>
                         {allImages.map((img, i) => (
                           <button
                             key={i}
                             className="thumb-btn"
                             onClick={() => setActiveImg(i)}
                             style={{
-                              flexShrink: 0, width:'72px', height:'72px', padding:0, border:'none', cursor:'pointer',
-                              borderRadius:'4px', overflow:'hidden', lineHeight:0,
-                              outline: activeImg === i ? '2px solid var(--color-teal-500)' : '2px solid transparent',
-                              outlineOffset: '2px', opacity: activeImg === i ? 1 : 0.55,
+                              flexShrink: 0, width: '70px', height: '70px', padding: 0, border: 'none', cursor: 'pointer',
+                              borderRadius: '12px', overflow: 'hidden', lineHeight: 0,
+                              outline: activeImg === i ? '2.5px solid #d4a843' : '1px solid rgba(33,78,65,0.08)',
+                              outlineOffset: '2px', opacity: activeImg === i ? 1 : 0.6,
+                              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                              boxShadow: activeImg === i ? '0 4px 12px rgba(212,168,67,0.2)' : 'none'
                             }}
                           >
-                            <img src={img} alt={`View ${i+1}`} style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e => e.target.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&q=80'} />
+                            <img src={img} alt={`View ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => e.target.src = 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&q=80'} />
                           </button>
                         ))}
                       </div>
@@ -195,73 +236,135 @@ export default function ProductPage() {
 
                 {/* RIGHT: Product Details */}
                 <div dir={t.dir}>
-                  <Link to={`/shop?cat=${product.category_id}`} style={{ fontFamily:'var(--font-body)', fontSize:'0.72rem', fontWeight:600, letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--color-teal-500)', textDecoration:'none' }}>
+                  <Link to={`/shop?cat=${product.category_id}`} style={{
+                    fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600,
+                    letterSpacing: '0.15em', textTransform: 'uppercase', color: '#d4a843', textDecoration: 'none'
+                  }}>
                     {product.category?.name}
                   </Link>
 
-                  <h1 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(2rem,4vw,3rem)', fontWeight:300, color:'var(--color-charcoal)', margin:'0.75rem 0 1.25rem 0', lineHeight:1.15 }}>
+                  <h1 style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                    fontWeight: 500, color: '#214e41',
+                    margin: '0.75rem 0 1rem 0', lineHeight: 1.1
+                  }}>
                     {product.name}
                   </h1>
 
                   {/* Rating summary */}
-                  <div style={{ display:'flex', alignItems:'center', gap:'0.75rem', marginBottom:'1.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.75rem' }}>
                     <StarRow rating={Math.round(avgRating || 4)} />
-                    <span style={{ fontFamily:'var(--font-body)', fontSize:'0.82rem', color:'#666' }}>
-                      {avgRating ? `${avgRating} / 5` : '— '} · {p.reviewsOf.replace('{n}', reviews.length)}
+                    <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#666', fontWeight: 400 }}>
+                      <span style={{ color: '#214e41', fontWeight: 600 }}>{avgRating || '4.8'}</span> · {p.reviewsOf.replace('{n}', reviews.length)}
                     </span>
                   </div>
 
                   {/* Price */}
-                  <div style={{ display:'flex', alignItems:'baseline', gap:'0.75rem', marginBottom:'2rem' }}>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:'2rem', color:'var(--color-teal-600)', fontWeight:400 }}>{displayPrice}</span>
-                    {originalPrice && <span style={{ fontFamily:'var(--font-body)', fontSize:'1.1rem', color:'#aaa', textDecoration:'line-through' }}>{originalPrice}</span>}
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.85rem', marginBottom: '2rem' }}>
+                    <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2.4rem', color: '#214e41', fontWeight: 500 }}>{displayPrice}</span>
+                    {originalPrice && <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '1.2rem', color: '#bbb', textDecoration: 'line-through', fontWeight: 300 }}>{originalPrice}</span>}
                   </div>
 
-                  <p style={{ fontFamily:'var(--font-body)', fontSize:'0.95rem', color:'#666', lineHeight:1.8, marginBottom:'2rem' }}>{product.description}</p>
+                  <p style={{
+                    fontFamily: 'Jost, sans-serif',
+                    fontSize: '1rem', color: '#555',
+                    lineHeight: 1.8, marginBottom: '2.25rem',
+                    fontWeight: 400
+                  }}>{product.description}</p>
 
                   {/* Tags */}
                   {product.tags && (
-                    <div style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem', marginBottom:'2.5rem' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', marginBottom: '2.5rem' }}>
                       {product.tags.map(tag => (
-                        <span key={tag} style={{ fontFamily:'var(--font-body)', fontSize:'0.72rem', padding:'0.3rem 0.75rem', border:'1px solid rgba(61,144,137,0.3)', color:'var(--color-teal-600)', borderRadius:'100px' }}>{tag}</span>
+                        <span key={tag} style={{
+                          fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500,
+                          padding: '0.4rem 1rem', border: '1px solid rgba(33,78,65,0.12)',
+                          color: '#214e41', borderRadius: '30px', backgroundColor: 'rgba(33,78,65,0.03)'
+                        }}>{tag}</span>
                       ))}
                     </div>
                   )}
 
-                  <div style={{ height:'1px', backgroundColor:'rgba(61,144,137,0.12)', marginBottom:'2rem' }} />
+                  <div style={{ height: '2px', background: 'linear-gradient(90deg, #d4a843, #3d9089)', opacity: 0.15, marginBottom: '2.5rem' }} />
 
-                  {/* Quantity */}
-                  <div style={{ display:'flex', alignItems:'center', gap:'1.5rem', marginBottom:'1.5rem' }}>
-                    <span style={{ fontFamily:'var(--font-body)', fontSize:'0.78rem', fontWeight:600, letterSpacing:'0.12em', textTransform:'uppercase', color:'#555' }}>{p.quantity}</span>
-                    <div style={{ display:'flex', alignItems:'center', border:'1px solid rgba(61,144,137,0.25)', backgroundColor:'white' }}>
-                      <button onClick={() => setQty(q=>Math.max(1,q-1))} style={{ background:'none', border:'none', padding:'0.75rem 1rem', cursor:'pointer', color:'var(--color-charcoal)', display:'flex', alignItems:'center' }}><Minus size={14} /></button>
-                      <span style={{ fontFamily:'var(--font-body)', fontSize:'1rem', width:'2.5rem', textAlign:'center', color:'var(--color-charcoal)' }}>{qty}</span>
-                      <button onClick={() => setQty(q=>q+1)} style={{ background:'none', border:'none', padding:'0.75rem 1rem', cursor:'pointer', color:'var(--color-charcoal)', display:'flex', alignItems:'center' }}><Plus size={14} /></button>
+                  {/* Quantity & Add to Cart */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '2.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                      <span style={{
+                        fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', fontWeight: 600,
+                        letterSpacing: '0.12em', textTransform: 'uppercase', color: '#214e41', opacity: 0.6
+                      }}>{p.quantity}</span>
+                      <div style={{
+                        display: 'flex', alignItems: 'center',
+                        border: '1.5px solid rgba(33,78,65,0.12)', borderRadius: '30px',
+                        overflow: 'hidden', backgroundColor: '#ffffff', boxShadow: 'inset 0 2px 4px rgba(33,78,65,0.03)'
+                      }}>
+                        <button
+                          onClick={() => setQty(q => Math.max(1, q - 1))}
+                          style={{
+                            background: 'none', border: 'none', padding: '0.75rem 1.25rem',
+                            cursor: 'pointer', color: '#214e41', display: 'flex', alignItems: 'center',
+                            transition: 'background 0.2s'
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(33,78,65,0.05)'}
+                          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+                        ><Minus size={14} strokeWidth={2.5} /></button>
+                        <span style={{
+                          fontFamily: 'Jost, sans-serif', fontSize: '1rem', fontWeight: 600,
+                          width: '2.5rem', textAlign: 'center', color: '#214e41'
+                        }}>{qty}</span>
+                        <button
+                          onClick={() => setQty(q => q + 1)}
+                          style={{
+                            background: 'none', border: 'none', padding: '0.75rem 1.25rem',
+                            cursor: 'pointer', color: '#214e41', display: 'flex', alignItems: 'center',
+                            transition: 'background 0.2s'
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(33,78,65,0.05)'}
+                          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+                        ><Plus size={14} strokeWidth={2.5} /></button>
+                      </div>
                     </div>
+
+                    <button
+                      onClick={handleAddToCart}
+                      style={{
+                        width: '100%', padding: '1.1rem',
+                        backgroundColor: added ? '#1a5c5c' : '#214e41',
+                        color: '#faf8f3', border: 'none', cursor: 'pointer', borderRadius: '40px',
+                        fontFamily: 'Jost, sans-serif', fontSize: '0.82rem', fontWeight: 600,
+                        letterSpacing: '0.15em', textTransform: 'uppercase',
+                        transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.85rem',
+                        boxShadow: '0 8px 25px rgba(33,78,65,0.15)',
+                      }}
+                      onMouseEnter={e => { if (!added) { e.currentTarget.style.backgroundColor = '#d4a843'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(212,168,67,0.3)'; } }}
+                      onMouseLeave={e => { if (!added) { e.currentTarget.style.backgroundColor = '#214e41'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(33,78,65,0.15)'; } }}
+                    >
+                      <ShoppingBag size={18} strokeWidth={1.5} />
+                      {added ? p.added : p.addToCart.replace('{price}', displayPrice)}
+                    </button>
                   </div>
 
-                  {/* Add to Cart */}
-                  <button
-                    onClick={handleAddToCart}
-                    style={{
-                      width:'100%', padding:'1.2rem',
-                      backgroundColor: added ? '#1a5c5c' : 'var(--color-teal-600)',
-                      color:'white', border:'none', cursor:'pointer', borderRadius:'4px',
-                      fontFamily:'var(--font-body)', fontSize:'0.85rem', fontWeight:700, letterSpacing:'0.2em', textTransform:'uppercase',
-                      transition:'all 0.3s ease', display:'flex', alignItems:'center', justifyContent:'center', gap:'0.75rem', marginBottom:'1rem',
-                    }}
-                    onMouseEnter={e => { if(!added) e.currentTarget.style.backgroundColor='#2d7070' }}
-                    onMouseLeave={e => { if(!added) e.currentTarget.style.backgroundColor='var(--color-teal-600)' }}
-                  >
-                    <ShoppingBag size={16} />
-                    {added ? p.added : p.addToCart.replace('{price}', displayPrice)}
-                  </button>
-
                   {/* Trust signals */}
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.75rem', marginTop:'2rem' }}>
-                    {[{icon:<Shield size={14}/>,label:p.trustQuality},{icon:<Leaf size={14}/>,label:p.trustEthical},{icon:<Package size={14}/>,label:p.trustEco},{icon:<ShoppingBag size={14}/>,label:p.trustReturn}].map(({icon,label})=>(
-                      <div key={label} style={{ display:'flex', alignItems:'center', gap:'0.5rem', fontFamily:'var(--font-body)', fontSize:'0.75rem', color:'#777' }}>
-                        <span style={{ color:'var(--color-teal-500)' }}>{icon}</span>{label}
+                  <div style={{
+                    display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem 1.5rem',
+                    marginTop: '2rem', padding: '1.75rem', backgroundColor: '#ffffff',
+                    borderRadius: '20px', border: '1px solid rgba(33,78,65,0.06)',
+                    boxShadow: '0 4px 15px rgba(33,78,65,0.02)'
+                  }}>
+                    {[
+                      { icon: <Shield size={15} />, label: p.trustQuality },
+                      { icon: <Leaf size={15} />, label: p.trustEthical },
+                      { icon: <Package size={15} />, label: p.trustEco },
+                      { icon: <ShoppingBag size={15} />, label: p.trustReturn }
+                    ].map(({ icon, label }) => (
+                      <div key={label} style={{
+                        display: 'flex', alignItems: 'center', gap: '0.65rem',
+                        fontFamily: 'Jost, sans-serif', fontSize: '0.78rem', color: '#555', fontWeight: 400
+                      }}>
+                        <span style={{ color: '#d4a843', display: 'flex' }}>{icon}</span>{label}
                       </div>
                     ))}
                   </div>
@@ -277,15 +380,18 @@ export default function ProductPage() {
 
                   {/* Existing reviews */}
                   <div dir={t.dir}>
-                    <h2 style={{ fontFamily:'var(--font-display)', fontSize:'2rem', fontWeight:300, color:'var(--color-charcoal)', marginBottom:'0.5rem' }}>
+                    <h2 style={{
+                      fontFamily: 'Cormorant Garamond, serif', fontSize: '2.4rem',
+                      fontWeight: 500, color: '#214e41', marginBottom: '0.5rem'
+                    }}>
                       {p.reviews}
                     </h2>
                     {avgRating && (
-                      <div style={{ display:'flex', alignItems:'center', gap:'0.75rem', marginBottom:'2rem' }}>
-                        <span style={{ fontFamily:'var(--font-display)', fontSize:'3rem', color:'var(--color-teal-600)', lineHeight:1 }}>{avgRating}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem' }}>
+                        <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '3.5rem', color: '#214e41', lineHeight: 1 }}>{avgRating}</span>
                         <div>
                           <StarRow rating={Math.round(avgRating)} />
-                          <span style={{ fontFamily:'var(--font-body)', fontSize:'0.78rem', color:'#999' }}>{p.reviewsOf.replace('{n}', reviews.length)}</span>
+                          <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#888', fontWeight: 400 }}>{p.reviewsOf.replace('{n}', reviews.length)}</span>
                         </div>
                       </div>
                     )}
@@ -299,8 +405,14 @@ export default function ProductPage() {
                   </div>
 
                   {/* Write a review */}
-                  <div style={{ backgroundColor:'white', borderRadius:'12px', padding:'2rem', border:'1px solid #e8e4de', boxShadow:'0 2px 12px rgba(0,0,0,0.04)' }} dir={t.dir}>
-                    <h3 style={{ fontFamily:'var(--font-display)', fontSize:'1.5rem', fontWeight:400, color:'var(--color-charcoal)', marginBottom:'1.5rem' }}>
+                  <div style={{
+                    backgroundColor: 'white', borderRadius: '24px', padding: '2.5rem',
+                    border: '1px solid rgba(33,78,65,0.08)', boxShadow: '0 8px 30px rgba(33,78,65,0.04)'
+                  }} dir={t.dir}>
+                    <h3 style={{
+                      fontFamily: 'Cormorant Garamond, serif', fontSize: '1.75rem',
+                      fontWeight: 500, color: '#214e41', marginBottom: '1.5rem'
+                    }}>
                       {p.writeReview}
                     </h3>
                     {reviewSubmitted && (
@@ -355,9 +467,16 @@ export default function ProductPage() {
               {product.related?.length > 0 && (
                 <div style={{ marginTop:'5rem' }}>
                   <div style={{ height:'1px', backgroundColor:'rgba(61,144,137,0.15)', marginBottom:'3.5rem' }} />
-                  <div style={{ textAlign:'center', marginBottom:'3rem' }} dir={t.dir}>
-                    <span style={{ fontFamily:'var(--font-body)', fontSize:'0.68rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'var(--color-gold-400)' }}>{p.relatedSub}</span>
-                    <h2 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(1.8rem,4vw,2.8rem)', fontWeight:300, color:'var(--color-charcoal)', marginTop:'0.5rem' }}>
+                  <div style={{ textAlign: 'center', marginBottom: '4rem' }} dir={t.dir}>
+                    <span style={{
+                      fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600,
+                      letterSpacing: '0.25em', textTransform: 'uppercase', color: '#d4a843'
+                    }}>{p.relatedSub}</span>
+                    <h2 style={{
+                      fontFamily: 'Cormorant Garamond, serif',
+                      fontSize: 'clamp(2rem, 5vw, 3rem)',
+                      fontWeight: 500, color: '#214e41', marginTop: '0.75rem'
+                    }}>
                       {p.relatedTitle}
                     </h2>
                   </div>
@@ -376,14 +495,14 @@ export default function ProductPage() {
 }
 
 const labelStyle = {
-  fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
-  letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
+  fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', fontWeight: 600,
+  letterSpacing: '0.1em', textTransform: 'uppercase', color: '#214e41', opacity: 0.7,
 }
 
 const inputStyle = {
-  width: '100%', padding: '0.85rem 1rem',
-  border: '1.5px solid #ddd', borderRadius: '6px',
-  fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
-  outline: 'none', transition: 'border-color 0.2s', backgroundColor: '#faf8f3',
+  width: '100%', padding: '1rem 1.25rem',
+  border: '1.5px solid rgba(33,78,65,0.1)', borderRadius: '12px',
+  fontFamily: 'Jost, sans-serif', fontSize: '1rem', color: '#214e41',
+  outline: 'none', transition: 'all 0.3s ease', backgroundColor: '#ffffff',
   boxSizing: 'border-box',
 }
