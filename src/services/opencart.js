@@ -31,7 +31,16 @@ const mockCategories = [
       { category_id: 'home-decor-woodenware', name: 'Woodenware' }
     ]
   },
-  { category_id: 'fashion', name: 'Fashion' },
+  {
+    category_id: 'fashion',
+    name: 'Fashion',
+    subcategories: [
+      { category_id: 'fashion-bags', name: 'Bags & Luggage' },
+      { category_id: 'fashion-clothing', name: 'Clothing' },
+      { category_id: 'fashion-footwear', name: 'Footwear' },
+      { category_id: 'fashion-jewellery', name: 'Jewellery' }
+    ]
+  },
   { category_id: 'beauty-health', name: 'Beauty & Health' },
   { category_id: 'gifts', name: 'Gifts' },
   { category_id: 'bags', name: 'Bags' },
