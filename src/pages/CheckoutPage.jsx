@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { ArrowLeft, CheckCircle2, Lock, ShoppingBag, CreditCard, Smartphone, Building2 } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Lock, ShoppingBag, CreditCard, Smartphone, Building2, ShieldCheck, Leaf, RotateCcw } from 'lucide-react'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
+
+// Brand hex (matches src/index.css @theme: --color-teal-500, --color-gold-400, --color-teal-700)
+const BRAND_TEAL = '#3d9089'
+const BRAND_GOLD = '#d4a843'
+const MID_DARK_GREEN = '#275e5a'
 
 // ── Inline SVG payment logos (no external URLs needed) ──────────────────────
 const VisaLogo = ({ h = 22, greyed }) => (
@@ -59,6 +64,206 @@ const paymentMethods = [
   },
 ]
 
+const CARD_DIGITS_MAX = 16
+const CVV_DIGITS_MAX = 3
+const EXPIRY_DIGITS_MAX = 4
+
+function formatCardDisplay(digits) {
+  const d = String(digits).replace(/\D/g, '').slice(0, CARD_DIGITS_MAX)
+  return d.replace(/(\d{4})(?=\d)/g, '$1 ').trim()
+}
+
+function CardNumberField({ cardDigits, setCardDigits, error, setError }) {
+  const [focused, setFocused] = useState(false)
+  const displayValue = formatCardDisplay(cardDigits)
+
+  const handleChange = (e) => {
+    const next = e.target.value.replace(/\D/g, '').slice(0, CARD_DIGITS_MAX)
+    setCardDigits(next)
+    if (error && next.length === CARD_DIGITS_MAX) setError('')
+  }
+
+  const handleBlur = () => {
+    setFocused(false)
+    if (cardDigits.length > 0 && cardDigits.length < CARD_DIGITS_MAX) {
+      setError(`Card number must be ${CARD_DIGITS_MAX} digits.`)
+    } else if (cardDigits.length === CARD_DIGITS_MAX) {
+      setError('')
+    }
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+      <label htmlFor="cardnumber" style={{
+        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
+      }}>
+        Card Number<span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>
+      </label>
+      <input
+        id="cardnumber"
+        type="text"
+        inputMode="numeric"
+        autoComplete="cc-number"
+        placeholder="1234  5678  9012  3456"
+        value={displayValue}
+        onChange={handleChange}
+        onFocus={() => setFocused(true)}
+        onBlur={handleBlur}
+        aria-invalid={!!error}
+        aria-describedby={error ? 'cardnumber-error' : undefined}
+        style={{
+          width: '100%', padding: '0.85rem 1rem',
+          border: `1.5px solid ${error ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
+          borderRadius: '6px',
+          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
+          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
+          boxShadow: focused && !error ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
+          boxSizing: 'border-box',
+        }}
+      />
+      {error && (
+        <p id="cardnumber-error" role="alert" style={{
+          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
+        }}>
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function CvvField({ cvvDigits, setCvvDigits, error, setError }) {
+  const [focused, setFocused] = useState(false)
+
+  const handleChange = (e) => {
+    const next = e.target.value.replace(/\D/g, '').slice(0, CVV_DIGITS_MAX)
+    setCvvDigits(next)
+    if (error && next.length === CVV_DIGITS_MAX) setError('')
+  }
+
+  const handleBlur = () => {
+    setFocused(false)
+    if (cvvDigits.length > 0 && cvvDigits.length < CVV_DIGITS_MAX) {
+      setError(`CVV must be ${CVV_DIGITS_MAX} digits.`)
+    } else if (cvvDigits.length === CVV_DIGITS_MAX) {
+      setError('')
+    }
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+      <label htmlFor="cvv" style={{
+        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
+      }}>
+        CVV / Security Code<span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>
+      </label>
+      <input
+        id="cvv"
+        type="text"
+        inputMode="numeric"
+        autoComplete="cc-csc"
+        placeholder="123"
+        value={cvvDigits}
+        onChange={handleChange}
+        onFocus={() => setFocused(true)}
+        onBlur={handleBlur}
+        aria-invalid={!!error}
+        aria-describedby={error ? 'cvv-error' : undefined}
+        style={{
+          width: '100%', padding: '0.85rem 1rem',
+          border: `1.5px solid ${error ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
+          borderRadius: '6px',
+          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
+          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
+          boxShadow: focused && !error ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
+          boxSizing: 'border-box',
+        }}
+      />
+      {error && (
+        <p id="cvv-error" role="alert" style={{
+          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
+        }}>
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function formatExpiryDisplay(digits) {
+  const d = String(digits).replace(/\D/g, '').slice(0, EXPIRY_DIGITS_MAX)
+  if (d.length <= 2) return d
+  return `${d.slice(0, 2)}/${d.slice(2)}`
+}
+
+function isValidExpiryDigits(digits) {
+  if (digits.length !== EXPIRY_DIGITS_MAX) return false
+  const month = Number(digits.slice(0, 2))
+  return month >= 1 && month <= 12
+}
+
+function ExpiryField({ expiryDigits, setExpiryDigits, error, setError }) {
+  const [focused, setFocused] = useState(false)
+  const displayValue = formatExpiryDisplay(expiryDigits)
+
+  const handleChange = (e) => {
+    const next = e.target.value.replace(/\D/g, '').slice(0, EXPIRY_DIGITS_MAX)
+    setExpiryDigits(next)
+    if (error && isValidExpiryDigits(next)) setError('')
+  }
+
+  const handleBlur = () => {
+    setFocused(false)
+    if (expiryDigits.length > 0 && !isValidExpiryDigits(expiryDigits)) {
+      setError('Expiry must be in MM/YY format.')
+    } else if (isValidExpiryDigits(expiryDigits)) {
+      setError('')
+    }
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+      <label htmlFor="expiry" style={{
+        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
+      }}>
+        Expiry Date<span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>
+      </label>
+      <input
+        id="expiry"
+        type="text"
+        inputMode="numeric"
+        autoComplete="cc-exp"
+        placeholder="MM/YY"
+        value={displayValue}
+        onChange={handleChange}
+        onFocus={() => setFocused(true)}
+        onBlur={handleBlur}
+        aria-invalid={!!error}
+        aria-describedby={error ? 'expiry-error' : undefined}
+        style={{
+          width: '100%', padding: '0.85rem 1rem',
+          border: `1.5px solid ${error ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
+          borderRadius: '6px',
+          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
+          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
+          boxShadow: focused && !error ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
+          boxSizing: 'border-box',
+        }}
+      />
+      {error && (
+        <p id="expiry-error" role="alert" style={{
+          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
+        }}>
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
+
 function FormField({ label, id, type = 'text', placeholder, required, autoComplete, half }) {
   const [focused, setFocused] = useState(false)
   return (
@@ -67,18 +272,18 @@ function FormField({ label, id, type = 'text', placeholder, required, autoComple
         fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
         letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
       }}>
-        {label}{required && <span style={{ color: '#214e41', marginLeft: '3px' }}>*</span>}
+        {label}{required && <span style={{ color: MID_DARK_GREEN, marginLeft: '3px' }}>*</span>}
       </label>
       <input
-        id={id} type={type} placeholder={placeholder} required={required} autoComplete={autoComplete}
+        id={id} name={id} type={type} placeholder={placeholder} required={required} autoComplete={autoComplete}
         onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
         style={{
           width: '100%', padding: '0.85rem 1rem',
-          border: `1.5px solid ${focused ? '#214e41' : '#ddd'}`,
+          border: `1.5px solid ${focused ? MID_DARK_GREEN : '#ddd'}`,
           borderRadius: '6px',
           fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
           outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
-          boxShadow: focused ? '0 0 0 3px rgba(33, 78, 65, 0.1)' : 'none',
+          boxShadow: focused ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
           boxSizing: 'border-box',
         }}
       />
@@ -92,12 +297,54 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [selectedPayment, setSelectedPayment] = useState('card')
+  const [cardDigits, setCardDigits] = useState('')
+  const [cardNumberError, setCardNumberError] = useState('')
+  const [expiryDigits, setExpiryDigits] = useState('')
+  const [expiryError, setExpiryError] = useState('')
+  const [cvvDigits, setCvvDigits] = useState('')
+  const [cvvError, setCvvError] = useState('')
 
   const handleCheckout = (e) => {
     e.preventDefault()
     if (cartItems.length === 0) return
+    const formData = new FormData(e.currentTarget)
+    const firstName = String(formData.get('fname') || '').trim()
+    const lastName = String(formData.get('lname') || '').trim()
+    const customerName = `${firstName} ${lastName}`.trim() || 'Valued Customer'
+
+    if (selectedPayment === 'card') {
+      if (cardDigits.length !== CARD_DIGITS_MAX) {
+        setCardNumberError(`Card number must be ${CARD_DIGITS_MAX} digits.`)
+        return
+      }
+      if (!isValidExpiryDigits(expiryDigits)) {
+        setExpiryError('Expiry must be in MM/YY format.')
+        return
+      }
+      if (cvvDigits.length !== CVV_DIGITS_MAX) {
+        setCvvError(`CVV must be ${CVV_DIGITS_MAX} digits.`)
+        return
+      }
+      setCardNumberError('')
+      setExpiryError('')
+      setCvvError('')
+    }
     setIsProcessing(true)
     setTimeout(() => {
+      if (selectedPayment === 'card') {
+        const itemCount = cartItems.reduce((sum, item) => sum + (item?.quantity || 0), 0)
+        clearCart()
+        navigate('/order-placed', {
+          state: {
+            customerName,
+            total: finalTotal,
+            itemCount,
+            placedAt: Date.now(),
+          },
+        })
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
+      }
       setIsProcessing(false)
       setIsSuccess(true)
       clearCart()
@@ -139,34 +386,71 @@ export default function CheckoutPage() {
 
   const shipping = cartTotal > 0 ? 15.00 : 0
   const finalTotal = cartTotal + shipping
-  const selectedMethod = paymentMethods.find(m => m.id === selectedPayment)
 
   return (
     <>
       <Navbar />
       <style>{`
-        .checkout-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
-        @media (min-width: 900px) { .checkout-grid { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
-        .payment-option { transition: border-color 0.2s, box-shadow 0.2s; }
-        .payment-option:hover { border-color: var(--color-teal-500) !important; }
+        .checkout-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .checkout-two-col { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .checkout-header-wrap { border-bottom: 1px solid rgba(61, 144, 137, 0.15); padding-bottom: 1.5rem; }
+        .payment-option { transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+        .payment-option:hover { border-color: var(--color-teal-500) !important; transform: translateY(-1px); }
+        .checkout-trust-card { transition: border-color 0.2s, box-shadow 0.2s; }
+        .checkout-trust-card:hover { border-color: rgba(61, 144, 137, 0.28); box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
+        .elegant-pill { border: 1px solid rgba(212, 168, 67, 0.55); color: #d4a843; background-color: rgba(212, 168, 67, 0.1); }
+        .checkout-main-card { border: 1px solid rgba(44, 44, 44, 0.08); border-radius: 20px; background: rgba(255,255,255,0.9); box-shadow: 0 16px 42px rgba(0,0,0,0.05); }
+        .checkout-form-card { backdrop-filter: blur(3px); }
+        .summary-price-row { padding: 0.55rem 0; border-bottom: 1px dashed rgba(44,44,44,0.12); }
+        .summary-price-row:last-child { border-bottom: none; }
+        .checkout-field input { background-color: #fffcf6 !important; border-radius: 10px !important; border-color: rgba(44,44,44,0.14) !important; }
+        .checkout-field input:focus { border-color: #7e6b3b !important; box-shadow: 0 0 0 3px rgba(126, 107, 59, 0.1) !important; }
+        .checkout-field input[aria-invalid="true"] { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important; }
+        .checkout-field input[aria-invalid="true"]:focus { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important; }
+        .checkout-side-note { border-left: 2px solid rgba(212,168,67,0.45); padding-left: 0.8rem; }
+        @media (min-width: 900px) { .checkout-grid { grid-template-columns: 1.1fr 0.9fr; gap: 3rem; } }
+        @media (min-width: 700px) { .checkout-two-col { grid-template-columns: 1fr 1fr; gap: 1.25rem; } }
       `}</style>
 
-      <main style={{ backgroundColor: '#f5f3ee', minHeight: '100vh', paddingTop: '100px', paddingBottom: '5rem' }}>
+      <main style={{ background: 'linear-gradient(180deg, #fcfaf5 0%, #f5f0e6 100%)', minHeight: '100vh', paddingTop: '100px', paddingBottom: '5rem' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
 
           {/* Page Header */}
-          <div style={{ marginBottom: '2.5rem' }}>
+          <div className="checkout-header-wrap" style={{ marginBottom: '2rem', borderBottom: '1px solid rgba(44,44,44,0.1)' }}>
             <Link to="/shop" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-teal-600)', textDecoration: 'none', fontFamily: 'var(--font-body)', fontSize: '0.82rem', fontWeight: 500 }}>
               <ArrowLeft size={15} /> Back to Shop
             </Link>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 600, color: '#2c635a', marginTop: '1rem', marginBottom: 0 }}>
+            <div style={{ marginTop: '1rem', marginBottom: '0.6rem' }}>
+              <span className="section-label" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}>
+                <span style={{ width: '28px', height: '1px', backgroundColor: 'var(--color-gold-400)' }} />
+                Checkout
+              </span>
+            </div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.3rem, 4.4vw, 3.3rem)', fontWeight: 400, color: MID_DARK_GREEN, marginTop: 0, marginBottom: 0, letterSpacing: '0.01em' }}>
                Secure Checkout
              </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.5rem' }}>
-              <Lock size={13} color="#3d9089" />
+              <Lock size={13} color={BRAND_TEAL} />
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#888' }}>256-bit SSL encrypted & secure</span>
             </div>
           </div>
+
+          <section className="checkout-main-card" style={{ marginBottom: '2rem', padding: '1.25rem 1.4rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.8rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
+                <span className="elegant-pill" style={{ borderRadius: '999px', padding: '0.22rem 0.65rem', fontFamily: 'var(--font-body)', fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>
+                  Checkout
+                </span>
+                <span style={{ width: '24px', height: '1px', backgroundColor: 'rgba(44,44,44,0.28)' }} />
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: '#6e6655' }}>
+                  Crafted pieces reserved for your order
+                </span>
+              </div>
+              <span style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', color: BRAND_GOLD, fontSize: '1.08rem' }}>
+                Soul Love & Earth
+              </span>
+            </div>
+          </section>
 
           <div className="checkout-grid" style={{ alignItems: 'start' }}>
 
@@ -174,36 +458,36 @@ export default function CheckoutPage() {
             <form onSubmit={handleCheckout}>
 
               {/* Step 1: Contact */}
-              <div style={cardStyle}>
+              <div className="checkout-form-card" style={cardStyle}>
                 <SectionHeader number="1" title="Contact Information" />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-                  <FormField id="fname" label="First Name" placeholder="Arjun" required autoComplete="given-name" />
-                  <FormField id="lname" label="Last Name" placeholder="Mehta" required autoComplete="family-name" />
+                <div className="checkout-two-col">
+                  <div className="checkout-field"><FormField id="fname" label="First Name" placeholder="Arjun" required autoComplete="given-name" /></div>
+                  <div className="checkout-field"><FormField id="lname" label="Last Name" placeholder="Mehta" required autoComplete="family-name" /></div>
                 </div>
-                <div style={{ marginTop: '1.25rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-                  <FormField id="email" type="email" label="Email Address" placeholder="arjun@example.com" required autoComplete="email" />
-                  <FormField id="phone" type="tel" label="Phone Number" placeholder="+971 50 000 0000" required autoComplete="tel" />
+                <div className="checkout-two-col" style={{ marginTop: '1.25rem' }}>
+                  <div className="checkout-field"><FormField id="email" type="email" label="Email Address" placeholder="arjun@example.com" required autoComplete="email" /></div>
+                  <div className="checkout-field"><FormField id="phone" type="tel" label="Phone Number" placeholder="+971 50 000 0000" required autoComplete="tel" /></div>
                 </div>
               </div>
 
               {/* Step 2: Shipping */}
-              <div style={{ ...cardStyle, marginTop: '1.5rem' }}>
+              <div className="checkout-form-card" style={{ ...cardStyle, marginTop: '1.5rem' }}>
                 <SectionHeader number="2" title="Shipping Address" />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
-                  <FormField id="country" label="Country / Region" placeholder="United Arab Emirates" required autoComplete="country-name" />
-                  <FormField id="city" label="City" placeholder="Dubai" required autoComplete="address-level2" />
+                <div className="checkout-two-col" style={{ marginBottom: '1.25rem' }}>
+                  <div className="checkout-field"><FormField id="country" label="Country / Region" placeholder="United Arab Emirates" required autoComplete="country-name" /></div>
+                  <div className="checkout-field"><FormField id="city" label="City" placeholder="Dubai" required autoComplete="address-level2" /></div>
                 </div>
                 <div style={{ marginBottom: '1.25rem' }}>
-                  <FormField id="address1" label="Street Address" placeholder="123 Conscious Living Street" required autoComplete="address-line1" />
+                  <div className="checkout-field"><FormField id="address1" label="Street Address" placeholder="123 Conscious Living Street" required autoComplete="address-line1" /></div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-                  <FormField id="address2" label="Apartment / Suite (optional)" placeholder="Apt 4B" autoComplete="address-line2" />
-                  <FormField id="zip" label="Postal Code" placeholder="00000" required autoComplete="postal-code" />
+                <div className="checkout-two-col">
+                  <div className="checkout-field"><FormField id="address2" label="Apartment / Suite (optional)" placeholder="Apt 4B" autoComplete="address-line2" /></div>
+                  <div className="checkout-field"><FormField id="zip" label="Postal Code" placeholder="00000" required autoComplete="postal-code" /></div>
                 </div>
               </div>
 
               {/* Step 3: Payment Method */}
-              <div style={{ ...cardStyle, marginTop: '1.5rem' }}>
+              <div className="checkout-form-card" style={{ ...cardStyle, marginTop: '1.5rem' }}>
                 <SectionHeader number="3" title="Payment Method" />
 
                 {/* Method selector tabs */}
@@ -212,26 +496,33 @@ export default function CheckoutPage() {
                     <button
                       key={method.id}
                       type="button"
-                      onClick={() => setSelectedPayment(method.id)}
+                      onClick={() => {
+                        setSelectedPayment(method.id)
+                        if (method.id !== 'card') {
+                          setCardNumberError('')
+                          setExpiryError('')
+                          setCvvError('')
+                        }
+                      }}
                       className="payment-option"
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         padding: '1rem 1.25rem',
-                        border: selectedPayment === method.id ? '2px solid #214e41' : '1.5px solid #ddd',
-                        borderRadius: '8px',
-                        backgroundColor: selectedPayment === method.id ? 'rgba(61,144,137,0.04)' : 'white',
+                        border: selectedPayment === method.id ? '1.5px solid #7e6b3b' : '1px solid rgba(44,44,44,0.15)',
+                        borderRadius: '12px',
+                        backgroundColor: selectedPayment === method.id ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.95)',
                         cursor: 'pointer', width: '100%',
-                        boxShadow: selectedPayment === method.id ? '0 0 0 3px rgba(61, 144, 137, 0.1)' : 'none',
+                        boxShadow: selectedPayment === method.id ? '0 0 0 2px rgba(212,168,67,0.12)' : 'none',
                         transition: 'all 0.2s',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <div style={{
                           width: '20px', height: '20px', borderRadius: '50%',
-                          border: `2px solid ${selectedPayment === method.id ? '#214e41' : '#ccc'}`,
+                          border: `2px solid ${selectedPayment === method.id ? '#7e6b3b' : '#ccc'}`,
                           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                         }}>
-                          {selectedPayment === method.id && <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#214e41' }} />}
+                          {selectedPayment === method.id && <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#7e6b3b' }} />}
                         </div>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-charcoal)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           {method.icon} {method.label}
@@ -246,23 +537,44 @@ export default function CheckoutPage() {
 
                 {/* Card detail fields (shown only when card is selected) */}
                 {selectedPayment === 'card' && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.5rem', backgroundColor: '#faf8f3', borderRadius: '8px', border: '1px dashed rgba(61,144,137,0.3)' }}>
-                    <FormField id="cardnumber" label="Card Number" placeholder="1234  5678  9012  3456" required />
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-                      <FormField id="expiry" label="Expiry Date" placeholder="MM / YY" required />
-                      <FormField id="cvv" label="CVV / Security Code" placeholder="123" required />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.5rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
+                    <div className="checkout-field">
+                      <CardNumberField
+                        cardDigits={cardDigits}
+                        setCardDigits={setCardDigits}
+                        error={cardNumberError}
+                        setError={setCardNumberError}
+                      />
                     </div>
-                    <FormField id="cardholder" label="Name on Card" placeholder="As it appears on card" required autoComplete="cc-name" />
+                    <div className="checkout-two-col">
+                      <div className="checkout-field">
+                        <ExpiryField
+                          expiryDigits={expiryDigits}
+                          setExpiryDigits={setExpiryDigits}
+                          error={expiryError}
+                          setError={setExpiryError}
+                        />
+                      </div>
+                      <div className="checkout-field">
+                        <CvvField
+                          cvvDigits={cvvDigits}
+                          setCvvDigits={setCvvDigits}
+                          error={cvvError}
+                          setError={setCvvError}
+                        />
+                      </div>
+                    </div>
+                    <div className="checkout-field"><FormField id="cardholder" label="Name on Card" placeholder="As it appears on card" required autoComplete="cc-name" /></div>
                   </div>
                 )}
                 {selectedPayment === 'paypal' && (
-                  <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#faf8f3', borderRadius: '8px', border: '1px dashed rgba(61,144,137,0.3)' }}>
+                  <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
                     <div style={{ marginBottom: '1rem' }}><PayPalLogo h={44} /></div>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#777' }}>You will be redirected to PayPal to complete your payment securely.</p>
                   </div>
                 )}
                 {selectedPayment === 'stripe' && (
-                  <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#faf8f3', borderRadius: '8px', border: '1px dashed rgba(61,144,137,0.3)' }}>
+                  <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
                     <div style={{ marginBottom: '1rem' }}><StripeLogo h={36} /></div>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#777' }}>You will be securely redirected to the Stripe payment portal to complete your order.</p>
                   </div>
@@ -286,17 +598,17 @@ export default function CheckoutPage() {
                   width: '100%',
                   marginTop: '1.75rem',
                   padding: '1.25rem',
-                  backgroundColor: (isProcessing || cartItems.length === 0) ? '#b0c8c6' : '#2c635a',
+                  backgroundColor: (isProcessing || cartItems.length === 0) ? '#c5d9d6' : BRAND_TEAL,
                   color: 'white',
                   fontFamily: 'var(--font-body)', fontSize: '0.88rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
-                  border: 'none', borderRadius: '40px',
+                  border: `1px solid ${(isProcessing || cartItems.length === 0) ? 'rgba(61,144,137,0.2)' : 'rgba(255,255,255,0.2)'}`, borderRadius: '8px',
                   cursor: (isProcessing || cartItems.length === 0) ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem',
-                  boxShadow: (isProcessing || cartItems.length === 0) ? 'none' : '0 8px 25px rgba(44, 99, 90, 0.15)',
+                  boxShadow: (isProcessing || cartItems.length === 0) ? 'none' : '0 10px 26px rgba(61, 144, 137, 0.28)',
                 }}
-                onMouseEnter={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = '#d4a843'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(212,168,67,0.3)'; } }}
-                onMouseLeave={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = '#2c635a'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(44, 99, 90, 0.15)'; } }}
+                onMouseEnter={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = BRAND_GOLD; e.currentTarget.style.boxShadow = '0 12px 30px rgba(212, 168, 67, 0.35)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; } }}
+                onMouseLeave={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = BRAND_TEAL; e.currentTarget.style.boxShadow = '0 10px 26px rgba(61, 144, 137, 0.28)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; } }}
               >
                 {isProcessing
                   ? <><span style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid white', borderTopColor: 'transparent', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} /> Processing…</>
@@ -308,7 +620,7 @@ export default function CheckoutPage() {
 
             {/* RIGHT COLUMN: Order Summary */}
             <div style={{ position: 'sticky', top: '100px' }}>
-              <div style={cardStyle}>
+              <div className="checkout-form-card" style={cardStyle}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--color-charcoal)', marginBottom: '1.75rem', display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 400 }}>
                   <ShoppingBag size={22} color="var(--color-gold-400)" />
                   Order Summary
@@ -356,33 +668,36 @@ export default function CheckoutPage() {
                       })}
                     </ul>
 
-                    <div style={{ borderTop: '1px solid #eee', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
+                    <div style={{ borderTop: '1px solid #eee', paddingTop: '1.1rem', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                      <div className="summary-price-row" style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
                         <span>Subtotal</span>
                         <span style={{ color: 'var(--color-charcoal)' }}>AED {(cartTotal || 0).toFixed(2)}</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
+                      <div className="summary-price-row" style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
                         <span>Shipping</span>
                         <span style={{ color: '#2c635a', fontWeight: 500 }}>AED {(shipping || 0).toFixed(2)}</span>
                       </div>
                     </div>
  
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '2px solid #eee' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem', paddingTop: '1.1rem', borderTop: '2px solid #eee' }}>
                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--color-charcoal)', fontWeight: 600 }}>Total</span>
-                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 700, letterSpacing: '-0.02em' }}>AED {(finalTotal || 0).toFixed(2)}</span>
+                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 700, letterSpacing: '-0.02em' }}>AED {(finalTotal || 0).toFixed(2)}</span>
                     </div>
                   </>
                 )}
               </div>
 
               {/* Trust Badges */}
-              <div style={{ marginTop: '1.5rem', padding: '1.25rem', backgroundColor: 'white', borderRadius: '10px', border: '1px solid #eee', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div className="checkout-trust-card" style={{ marginTop: '1.5rem', padding: '1.25rem', backgroundColor: 'white', borderRadius: '12px', border: '1px solid rgba(61, 144, 137, 0.16)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                <div className="checkout-side-note" style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#7a6a4a', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+                  Why shop with us
+                </div>
                 {[
-                  { icon: '🔒', text: 'Secured by 256-bit SSL encryption' },
-                  { icon: '🌿', text: 'Sustainably packaged & shipped' },
-                  { icon: '↩️', text: 'Free returns within 30 days' },
+                  { icon: <ShieldCheck size={16} color="var(--color-teal-600)" />, text: 'Secured by 256-bit SSL encryption' },
+                  { icon: <Leaf size={16} color="var(--color-teal-600)" />, text: 'Sustainably packaged & shipped' },
+                  { icon: <RotateCcw size={16} color="var(--color-teal-600)" />, text: 'Free returns within 30 days' },
                 ].map(({ icon, text }) => (
-                  <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#666' }}>
+                  <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: '#5c5c5c' }}>
                     <span>{icon}</span><span>{text}</span>
                   </div>
                 ))}
@@ -398,23 +713,23 @@ export default function CheckoutPage() {
 }
 
 const cardStyle = {
-  backgroundColor: 'white',
-  borderRadius: '12px',
+  backgroundColor: 'rgba(255, 255, 255, 0.94)',
+  borderRadius: '20px',
   padding: '2rem',
-  border: '1px solid #e8e4de',
-  boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+  border: '1px solid rgba(44, 44, 44, 0.08)',
+  boxShadow: '0 16px 40px rgba(0,0,0,0.05)',
 }
 
 function SectionHeader({ number, title }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
       <div style={{
-        width: '30px', height: '30px', borderRadius: '50%',
-        backgroundColor: '#2c635a', color: 'white',
+        width: '32px', height: '32px', borderRadius: '50%',
+        background: MID_DARK_GREEN, color: 'white',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 700, flexShrink: 0,
       }}>{number}</div>
-      <h3 style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'var(--color-charcoal)', fontWeight: 700, margin: 0, letterSpacing: '0.02em' }}>{title}</h3>
+      <h3 style={{ fontFamily: 'var(--font-body)', fontSize: '0.96rem', color: MID_DARK_GREEN, fontWeight: 600, margin: 0, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{title}</h3>
     </div>
   )
 }
