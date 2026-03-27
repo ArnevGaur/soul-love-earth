@@ -13,18 +13,30 @@ export default function ProductCard({ product }) {
     : 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
 
   // Format "Add to Bag — <price>" based on language context
-  const addToCartText = t.product.addToCart.replace('{price}', product.special ? product.special : product.price)
+  const addToCartText = t?.product?.addToCart?.replace('{price}', product.special ? product.special : product.price) || 'Add to Cart'
 
   return (
     <Link to={`/product/${product.product_id}`} style={{ textDecoration: 'none' }}>
       <div
-        style={{ backgroundColor: 'white', cursor: 'pointer' }}
+        style={{ 
+          backgroundColor: 'white', 
+          cursor: 'pointer',
+          borderRadius: '24px',
+          overflow: 'hidden',
+          boxShadow: '0 4px 16px rgba(33,78,65,0.04)',
+          border: '1px solid rgba(33,78,65,0.06)',
+          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}
         onMouseEnter={e => {
+          e.currentTarget.style.boxShadow = '0 12px 36px rgba(33,78,65,0.08)'
+          e.currentTarget.style.transform = 'translateY(-4px)'
           e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1.05)'
           e.currentTarget.querySelector('.pc-btn').style.opacity = '1'
           e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(0)'
         }}
         onMouseLeave={e => {
+          e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.04)'
+          e.currentTarget.style.transform = 'translateY(0)'
           e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1)'
           e.currentTarget.querySelector('.pc-btn').style.opacity = '0'
           e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(8px)'
@@ -57,7 +69,7 @@ export default function ProductCard({ product }) {
             style={{
               position: 'absolute', bottom: 0, left: 0, right: 0,
               padding: '0.75rem',
-              backgroundColor: '#3d9089', color: 'white',
+              backgroundColor: '#2c635a', color: 'white',
               fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
               fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
               border: 'none', cursor: 'pointer',
@@ -65,6 +77,8 @@ export default function ProductCard({ product }) {
               opacity: 0, transform: 'translateY(8px)',
               transition: 'all 0.3s ease',
             }}
+            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
+            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2c635a'}
           >
             <ShoppingBag size={13} strokeWidth={1.5} />
             Add to Cart
@@ -99,7 +113,7 @@ export default function ProductCard({ product }) {
               <>
                 <span style={{
                   fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                  fontWeight: 500, color: '#3d9089',
+                  fontWeight: 500, color: '#2c635a',
                 }}>{product.special}</span>
                 <span style={{
                   fontFamily: 'Jost, sans-serif', fontSize: '0.78rem',
@@ -109,11 +123,18 @@ export default function ProductCard({ product }) {
             ) : (
               <span style={{
                 fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                fontWeight: 500, color: '#2c2c2c',
+                fontWeight: 600, color: '#2c635a',
               }}>{product.price}</span>
             )}
           </div>
         </div>
+
+        {/* Signature gradient line */}
+        <div style={{
+          height: '4px',
+          background: 'linear-gradient(90deg, #d4a843, #3d9089)',
+          opacity: 0.6,
+        }} />
       </div>
     </Link>
   )

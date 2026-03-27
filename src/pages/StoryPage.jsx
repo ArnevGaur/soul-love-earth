@@ -10,7 +10,7 @@ export default function StoryPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '80px' }}>
+      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px' }}>
         
         {/* Hero Section */}
         <section style={{

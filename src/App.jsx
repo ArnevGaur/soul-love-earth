@@ -23,6 +23,7 @@ import RegisterPage from './pages/RegisterPage'
 import OrdersPage from './pages/OrdersPage'
 import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
+import AuthBackdrop from './components/layout/AuthBackdrop'
 import './index.css'
 
 function AnimatedRoutes() {
@@ -45,8 +46,8 @@ function AnimatedRoutes() {
         <Route path="/report-scam" element={<PageTransition><ReportScamPage /></PageTransition>} />
         <Route path="/terms" element={<PageTransition><TermsPage /></PageTransition>} />
         <Route path="/review-terms" element={<PageTransition><ReviewTermsPage /></PageTransition>} />
-        <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
-        <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/orders" element={<PageTransition><OrdersPage /></PageTransition>} />
         <Route path="/hospitality" element={<PageTransition><HospitalityPage /></PageTransition>} />
       </Routes>
@@ -59,6 +60,7 @@ export default function App() {
     <LanguageProvider>
       <CartProvider>
       <BrowserRouter>
+        <AuthBackdrop />
         <AnimatedRoutes />
         <RouteProgress />
         <WhatsAppButton />

@@ -67,18 +67,18 @@ function FormField({ label, id, type = 'text', placeholder, required, autoComple
         fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
         letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
       }}>
-        {label}{required && <span style={{ color: 'var(--color-teal-500)', marginLeft: '3px' }}>*</span>}
+        {label}{required && <span style={{ color: '#214e41', marginLeft: '3px' }}>*</span>}
       </label>
       <input
         id={id} type={type} placeholder={placeholder} required={required} autoComplete={autoComplete}
         onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
         style={{
           width: '100%', padding: '0.85rem 1rem',
-          border: `1.5px solid ${focused ? 'var(--color-teal-500)' : '#ddd'}`,
+          border: `1.5px solid ${focused ? '#214e41' : '#ddd'}`,
           borderRadius: '6px',
           fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
           outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
-          boxShadow: focused ? '0 0 0 3px rgba(61, 144, 137, 0.1)' : 'none',
+          boxShadow: focused ? '0 0 0 3px rgba(33, 78, 65, 0.1)' : 'none',
           boxSizing: 'border-box',
         }}
       />
@@ -112,7 +112,7 @@ export default function CheckoutPage() {
         <main style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#faf8f3', padding: '80px 2rem 4rem 2rem' }}>
           <div style={{ textAlign: 'center', maxWidth: '600px' }}>
             <div style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: 'rgba(61,144,137,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem auto' }}>
-              <CheckCircle2 size={52} color="var(--color-teal-500)" />
+              <CheckCircle2 size={52} color="#214e41" />
             </div>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: 'var(--color-charcoal)', marginBottom: '1rem', fontWeight: 300 }}>
               Order Confirmed
@@ -121,12 +121,12 @@ export default function CheckoutPage() {
               Thank you for choosing Soul Love & Earth. Your elegantly crafted pieces are being prepared. A confirmation email is on its way.
             </p>
             <Link to="/shop" style={{
-              display: 'inline-block', padding: '1rem 3rem', backgroundColor: 'var(--color-teal-600)', color: 'white',
+              display: 'inline-block', padding: '1rem 3rem', backgroundColor: '#214e41', color: 'white',
               fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase',
               textDecoration: 'none', borderRadius: '4px', transition: 'background-color 0.2s',
             }}
               onMouseEnter={e => e.target.style.backgroundColor = '#2d7070'}
-              onMouseLeave={e => e.target.style.backgroundColor = 'var(--color-teal-600)'}
+              onMouseLeave={e => e.target.style.backgroundColor = '#214e41'}
             >
               Continue Shopping
             </Link>
@@ -159,11 +159,11 @@ export default function CheckoutPage() {
             <Link to="/shop" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-teal-600)', textDecoration: 'none', fontFamily: 'var(--font-body)', fontSize: '0.82rem', fontWeight: 500 }}>
               <ArrowLeft size={15} /> Back to Shop
             </Link>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 300, color: 'var(--color-charcoal)', marginTop: '1rem', marginBottom: 0 }}>
-              Secure Checkout
-            </h1>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 600, color: '#2c635a', marginTop: '1rem', marginBottom: 0 }}>
+               Secure Checkout
+             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.5rem' }}>
-              <Lock size={13} color="var(--color-teal-500)" />
+              <Lock size={13} color="#3d9089" />
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#888' }}>256-bit SSL encrypted & secure</span>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function CheckoutPage() {
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         padding: '1rem 1.25rem',
-                        border: selectedPayment === method.id ? '2px solid var(--color-teal-500)' : '1.5px solid #ddd',
+                        border: selectedPayment === method.id ? '2px solid #214e41' : '1.5px solid #ddd',
                         borderRadius: '8px',
                         backgroundColor: selectedPayment === method.id ? 'rgba(61,144,137,0.04)' : 'white',
                         cursor: 'pointer', width: '100%',
@@ -228,10 +228,10 @@ export default function CheckoutPage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <div style={{
                           width: '20px', height: '20px', borderRadius: '50%',
-                          border: `2px solid ${selectedPayment === method.id ? 'var(--color-teal-500)' : '#ccc'}`,
+                          border: `2px solid ${selectedPayment === method.id ? '#214e41' : '#ccc'}`,
                           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                         }}>
-                          {selectedPayment === method.id && <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--color-teal-500)' }} />}
+                          {selectedPayment === method.id && <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#214e41' }} />}
                         </div>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-charcoal)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           {method.icon} {method.label}
@@ -286,20 +286,21 @@ export default function CheckoutPage() {
                   width: '100%',
                   marginTop: '1.75rem',
                   padding: '1.25rem',
-                  backgroundColor: (isProcessing || cartItems.length === 0) ? '#b0c8c6' : 'var(--color-teal-600)',
+                  backgroundColor: (isProcessing || cartItems.length === 0) ? '#b0c8c6' : '#2c635a',
                   color: 'white',
                   fontFamily: 'var(--font-body)', fontSize: '0.88rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
-                  border: 'none', borderRadius: '6px',
+                  border: 'none', borderRadius: '40px',
                   cursor: (isProcessing || cartItems.length === 0) ? 'not-allowed' : 'pointer',
-                  transition: 'background-color 0.2s',
+                  transition: 'all 0.3s ease',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem',
+                  boxShadow: (isProcessing || cartItems.length === 0) ? 'none' : '0 8px 25px rgba(44, 99, 90, 0.15)',
                 }}
-                onMouseEnter={e => { if (!isProcessing && cartItems.length > 0) e.currentTarget.style.backgroundColor = '#2d7070' }}
-                onMouseLeave={e => { if (!isProcessing && cartItems.length > 0) e.currentTarget.style.backgroundColor = 'var(--color-teal-600)' }}
+                onMouseEnter={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = '#d4a843'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(212,168,67,0.3)'; } }}
+                onMouseLeave={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = '#2c635a'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(44, 99, 90, 0.15)'; } }}
               >
                 {isProcessing
                   ? <><span style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid white', borderTopColor: 'transparent', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} /> Processing…</>
-                  : <><Lock size={14} /> Pay AED {finalTotal.toFixed(2)}</>
+                  : <><Lock size={14} /> Pay AED {(finalTotal || 0).toFixed(2)}</>
                 }
               </button>
               <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -314,46 +315,61 @@ export default function CheckoutPage() {
                 </h3>
 
                 {cartItems.length === 0 ? (
-                  <p style={{ fontFamily: 'var(--font-body)', color: '#999', fontStyle: 'italic' }}>Your cart is empty.</p>
+                  <div style={{ textAlign: 'center', padding: '5rem 2rem', backgroundColor: 'white', borderRadius: '16px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+                    <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(61,144,137,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem auto' }}>
+                      <ShoppingBag size={32} color="#3d9089" />
+                    </div>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: '#1a2e2c', marginBottom: '1rem', fontWeight: 400 }}>Your cart is empty</h2>
+                    <p style={{ fontFamily: 'var(--font-body)', color: '#777', marginBottom: '2.5rem', maxWidth: '400px', margin: '0 auto 2.5rem auto' }}>Add some of our elegantly crafted pieces to your cart before proceeding to checkout.</p>
+                    <Link to="/shop" style={{
+                      display: 'inline-block', padding: '1rem 2.5rem', backgroundColor: '#2c635a', color: 'white',
+                      fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase',
+                      textDecoration: 'none', borderRadius: '40px', transition: 'all 0.3s ease',
+                      boxShadow: '0 8px 25px rgba(44, 99, 90, 0.12)',
+                    }}>Return to Shop</Link>
+                  </div>
                 ) : (
                   <>
                     <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                      {cartItems.map(item => (
-                        <li key={item.product_id} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                          <div style={{ position: 'relative', flexShrink: 0 }}>
-                            <img src={item.thumb} alt={item.name} style={{ width: '72px', height: '72px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #eaeaea' }} />
-                            <span style={{
-                              position: 'absolute', top: '-8px', right: '-8px',
-                              backgroundColor: 'var(--color-charcoal)', color: 'white',
-                              width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%',
-                              fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 600,
-                            }}>{item.quantity}</span>
-                          </div>
-                          <div style={{ flex: 1 }}>
-                            <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-charcoal)', fontWeight: 600, margin: '0 0 0.2rem 0' }}>{item.name}</h4>
-                            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#aaa' }}>Qty {item.quantity}</span>
-                          </div>
-                          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-teal-600)', fontWeight: 600 }}>
-                            {item.special || item.price}
-                          </div>
-                        </li>
-                      ))}
+                      {cartItems.map(item => {
+                        if (!item) return null
+                        return (
+                          <li key={item.product_id} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                            <div style={{ position: 'relative', flexShrink: 0 }}>
+                              <img src={item.thumb} alt={item.name} style={{ width: '72px', height: '72px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #eaeaea' }} />
+                              <span style={{
+                                position: 'absolute', top: '-8px', right: '-8px',
+                                backgroundColor: 'var(--color-charcoal)', color: 'white',
+                                width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%',
+                                fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 600,
+                              }}>{item.quantity}</span>
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-charcoal)', fontWeight: 600, margin: '0 0 0.2rem 0' }}>{item.name}</h4>
+                              <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#aaa' }}>Qty {item.quantity}</span>
+                            </div>
+                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-teal-600)', fontWeight: 600 }}>
+                              {item.special || item.price}
+                            </div>
+                          </li>
+                        )
+                      })}
                     </ul>
 
                     <div style={{ borderTop: '1px solid #eee', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
                         <span>Subtotal</span>
-                        <span style={{ color: 'var(--color-charcoal)' }}>AED {cartTotal.toFixed(2)}</span>
+                        <span style={{ color: 'var(--color-charcoal)' }}>AED {(cartTotal || 0).toFixed(2)}</span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
                         <span>Shipping</span>
-                        <span style={{ color: 'var(--color-charcoal)' }}>AED {shipping.toFixed(2)}</span>
+                        <span style={{ color: '#2c635a', fontWeight: 500 }}>AED {(shipping || 0).toFixed(2)}</span>
                       </div>
                     </div>
-
+ 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '2px solid #eee' }}>
                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--color-charcoal)', fontWeight: 600 }}>Total</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'var(--color-teal-600)', fontWeight: 400 }}>AED {finalTotal.toFixed(2)}</span>
+                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 700, letterSpacing: '-0.02em' }}>AED {(finalTotal || 0).toFixed(2)}</span>
                     </div>
                   </>
                 )}
@@ -394,7 +410,7 @@ function SectionHeader({ number, title }) {
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
       <div style={{
         width: '30px', height: '30px', borderRadius: '50%',
-        backgroundColor: 'var(--color-teal-500)', color: 'white',
+        backgroundColor: '#2c635a', color: 'white',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 700, flexShrink: 0,
       }}>{number}</div>

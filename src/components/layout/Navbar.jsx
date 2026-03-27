@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Menu, X, ShoppingBag, Search, User, ChevronDown, Loader2 } from 'lucide-react'
 import { fetchProducts } from '../../services/opencart'
 import { useCart } from '../../context/CartContext'
@@ -17,10 +17,15 @@ export default function Navbar() {
   const { lang, t, toggleLang } = useLanguage()
   const [hospOpen, setHospOpen] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Force solid navbar on any page that doesn't have a hero image (not homepage)
+  const forceScrolled = location.pathname !== '/'
+  const isScrolled = scrolled || forceScrolled
 
   const navLinks = [
     { label: t?.nav?.home || 'HOME', href: '/' },
-    { label: t?.nav?.shop,    href: '/shop' },
+    { label: t?.nav?.shop || 'SHOP', href: '/#categories' },
     { label: t?.nav?.hospitality, href: '/hospitality', isHospitality: true },
     { label: t?.nav?.offers,  href: '/offers' },
     { label: t?.nav?.myOrders, href: '/orders' },
@@ -87,12 +92,13 @@ export default function Navbar() {
           right: 0,
           zIndex: 100,
           transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
-          backgroundColor: scrolled ? 'rgba(250, 248, 243, 0.98)' : 'transparent',
-          backgroundImage: scrolled ? 'none' : 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 65%, rgba(0,0,0,0) 100%)',
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(61, 144, 137, 0.12)' : 'none',
-          padding: scrolled ? '0.65rem 1.75rem' : '1.15rem 1.75rem',
+          backgroundColor: isScrolled ? '#ffffff' : 'rgba(26, 46, 44, 0.35)',
+          backgroundImage: 'none',
+          backdropFilter: isScrolled ? 'blur(20px)' : 'blur(12px)',
+          WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'blur(12px)',
+          borderBottom: isScrolled ? '1px solid rgba(33, 78, 65, 0.08)' : '1px solid rgba(255,255,255,0.05)',
+          boxShadow: isScrolled ? '0 4px 20px rgba(0,0,0,0.02)' : 'none',
+          padding: isScrolled ? '0.6rem 1.75rem' : '1.1rem 1.75rem',
         }}
       >
         <nav style={{ 
@@ -117,7 +123,7 @@ export default function Navbar() {
                   fontFamily: 'Cormorant Garamond, serif',
                   fontSize: scrolled ? '1.15rem' : '1.4rem',
                   fontWeight: 500,
-                  color: scrolled ? '#1a2e2c' : '#ffffff',
+                  color: isScrolled ? '#1a2e2c' : '#ffffff',
                   transition: 'all 0.45s ease',
                   letterSpacing: '0.01em',
                   whiteSpace: 'nowrap'
@@ -150,6 +156,12 @@ export default function Navbar() {
                     onMouseLeave={() => link.isHospitality && setHospOpen(false)}>
                   <Link
                     to={link.href}
+                    onClick={(e) => {
+                      if (link.href === '/#categories' && window.location.pathname === '/') {
+                        e.preventDefault()
+                        document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                      }
+                    }}
                     style={{
                       fontFamily: 'Jost, sans-serif',
                       fontSize: '0.72rem',
@@ -157,7 +169,7 @@ export default function Navbar() {
                       letterSpacing: '0.12rem',
                       whiteSpace: 'nowrap',
                       textTransform: 'uppercase',
-                      color: scrolled ? '#1a2e2c' : '#ffffff',
+                      color: isScrolled ? '#1a2e2c' : '#ffffff',
                       textDecoration: 'none',
                       padding: '0.75rem 0',
                       transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -169,7 +181,7 @@ export default function Navbar() {
                       e.target.style.color = '#d4a843'
                     }}
                     onMouseLeave={e => {
-                      e.target.style.color = scrolled ? '#1a2e2c' : '#ffffff'
+                      e.target.style.color = isScrolled ? '#1a2e2c' : '#ffffff'
                     }}
                   >
                     {link.label}
@@ -246,21 +258,23 @@ export default function Navbar() {
               onClick={toggleLang}
               title={lang === 'en' ? 'Switch to Arabic' : 'Switch to English'}
               style={{
-                background: 'none', border: scrolled ? '1.5px solid rgba(61,144,137,0.35)' : '1.5px solid rgba(255,255,255,0.4)', cursor: 'pointer',
+                background: isScrolled ? 'none' : 'rgba(255, 255, 255, 0.08)', 
+                border: isScrolled ? '1.5px solid rgba(61,144,137,0.35)' : '1.5px solid #d4a843', 
+                cursor: 'pointer',
                 padding: '0.3rem 0.65rem', borderRadius: '100px',
                 fontFamily: lang === 'ar' ? 'Arial, sans-serif' : 'Jost, sans-serif',
                 fontSize: lang === 'ar' ? '0.85rem' : '0.7rem',
                 fontWeight: 600, letterSpacing: lang === 'ar' ? 0 : '0.08em',
-                color: scrolled ? '#3d9089' : '#ffffff', transition: 'all 0.25s ease',
+                color: isScrolled ? '#3d9089' : '#d4a843', transition: 'all 0.25s ease',
                 lineHeight: 1.2,
               }}
               onMouseEnter={e => { 
-                e.currentTarget.style.backgroundColor = scrolled ? 'rgba(61,144,137,0.1)' : 'rgba(255,255,255,0.15)'; 
-                e.currentTarget.style.borderColor = scrolled ? '#3d9089' : '#ffffff' 
+                e.currentTarget.style.backgroundColor = isScrolled ? 'rgba(61,144,137,0.1)' : 'rgba(255,255,255,0.15)'; 
+                e.currentTarget.style.borderColor = isScrolled ? '#3d9089' : '#ffffff' 
               }}
               onMouseLeave={e => { 
                 e.currentTarget.style.backgroundColor = 'transparent'; 
-                e.currentTarget.style.borderColor = scrolled ? 'rgba(61,144,137,0.35)' : 'rgba(255,255,255,0.4)' 
+                e.currentTarget.style.borderColor = isScrolled ? 'rgba(61,144,137,0.35)' : 'rgba(255,255,255,0.4)' 
               }}
             >
               {lang === 'en' ? 'عربي' : 'EN'}
@@ -270,16 +284,16 @@ export default function Navbar() {
             <div className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
               <Link
                 to="/login"
-                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: scrolled ? '#0f1f1e' : '#ffffff', textDecoration: 'none', transition: 'color 0.2s' }}
+                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: isScrolled ? '#0f1f1e' : '#ffffff', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={e => e.target.style.color = '#d4a843'}
-                onMouseLeave={e => e.target.style.color = scrolled ? '#0f1f1e' : '#ffffff'}
+                onMouseLeave={e => e.target.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
               >{t?.nav?.login}</Link>
 
               <Link
                 to="/register"
-                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.45rem 1rem', backgroundColor: scrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)', border: scrolled ? 'none' : '1px solid rgba(255,255,255,0.4)', color: 'white', textDecoration: 'none', borderRadius: '4px', transition: 'all 0.3s ease', backdropFilter: scrolled ? 'none' : 'blur(4px)' }}
-                onMouseEnter={e => e.target.style.backgroundColor = scrolled ? '#2d7070' : 'rgba(255, 255, 255, 0.35)'}
-                onMouseLeave={e => e.target.style.backgroundColor = scrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)'}
+                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.45rem 1rem', backgroundColor: isScrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)', border: isScrolled ? 'none' : '1px solid rgba(255,255,255,0.4)', color: 'white', textDecoration: 'none', borderRadius: '4px', transition: 'all 0.3s ease', backdropFilter: isScrolled ? 'none' : 'blur(4px)' }}
+                onMouseEnter={e => e.target.style.backgroundColor = isScrolled ? '#2d7070' : 'rgba(255, 255, 255, 0.35)'}
+                onMouseLeave={e => e.target.style.backgroundColor = isScrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)'}
               >{t?.nav?.register}</Link>
             </div>
 
@@ -287,9 +301,9 @@ export default function Navbar() {
             <button
                aria-label="Search"
                onClick={() => setSearchOpen(!searchOpen)}
-               style={{ background: 'none', border: 'none', cursor: 'pointer', color: scrolled ? '#0f1f1e' : '#ffffff', padding: '4px', transition: 'all 0.2s' }}
+               style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', transition: 'all 0.2s' }}
                onMouseEnter={e => e.currentTarget.style.color = '#d4a843'}
-               onMouseLeave={e => e.currentTarget.style.color = scrolled ? '#0f1f1e' : '#ffffff'}
+               onMouseLeave={e => e.currentTarget.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
              >
               {searchOpen ? <X size={20} strokeWidth={1.5} /> : <Search size={20} strokeWidth={1.5} />}
             </button>
@@ -297,9 +311,9 @@ export default function Navbar() {
             <button
               aria-label="Cart"
               onClick={() => setCartDrawerOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: scrolled ? '#0f1f1e' : '#ffffff', padding: '4px', position: 'relative', transition: 'all 0.2s' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', position: 'relative', transition: 'all 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#d4a843'}
-              onMouseLeave={e => e.currentTarget.style.color = scrolled ? '#0f1f1e' : '#ffffff'}
+              onMouseLeave={e => e.currentTarget.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
             >
               <ShoppingBag size={20} strokeWidth={1.5} />
               <span style={{
@@ -324,7 +338,7 @@ export default function Navbar() {
             <button
               aria-label="Menu"
               onClick={() => setMenuOpen(!menuOpen)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: scrolled ? '#0f1f1e' : '#ffffff', padding: '4px', display: 'none' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', display: 'none' }}
               className="show-mobile"
             >
               {menuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
@@ -484,6 +498,12 @@ export default function Navbar() {
                 setMenuOpen(false)
                 if (link.isHospitality) {
                   setHospOpen(false)
+                }
+                if (link.href === '/#categories' && window.location.pathname === '/') {
+                  e.preventDefault()
+                  setTimeout(() => {
+                    document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                  }, 100)
                 }
               }}
               style={{

@@ -53,7 +53,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer style={{ backgroundColor: '#0f1f1e', color: '#faf8f3' }} dir={t.dir}>
+    <footer style={{ backgroundColor: '#0f1f1e', color: '#faf8f3', position: 'relative', zIndex: 10 }} dir={t.dir}>
 
       {/* Newsletter Banner */}
       <div style={{ backgroundColor: '#3d9089', padding: '3rem 2rem' }}>

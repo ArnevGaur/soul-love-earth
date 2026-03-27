@@ -47,38 +47,65 @@ export const translations = {
       rights: '© {year} Soul Love & Earth. All rights reserved.',
     },
     home: {
-      heroTitle: 'Rooted in Earth.\nCrafted with Soul.',
-      heroSub: 'Sustainable, artisan-made products for conscious homes and eco-friendly hospitality.',
+      heroTitle: 'Rooted in Earth.\nSustained with Soul.',
+      heroSub: 'Sustainable, earth-friendly products for conscious homes and eco-friendly hospitality.',
       shopNow: 'Shop Now', ourStory: 'Our Story',
-      collectionsTitle: 'Featured Collections',
+      collectionsTitle: 'Shop by Category',
       collectionsSub: 'Discover our curated range of eco-conscious products',
       viewAll: 'View All', explore: 'Explore',
       whyTitle: 'Why Soul Love & Earth?',
       whySub: 'We believe beautiful living and responsible choices go hand in hand.',
       valuesTitle: 'Our Values',
       values: [
-        { title: 'Ethically Sourced', desc: 'Every product is thoughtfully sourced from certified artisan communities across India.' },
+        { title: 'Earth Friendly', desc: 'Every material is consciously chosen to minimize environmental impact and preserve nature.' },
         { title: 'Eco Packaging', desc: 'Zero plastic. Every order ships in 100% compostable, recycled packaging.' },
-        { title: 'Artisan Crafted', desc: 'Each piece is handcrafted by skilled artisans, preserving centuries-old techniques.' },
+        { title: 'Preseving Nature', desc: 'Each piece is sustainably produced, ensuring our ecosystems thrive for generations.' },
         { title: 'Free UAE Delivery', desc: 'Complimentary delivery on all orders within the UAE. No minimums required.' },
       ],
-      yearsOfCraft: '15+ Years of Craft',
-      storyTitle: 'Craftsmanship that\nPreserves the Planet.',
+      yearsOfCraft: '15+ Years of Impact',
+      storyTitle: 'Sustainability that\nPreserves the Planet.',
       storySub: 'Our Heritage',
-      storyP1: 'Born from a deep respect for traditional Indian artisanship and a commitment to planetary health, Soul Love & Earth bridges the gap between ancient wisdom and modern living.',
-      storyP2: 'We partener with master craftsmen to bring you products that are as kind to the earth as they are beautiful for your home.',
+      storyP1: 'Born from a profound commitment to planetary health and sustainable practices, Soul Love & Earth bridges the gap between conscious choices and modern living.',
+      storyP2: 'We meticulously source eco-friendly materials to bring you products that are as kind to the earth as they are beautiful for your home.',
       readStory: 'Read Our Story',
       stats: [
-        { num: '500+', label: 'Artisans' },
+        { num: '10k+', label: 'Trees Planted' },
         { num: '100%', label: 'Sustainable' },
         { num: '0', label: 'Plastic' },
+      ],
+      testimonialsTitle: 'What Our Customers Say',
+      testimonials: [
+        {
+          id: 1,
+          name: '- Shilpi, JLT , Dubai',
+          text: '"Sustainability meets style with Soul, Love & Earth. Their eco-friendly products are a testament to their commitment to the planet."',
+          image: '/images/shilpi.png',
+        },
+        {
+          id: 2,
+          name: '- Lara, Damac Hills , Dubai',
+          text: '"I\'m so glad I found Soul, Love & Earth. Their organic herbs and beauty products makes me feel beautiful inside and out."',
+          image: '/images/lara.png',
+        },
+        {
+          id: 3,
+          name: '- Smita Raj Handa, Oud Metha- Bur Dubai',
+          text: '"I recently purchased Copper ware from \'Soul, Love & Earth,\' and I must say, I\'m absolutely delighted with it! The quality and sustainability of the product are exceptional. It\'s not only stylish but also environmentally friendly, which aligns perfectly with my values."',
+          image: '/images/smita.png',
+        },
+        {
+          id: 4,
+          name: '- Shamy, Dubai, UAE',
+          text: '"Soul, Love & Earth\'s products are a reflection of their passion for the environment. I\'m proud to support such a cause."',
+          image: '/images/shamy.png',
+        }
       ],
     },
     shop: {
       title: 'The Collection',
-      sub: 'Handcrafted, sustainable products for mindful living.',
+      sub: 'Handcrafted, Sustainable Products for Mindful Living.',
       allCategories: 'All Categories', sortBy: 'Sort By',
-      sortDefault: 'Latest', sortPriceAsc: 'Price: Low to High',
+      sortDefault: 'Sort', sortPriceAsc: 'Price: Low to High',
       sortPriceDesc: 'Price: High to Low', sortNameAz: 'Name: A-Z',
       loading: 'Loading…', noProducts: 'No products found.',
       results: '{n} products found',
@@ -141,7 +168,7 @@ export const translations = {
       email: 'Email Address', password: 'Password',
       forgotPassword: 'Forgot password?', loginBtn: 'Sign In',
       noAccount: "Don't have an account?", registerLink: 'Create one',
-      registerTitle: 'Create Your Account',
+      registerTitle: 'Create Account',
       registerSub: 'Join the conscious community of Soul Love & Earth',
       firstName: 'First Name', lastName: 'Last Name',
       phone: 'Phone Number', confirmPassword: 'Confirm Password',
@@ -199,38 +226,65 @@ export const translations = {
       rights: '© {year} سول لاف آند إيرث. جميع الحقوق محفوظة.',
     },
     home: {
-      heroTitle: 'من رحم الأرض.\nبروح الحرفي.',
-      heroSub: 'منتجات مستدامة ومصنوعة يدوياً للمنازل الواعية وضيافة صديقة للبيئة.',
+      heroTitle: 'من رحم الأرض.\nبروح الاستدامة.',
+      heroSub: 'منتجات مستدامة وصديقة للبيئة للمنازل الواعية وضيافة صديقة للبيئة.',
       shopNow: 'تسوّق الآن', ourStory: 'قصتنا',
-      collectionsTitle: 'مجموعاتنا المميزة',
+      collectionsTitle: 'تسوّق حسب الفئة',
       collectionsSub: 'اكتشف مجموعتنا المختارة من المنتجات الواعية بيئياً',
       viewAll: 'عرض الكل', explore: 'استكشف',
       whyTitle: 'لماذا سول لاف آند إيرث؟',
       whySub: 'نؤمن بأن الحياة الجميلة والخيارات المسؤولة يسيران جنباً إلى جنب.',
       valuesTitle: 'قيمنا',
       values: [
-        { title: 'مصادر أخلاقية', desc: 'كل منتج مصدره مجتمعات حرفية معتمدة في جميع أنحاء الهند.' },
+        { title: 'صديقة للبيئة', desc: 'يتم اختيار كل مادة بوعي لتقليل التأثير البيئي والحفاظ على الطبيعة.' },
         { title: 'تغليف صديق للبيئة', desc: 'لا بلاستيك. كل طلب يُشحن في تغليف قابل للتحلل ومعاد تدويره بنسبة 100٪.' },
-        { title: 'صناعة يدوية', desc: 'كل قطعة مصنوعة يدوياً من قبل حرفيين مهرة، مع الحفاظ على تقنيات عمرها قرون.' },
+        { title: 'الحفاظ على الطبيعة', desc: 'يتم إنتاج كل قطعة بشكل مستدام، مما يضمن ازدهار أنظمتنا البيئية لأجيال.' },
         { title: 'توصيل مجاني في الإمارات', desc: 'توصيل مجاني لجميع الطلبات داخل الإمارات. بدون حد أدنى للطلب.' },
       ],
-      yearsOfCraft: '15+ عاماً من الحرفة',
-      storyTitle: 'حرفية تحافظ\nعلى كوكبنا.',
+      yearsOfCraft: '15+ عاماً من الـتأثير',
+      storyTitle: 'استدامة تحافظ\nعلى كوكبنا.',
       storySub: 'تراثنا',
-      storyP1: 'وُلدت سول لاف آند إيرث من الاحترام العميق للحرف اليدوية الهندية التقليدية والالتزام بصحة الكوكب ، وتعمل على سد الفجوة بين الحكمة القديمة والحياة الحديثة.',
-      storyP2: 'نحن نشارك كبار الحرفيين لنقدم لك المنتجات التي هي لطيفة للأرض كما هي جميلة لبيتك.',
+      storyP1: 'وُلدت سول لاف آند إيرث من التزام عميق بصحة الكوكب والممارسات المستدامة، لتعمل على سد الفجوة بين الخيارات الواعية والحياة الحديثة.',
+      storyP2: 'نحن ننتقي بعناية المواد الصديقة للبيئة لنقدم لك منتجات لطيفة على كوكب الأرض وجميلة لمنزلك في الوقت ذاته.',
       readStory: 'اقرأ قصتنا',
       stats: [
-        { num: '+500', label: 'حرفي' },
+        { num: '+10,000', label: 'شجرة زُرعت' },
         { num: '100%', label: 'مستدام' },
         { num: '0', label: 'بلاستيك' },
+      ],
+      testimonialsTitle: 'ماذا يقول عملاؤنا',
+      testimonials: [
+        {
+          id: 1,
+          name: '- شيلبي، أبراج بحيرات جميرا، دبي',
+          text: '"تجتمع الاستدامة مع الأناقة مع سول لاف آند إيرث. منتجاتهم الصديقة للبيئة دليل على التزامهم تجاه الكوكب."',
+          image: '/images/shilpi.png',
+        },
+        {
+          id: 2,
+          name: '- لارا، داماك هيلز، دبي',
+          text: '"أنا سعيدة جدًا لأنني وجدت سول لاف آند إيرث. منتجاتهم العضوية للتجميل والأعشاب تجعلني أشعر بالجمال من الداخل والخارج."',
+          image: '/images/lara.png',
+        },
+        {
+          id: 3,
+          name: '- سميتا راج هاندا، عود ميثاء، بر دبي',
+          text: '"اشتريت مؤخرًا أواني نحاسية، ويجب أن أقول إنني سعيدة بها للغاية! الجودة والاستدامة للمنتج استثنائية. وهي تتوافق تمامًا مع قيمي."',
+          image: '/images/smita.png',
+        },
+        {
+          id: 4,
+          name: '- شامي، دبي، الإمارات',
+          text: '"تعد منتجاتهم انعكاسًا لشغفهم بالبيئة. أنا فخورة بدعم مثل هذه القضية."',
+          image: '/images/shamy.png',
+        }
       ],
     },
     shop: {
       title: 'المجموعة',
       sub: 'منتجات مصنوعة يدوياً ومستدامة للحياة الواعية.',
       allCategories: 'جميع الفئات', sortBy: 'ترتيب حسب',
-      sortDefault: 'الأحدث', sortPriceAsc: 'السعر: من الأقل للأعلى',
+      sortDefault: 'ترتيب', sortPriceAsc: 'السعر: من الأقل للأعلى',
       sortPriceDesc: 'السعر: من الأعلى للأقل', sortNameAz: 'الاسم: أ-ي',
       loading: 'جارٍ التحميل…', noProducts: 'لا توجد منتجات.',
       results: 'تم العثور على {n} منتجاً',
@@ -309,15 +363,19 @@ export const translations = {
 }
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(() => localStorage.getItem('sle_lang') || 'en')
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('sle_lang')
+    return (saved === 'ar' || saved === 'en') ? saved : 'en'
+  })
 
   useEffect(() => {
     localStorage.setItem('sle_lang', lang)
-    document.documentElement.dir = translations[lang].dir
+    const tSafe = translations[lang] || translations.en
+    document.documentElement.dir = tSafe.dir
     document.documentElement.lang = lang
   }, [lang])
 
-  const t = translations[lang]
+  const t = translations[lang] || translations.en
   const toggleLang = () => setLang(l => l === 'en' ? 'ar' : 'en')
 
   return (

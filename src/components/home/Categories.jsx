@@ -3,234 +3,169 @@ import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 
 const categories = [
-  {
-    titleEn: 'Earthen Cookware', titleAr: 'الأواني الفخارية',
-    descEn: 'Traditional clay pots & pans for healthy, flavourful cooking.',
-    descAr: 'الأواني والمقالي الطينية التقليدية لطهي صحي ولذيذ.',
-    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80',
-    href: '/shop?cat=1',
-  },
-  {
-    titleEn: 'Copperware', titleAr: 'الأواني النحاسية',
-    descEn: 'Handcrafted copper vessels for wellness and modern aesthetics.',
-    descAr: 'أوعية نحاسية مصنوعة يدويًا للصحة والجمال الحديث.',
-    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&q=80',
-    href: '/shop?cat=2',
-  },
-  {
-    titleEn: 'Home Décor', titleAr: 'ديكور المنزل',
-    descEn: 'Sustainable décor that brings warmth and intention to every space.',
-    descAr: 'ديكور مستدام يضفي الدفء والنية على كل مساحة.',
-    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80',
-    href: '/shop?cat=3',
-  },
-  {
-    titleEn: 'Hotel Amenities', titleAr: 'مستلزمات الفنادق',
-    descEn: 'Biodegradable hospitality supplies for eco-conscious properties.',
-    descAr: 'مستلزمات ضيافة قابلة للتحلل للفنادق المهتمة بالبيئة.',
-    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
-    href: '/shop?cat=4',
-  },
-  {
-    titleEn: 'Handmade Footwear', titleAr: 'أحذية مصنوعة يدوياً',
-    descEn: 'Artisan-crafted footwear rooted in comfort and natural materials.',
-    descAr: 'أحذية مصنوعة بحرفية ترتكز على الراحة والمواد الطبيعية.',
-    image: 'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=800&q=80',
-    href: '/shop?cat=5',
-  },
-  {
-    titleEn: 'Wellness', titleAr: 'عافية',
-    descEn: 'Natural self-care essentials for a mindful daily routine.',
-    descAr: 'أساسيات العناية الذاتية الطبيعية لروتين يومي واعي.',
-    image: 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=800&q=80',
-    href: '/shop?cat=6',
-  },
+  { labelEn: 'Kitchenware', labelAr: 'أدوات المطبخ', subtextEn: 'Hand-hammered copper & ceramics', subtextAr: 'نحاس مطروق يدوياً وسيراميك', href: '/shop?cat=kitchenware', image: '/images/Categories/kitchenware.jpg' },
+  { labelEn: 'Home Decor', labelAr: 'ديكور المنزل', subtextEn: 'Organic textures for sanctuary', subtextAr: 'أنسجة عضوية للملاذ', href: '/shop?cat=home-decor', image: '/images/Categories/home-decor.jpg' },
+  { labelEn: 'Fashion', labelAr: 'أزياء', subtextEn: 'Timeless, ethical silhouettes', subtextAr: 'تصاميم خالدة وأخلاقية', href: '/shop?cat=fashion', image: '/images/Categories/fashion.jpg' },
+  { labelEn: 'Beauty & Health', labelAr: 'الصحة والجمال', subtextEn: 'Botanical extracts & natural care', subtextAr: 'مستخلصات نباتية وعناية طبيعية', href: '/shop?cat=beauty-health', image: '/images/Categories/beauty.png' },
+  { labelEn: 'Gifts', labelAr: 'هدايا', subtextEn: 'Thoughtful curations for loved ones', subtextAr: 'تنسيقات مدروسة لمن تحب', href: '/shop?cat=gifts', image: '/images/Categories/gifts.jpg' },
+  { labelEn: 'Bags', labelAr: 'حقائب', subtextEn: 'Handcrafted sustainable carry', subtextAr: 'حقائب مستدامة مصنوعة يدوياً', href: '/shop?cat=bags', image: '/images/Categories/bags.png' },
+  { labelEn: 'Bath Linen', labelAr: 'بياضات الحمام', subtextEn: 'Luxuriously soft organic cotton', subtextAr: 'قطن عضوي ناعم وفاخر', href: '/shop?cat=bath-linen', image: '/images/Categories/linen.jpg' },
+  { labelEn: 'Hospitality', labelAr: 'مستلزمات الضيافة', subtextEn: 'Premium amenities for guests', subtextAr: 'وسائل راحة فاخرة للضيوف', href: '/shop?cat=hospitality', image: '/images/Categories/hospitality.jpg' },
 ]
 
 export default function Categories() {
   const { t, lang } = useLanguage()
-  const h = t?.home || {}
+  const dir = t?.dir || 'ltr'
 
   return (
-    <section style={{
-      backgroundColor: '#faf8f3',
-      padding: '6rem 2rem',
-    }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }} dir={t?.dir}>
-
-        {/* Header */}
-        <div style={{
+    <section id="categories" style={{ padding: '4rem 1.5rem', background: '#faf8f3' }}>
+      {/* Header */}
+      <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '3rem', direction: dir }}>
+        <span style={{
+          fontFamily: 'Jost, sans-serif',
+          fontSize: '0.75rem',
+          fontWeight: 500,
+          letterSpacing: '0.25em',
+          textTransform: 'uppercase',
+          color: '#d4a843',
           display: 'flex',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          marginBottom: '3rem',
-          flexWrap: 'wrap',
-          gap: '1rem',
+          alignItems: 'center',
+          gap: '1.25rem',
+          marginBottom: '1rem',
         }}>
-          <div>
-            <span style={{
-              fontFamily: 'Jost, sans-serif',
-              fontSize: '0.65rem',
-              fontWeight: 500,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: '#d4a843',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '0.75rem',
-            }}>
-              <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
-              {t?.home?.collectionsSub}
-            </span>
-            <h2 style={{
-              fontFamily: 'Cormorant Garamond, serif',
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
-              fontWeight: 400,
-              color: '#2c2c2c',
-              lineHeight: 1.1,
-            }}>
-              {t?.home?.collectionsTitle}
-            </h2>
-          </div>
-
-          <Link
-            to="/shop"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontFamily: 'Jost, sans-serif',
-              fontSize: '0.75rem',
-              fontWeight: 500,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: '#3d9089',
-              textDecoration: 'none',
-              borderBottom: '1px solid #3d9089',
-              paddingBottom: '2px',
-              transition: 'color 0.2s, border-color 0.2s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.color = '#d4a843'
-              e.currentTarget.style.borderColor = '#d4a843'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.color = '#3d9089'
-              e.currentTarget.style.borderColor = '#3d9089'
-            }}
-          >
-            {t?.home?.viewAll} <ArrowRight size={13} strokeWidth={2} style={{ transform: t?.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
-          </Link>
-        </div>
-
-        {/* Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.5rem',
+          <span style={{ width: '40px', height: '1px', backgroundColor: '#d4a843', opacity: 0.6 }} />
+          {t?.home?.collectionsSub || 'Explore'}
+          <span style={{ width: '40px', height: '1px', backgroundColor: '#d4a843', opacity: 0.6 }} />
+        </span>
+        <h2 style={{
+          fontFamily: 'Cormorant Garamond, serif',
+          fontSize: 'clamp(2rem, 4vw, 3rem)',
+          fontWeight: 400,
+          color: '#3d9089',
+          margin: 0,
+          letterSpacing: '0.01em',
+          lineHeight: 1.1,
         }}>
-          {categories.map((cat) => (
-            <Link
-              key={cat.titleEn}
-              to={cat.href}
-              style={{ textDecoration: 'none' }}
-            >
-              <div
-                style={{
-                  position: 'relative',
-                  overflow: 'hidden',
-                  aspectRatio: '4/5',
-                  backgroundColor: '#e0ebe9',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.querySelector('.cat-img').style.transform = 'scale(1.06)'
-                  e.currentTarget.querySelector('.cat-overlay').style.opacity = '1'
-                  e.currentTarget.querySelector('.cat-arrow').style.transform = t?.dir === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.querySelector('.cat-img').style.transform = 'scale(1)'
-                  e.currentTarget.querySelector('.cat-overlay').style.opacity = '0.5'
-                  e.currentTarget.querySelector('.cat-arrow').style.transform = 'translateX(0)'
-                }}
-              >
-                {/* Image */}
-                <img
-                  className="cat-img"
-                  src={cat.image}
-                  alt={lang === 'ar' ? cat.titleAr : cat.titleEn}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                  }}
-                />
+          {t?.home?.collectionsTitle || 'Shop by Category'}
+        </h2>
+      </div>
 
-                {/* Gradient overlay */}
-                <div
-                  className="cat-overlay"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(to top, rgba(20,42,40,0.85) 0%, rgba(20,42,40,0.2) 50%, transparent 100%)',
-                    opacity: 0.5,
-                    transition: 'opacity 0.4s ease',
-                  }}
-                />
+      <style>{`
+        .category-grid {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          grid-auto-rows: 240px;
+          gap: 2rem;
+          max-width: 960px;
+          margin: 0 auto;
+        }
 
-                {/* Text */}
-                <div style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  padding: '1.75rem',
+        /* 
+          Desktop (5 columns): Alternating 60% / 40%
+          Row 1: [0: span 3], [1: span 2]
+          Row 2: [2: span 2], [3: span 3]
+          Row 3: [4: span 3], [5: span 2]
+          Row 4: [6: span 2], [7: span 3]
+        */
+        .cat-item-0 { grid-column: span 3; }
+        .cat-item-1 { grid-column: span 2; }
+        .cat-item-2 { grid-column: span 2; }
+        .cat-item-3 { grid-column: span 3; }
+        .cat-item-4 { grid-column: span 3; }
+        .cat-item-5 { grid-column: span 2; }
+        .cat-item-6 { grid-column: span 2; }
+        .cat-item-7 { grid-column: span 3; }
+
+        .cat-card {
+          border-radius: 1.5rem;
+          overflow: hidden;
+          position: relative;
+          height: 100%;
+          width: 100%;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .cat-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cat-card:hover .cat-img {
+          transform: scale(1.05);
+        }
+
+        @media (max-width: 1024px) {
+          .category-grid {
+            grid-auto-rows: 210px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .category-grid {
+            grid-template-columns: 1fr;
+            grid-auto-rows: 250px;
+          }
+          .cat-item-[class^="cat-item-"], .category-grid > a {
+            grid-column: span 1 !important;
+          }
+        }
+      `}</style>
+      
+      {/* Grid */}
+      <div className="category-grid" dir={dir}>
+        {categories.map((cat, i) => (
+          <Link key={cat.labelEn} to={cat.href} className={`cat-item-${i}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+            <div className="cat-card">
+              <img className="cat-img" src={cat.image} alt={lang === 'ar' ? cat.labelAr : cat.labelEn} />
+              
+              {/* Gradient Overlay */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 60%)',
+                zIndex: 2,
+                pointerEvents: 'none',
+              }} />
+
+              {/* Text Content */}
+              <div style={{
+                position: 'absolute',
+                bottom: '1.5rem',
+                [dir === 'rtl' ? 'right' : 'left']: '1.75rem',
+                zIndex: 3,
+                color: '#ffffff',
+                maxWidth: '85%',
+              }}>
+                <h3 style={{
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
+                  fontWeight: 600,
+                  margin: '0 0 0.25rem',
+                  letterSpacing: '0.01em',
+                  textShadow: '0 2px 10px rgba(0,0,0,0.3)',
                 }}>
-                  <h3 style={{
-                    fontFamily: 'Cormorant Garamond, serif',
-                    fontSize: '1.5rem',
-                    fontWeight: 400,
-                    color: '#faf8f3',
-                    marginBottom: '0.35rem',
-                    letterSpacing: '0.01em',
-                  }}>
-                    {lang === 'ar' ? cat.titleAr : cat.titleEn}
-                  </h3>
-                  <p style={{
-                    fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.75rem',
-                    fontWeight: 300,
-                    color: 'rgba(250,248,243,0.75)',
-                    lineHeight: 1.6,
-                    marginBottom: '0.75rem',
-                  }}>
-                    {lang === 'ar' ? cat.descAr : cat.descEn}
-                  </p>
-                  <span
-                    className="cat-arrow"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      fontFamily: 'Jost, sans-serif',
-                      fontSize: '0.65rem',
-                      fontWeight: 500,
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      color: '#d4a843',
-                      transition: 'transform 0.3s ease',
-                    }}
-                  >
-                    {h?.explore} <ArrowRight size={11} strokeWidth={2} style={{ transform: t?.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} />
-                  </span>
-                </div>
+                  {lang === 'ar' ? cat.labelAr : cat.labelEn}
+                </h3>
+                <p style={{
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.85rem',
+                  fontWeight: 400,
+                  color: 'rgba(255,255,255,0.95)',
+                  margin: 0,
+                  letterSpacing: '0.02em',
+                }}>
+                  {lang === 'ar' ? cat.subtextAr : cat.subtextEn}
+                </p>
               </div>
-            </Link>
-          ))}
-        </div>
-
+            </div>
+          </Link>
+        ))}
       </div>
     </section>
   )
