@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
@@ -14,8 +14,27 @@ export default function RegisterPage() {
   const [showPwd, setShowPwd] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 20)
+    return () => clearTimeout(timer)
+  }, [])
 
   const update = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }))
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value
+    // If they type a letter, alert and block
+    if (/[a-zA-Z]/.test(value)) {
+      alert(lang === 'ar' ? 'يرجى إدخال أرقام فقط' : 'Please enter numbers only for the phone field.')
+      return
+    }
+    // Allow digits, spaces, plus, minus, and parens
+    if (value === '' || /^[\d\s+\-()]*$/.test(value)) {
+      setForm(f => ({ ...f, phone: value }))
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -69,13 +88,16 @@ export default function RegisterPage() {
 
             {/* Card with Branding inside */}
             <div style={{ 
-              backgroundColor: 'rgba(255, 255, 255, 0.65)', 
+              backgroundColor: 'rgba(255, 255, 255, 0.5)', 
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
               borderRadius: '20px', 
               padding: '3.5rem 2.5rem', 
-              boxShadow: '0 15px 45px rgba(0,0,0,0.15)', 
-              border: '1px solid rgba(255,255,255,0.4)' 
+              boxShadow: '0 15px 50px rgba(0,0,0,0.18)', 
+              border: '1px solid rgba(255,255,255,0.4)',
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'translateY(0)' : 'translateY(15px)',
+              transition: 'opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
             }}>
               {/* Branding Header */}
               <div style={{ 
@@ -155,7 +177,7 @@ export default function RegisterPage() {
                   <label style={labelStyle}>{a.phone}</label>
                   <div style={{ position: 'relative' }}>
                     <Phone size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type="tel" value={form.phone} onChange={update('phone')} placeholder="+971 50 000 0000"
+                    <input type="tel" value={form.phone} onChange={handlePhoneChange} placeholder="+971 50 000 0000"
                       style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
                       onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
                       onBlur={e => e.target.style.borderColor = '#ddd'} />

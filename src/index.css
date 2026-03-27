@@ -142,3 +142,10 @@ h1, h2, h3, h4, h5, h6 {
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
 .delay-500 { animation-delay: 0.5s; }
+
+/* ── Global Elements ────────────────────────────────────── */
+input::placeholder, 
+textarea::placeholder {
+  color: #808080 !important;
+  opacity: 1 !important; /* Firefox fix */
+}

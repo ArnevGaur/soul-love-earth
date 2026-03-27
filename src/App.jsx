@@ -46,8 +46,8 @@ function AnimatedRoutes() {
         <Route path="/report-scam" element={<PageTransition><ReportScamPage /></PageTransition>} />
         <Route path="/terms" element={<PageTransition><TermsPage /></PageTransition>} />
         <Route path="/review-terms" element={<PageTransition><ReviewTermsPage /></PageTransition>} />
-        <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
-        <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/orders" element={<PageTransition><OrdersPage /></PageTransition>} />
         <Route path="/hospitality" element={<PageTransition><HospitalityPage /></PageTransition>} />
       </Routes>

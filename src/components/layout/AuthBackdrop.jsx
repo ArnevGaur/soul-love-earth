@@ -30,7 +30,7 @@ export default function AuthBackdrop() {
           objectFit: 'cover',
           objectPosition: 'center',
           opacity: bgLoaded ? 1 : 0,
-          transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+          transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
           display: 'block',
           imageRendering: '-webkit-optimize-contrast'
         }}
