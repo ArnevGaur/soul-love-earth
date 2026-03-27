@@ -16,6 +16,8 @@ export default function RegisterPage() {
   const [error, setError] = useState('')
   const [phoneError, setPhoneError] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [matchError, setMatchError] = useState('')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -53,6 +55,37 @@ export default function RegisterPage() {
       setEmailError(lang === 'ar' ? 'يرجى إدخال بريد إلكتروني صحيح' : 'Please enter a valid email address.')
     } else {
       setEmailError('')
+    }
+  }
+
+  const handlePasswordChange = (e) => {
+    const val = e.target.value
+    setForm(f => ({ ...f, password: val }))
+    
+    // Length check
+    if (val && val.length < 8) {
+      setPasswordError(lang === 'ar' ? 'يجب أن تكون كلمة المرور 8 أحرف على الأقل' : 'Minimum 8 characters required.')
+    } else {
+      setPasswordError('')
+    }
+
+    // Refresh match check if confirm exists
+    if (form.confirmPassword) {
+      if (val !== form.confirmPassword) {
+        setMatchError(lang === 'ar' ? 'كلمتا المرور غير متطابقتين' : 'Passwords do not match.')
+      } else {
+        setMatchError('')
+      }
+    }
+  }
+
+  const handleConfirmPasswordChange = (e) => {
+    const val = e.target.value
+    setForm(f => ({ ...f, confirmPassword: val }))
+    if (val && val !== form.password) {
+      setMatchError(lang === 'ar' ? 'كلمتا المرور غير متطابقتين' : 'Passwords do not match.')
+    } else {
+      setMatchError('')
     }
   }
 
@@ -221,15 +254,21 @@ export default function RegisterPage() {
                   <label style={labelStyle}>{a.password}</label>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type={showPwd ? 'text' : 'password'} name="password" autoComplete="new-password" required value={form.password} onChange={update('password')} placeholder="Min. 8 characters"
-                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [!ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
-                      onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
-                      onBlur={e => e.target.style.borderColor = '#ddd'} />
+                    <input type={showPwd ? 'text' : 'password'} name="password" autoComplete="new-password" required value={form.password} onChange={handlePasswordChange} placeholder="Min. 8 characters"
+                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [!ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', borderColor: passwordError ? '#dc2626' : (form.password && form.password.length >= 8) ? '#22c55e' : '#ddd' }}
+                      onFocus={e => e.target.style.borderColor = passwordError ? '#dc2626' : 'var(--color-teal-500)'}
+                      onBlur={e => e.target.style.borderColor = passwordError ? '#dc2626' : (form.password && form.password.length >= 8) ? '#22c55e' : '#ddd'} />
                     <button type="button" onClick={() => setShowPwd(v => !v)}
                       style={{ position: 'absolute', top: '50%', [ltr ? 'right' : 'left']: '1rem', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#aaa', padding: 0 }}>
                       {showPwd ? <EyeOff size={15} /> : <Eye size={15} />}
                     </button>
+                    {form.password && !passwordError && form.password.length >= 8 && (
+                      <Check size={16} style={{ position: 'absolute', top: '50%', [ltr ? 'right' : 'left']: '3rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+                    )}
                   </div>
+                  {passwordError && (
+                    <div style={{ color: '#dc2626', fontSize: '0.65rem', marginTop: '0.3rem', fontWeight: 600, letterSpacing: '0.02em' }}>{passwordError}</div>
+                  )}
                 </div>
 
                 {/* Confirm Password */}
@@ -237,11 +276,17 @@ export default function RegisterPage() {
                   <label style={labelStyle}>{a.confirmPassword}</label>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type={showPwd ? 'text' : 'password'} name="confirm-password" autoComplete="new-password" required value={form.confirmPassword} onChange={update('confirmPassword')} placeholder="••••••••"
-                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
-                      onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
-                      onBlur={e => e.target.style.borderColor = '#ddd'} />
+                    <input type={showPwd ? 'text' : 'password'} name="confirm-password" autoComplete="new-password" required value={form.confirmPassword} onChange={handleConfirmPasswordChange} placeholder="••••••••"
+                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [ltr ? 'paddingRight' : 'paddingLeft']: (form.confirmPassword && !matchError) ? '2.5rem' : '1rem', borderColor: matchError ? '#dc2626' : (form.confirmPassword && !matchError) ? '#22c55e' : '#ddd' }}
+                      onFocus={e => e.target.style.borderColor = matchError ? '#dc2626' : 'var(--color-teal-500)'}
+                      onBlur={e => e.target.style.borderColor = matchError ? '#dc2626' : (form.confirmPassword && !matchError) ? '#22c55e' : '#ddd'} />
+                    {form.confirmPassword && !matchError && (
+                      <Check size={16} style={{ position: 'absolute', top: '50%', [ltr ? 'right' : 'left']: '0.85rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+                    )}
                   </div>
+                  {matchError && (
+                    <div style={{ color: '#dc2626', fontSize: '0.65rem', marginTop: '0.3rem', fontWeight: 600, letterSpacing: '0.02em' }}>{matchError}</div>
+                  )}
                 </div>
 
                 {/* Terms */}

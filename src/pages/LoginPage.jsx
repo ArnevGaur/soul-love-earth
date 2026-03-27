@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import { useLanguage } from '../context/LanguageContext'
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Check } from 'lucide-react'
 
 export default function LoginPage() {
   const { t, lang } = useLanguage()
