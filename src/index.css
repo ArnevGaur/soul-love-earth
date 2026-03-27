@@ -4,31 +4,24 @@
 
 /* ── Brand Design Tokens ─────────────────────────────────── */
 @theme {
-  --color-teal-50:  #f0f9f7;
-  --color-teal-100: #d1ede9;
-  --color-teal-200: #a3dbd3;
-  --color-teal-300: #6bc4b9;
-  --color-teal-400: #4aab9e;
-  --color-teal-500: #3d9089;  /* primary brand teal */
-  --color-teal-600: #317570;
-  --color-teal-700: #275e5a;
-  --color-teal-800: #1f4a47;
-  --color-teal-900: #183b38;
+  --color-green-50:  #f0f5f4;
+  --color-green-100: #d1e0dd;
+  --color-green-200: #a3c2bb;
+  --color-green-300: #6ca397;
+  --color-green-400: #447a6f;
+  --color-green-500: #214e41;  /* new primary brand forest green */
+  --color-green-600: #1a3e34;
+  --color-green-700: #142f27;
+  --color-green-800: #0d1f1a;
+  --color-green-900: #07100d;
 
   --color-gold-50:  #fdf9ee;
-  --color-gold-100: #f7edcc;
-  --color-gold-200: #efd898;
-  --color-gold-300: #e4bf62;
+  /* ... rest of gold ... */
   --color-gold-400: #d4a843;  /* primary brand gold */
-  --color-gold-500: #b8902e;
-  --color-gold-600: #9a7524;
-  --color-gold-700: #7c5d1c;
-  --color-gold-800: #624914;
-  --color-gold-900: #4e3a0f;
-
+  
   --color-cream:    #faf8f3;
   --color-stone:    #f2ede4;
-  --color-charcoal: #2c2c2c;
+  --color-charcoal: #214e41; /* use brand green for deep text */
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'Jost', sans-serif;
@@ -51,14 +44,14 @@ html {
 body {
   font-family: var(--font-body);
   background-color: var(--color-cream);
-  color: var(--color-charcoal);
+  color: #214e41;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.01em;
 }
 
@@ -66,54 +59,59 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 2rem;
-  background-color: var(--color-teal-500);
-  color: white;
+  gap: 0.75rem;
+  padding: 0.85rem 2.25rem;
+  background-color: #214e41;
+  color: #faf8f3;
   font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   border: none;
+  border-radius: 40px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 25px rgba(33,78,65,0.15);
 }
 
 .btn-primary:hover {
-  background-color: var(--color-teal-600);
-  transform: translateY(-1px);
+  background-color: #d4a843;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(212,168,67,0.3);
 }
 
 .btn-outline {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 2rem;
+  gap: 0.75rem;
+  padding: 0.85rem 2.25rem;
   background-color: transparent;
-  color: var(--color-teal-500);
+  color: #214e41;
   font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  border: 1px solid var(--color-teal-500);
+  border: 1.5px solid #214e41;
+  border-radius: 40px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-outline:hover {
-  background-color: var(--color-teal-500);
-  color: white;
+  background-color: #214e41;
+  color: #faf8f3;
+  transform: translateY(-2px);
 }
 
 .section-label {
   font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--color-gold-400);
+  color: #d4a843;
 }
 
 /* ── Animations ──────────────────────────────────────────── */

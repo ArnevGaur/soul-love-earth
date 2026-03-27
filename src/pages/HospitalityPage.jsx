@@ -108,36 +108,43 @@ export default function HospitalityPage() {
 
         {/* Page Header */}
         <div style={{
-          backgroundColor: '#1a2e2c',
-          padding: '3.5rem 2rem',
+          backgroundColor: '#214e41',
+          padding: '5rem 2rem',
           textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
-          <span style={{
-            fontFamily: 'Jost, sans-serif',
-            fontSize: '0.65rem',
-            fontWeight: 500,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#d4a843',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.75rem',
-            marginBottom: '0.75rem',
-          }}>
-            <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
-            {lang === 'ar' ? 'مجموعة الضيافة' : 'HOSPITALITY COLLECTION'}
-            <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
-          </span>
-          <h1 style={{
-            fontFamily: 'Cormorant Garamond, serif',
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: 300,
-            color: '#faf8f3',
-            lineHeight: 1.1,
-          }}>
-            {lang === 'ar' ? 'الرفاهية المعروضة' : 'Sustainable Luxury'}
-          </h1>
+          {/* Subtle overlay or texture can be added here */}
+          <div style={{ position: 'relative', zIndex: 2 }}>
+            <span style={{
+              fontFamily: 'Jost, sans-serif',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: '#d4a843',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1rem',
+              marginBottom: '1rem',
+            }}>
+              <span style={{ width: '40px', height: '1.5px', backgroundColor: '#d4a843', display: 'inline-block' }} />
+              {lang === 'ar' ? 'مجموعة الضيافة' : 'Hospitality Collection'}
+              <span style={{ width: '40px', height: '1.5px', backgroundColor: '#d4a843', display: 'inline-block' }} />
+            </span>
+            <h1 style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontWeight: 500,
+              color: '#faf8f3',
+              lineHeight: 1,
+              maxWidth: '800px',
+              margin: '0 auto'
+            }}>
+              {lang === 'ar' ? 'الرفاهية المعروضة' : 'Sublime Luxury for Fine Hospitality'}
+            </h1>
+          </div>
         </div>
 
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2.5rem 2rem' }}>
@@ -166,15 +173,20 @@ export default function HospitalityPage() {
                   placeholder={t.nav.search}
                   style={{
                     width: '100%',
-                    padding: lang === 'ar' ? '0.7rem 2.5rem 0.7rem 1rem' : '0.7rem 1rem 0.7rem 2.5rem',
+                    padding: lang === 'ar' ? '0.85rem 3rem 0.85rem 1.25rem' : '0.85rem 1.25rem 0.85rem 3rem',
                     fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.82rem',
-                    fontWeight: 300,
-                    border: '1px solid rgba(61,144,137,0.3)',
+                    fontSize: '0.9rem',
+                    fontWeight: 400,
+                    border: '1.5px solid rgba(33,78,65,0.12)',
+                    borderRadius: '12px',
                     backgroundColor: 'white',
                     outline: 'none',
-                    color: '#2c2c2c',
+                    color: '#214e41',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: '0 4px 15px rgba(33,78,65,0.02)'
                   }}
+                  onFocus={e => { e.target.style.borderColor = '#d4a843'; e.target.style.boxShadow = '0 0 0 4px rgba(212,168,67,0.1)'; }}
+                  onBlur={e => { e.target.style.borderColor = 'rgba(33,78,65,0.12)'; e.target.style.boxShadow = '0 4px 15px rgba(33,78,65,0.02)'; }}
                 />
               </div>
             </form>
@@ -260,31 +272,36 @@ export default function HospitalityPage() {
             >
               <div style={{
                 backgroundColor: 'white',
-                border: '1px solid rgba(61,144,137,0.15)',
-                padding: '1.5rem',
+                border: '1px solid rgba(33,78,65,0.06)',
+                padding: '2rem',
+                borderRadius: '24px',
+                boxShadow: '0 8px 30px rgba(33,78,65,0.04)'
               }}>
                 <h3 style={{
                   fontFamily: 'Jost, sans-serif',
-                  fontSize: '0.65rem', fontWeight: 600,
-                  letterSpacing: '0.2em', textTransform: 'uppercase',
-                  color: '#d4a843', marginBottom: '1rem',
+                  fontSize: '0.75rem', fontWeight: 600,
+                  letterSpacing: '0.15em', textTransform: 'uppercase',
+                  color: '#d4a843', marginBottom: '1.5rem',
                   textAlign: lang === 'ar' ? 'right' : 'left'
                 }}>{s.allCategories}</h3>
 
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   <li>
                     <button
                       onClick={() => handleCategory('')}
                       style={{
                         width: '100%', textAlign: lang === 'ar' ? 'right' : 'left',
-                        padding: '0.5rem 0',
+                        padding: '0.75rem 1rem',
                         fontFamily: 'Jost, sans-serif',
-                        fontSize: '0.82rem', fontWeight: categoryId === '' ? 500 : 300,
-                        color: categoryId === '' ? '#3d9089' : '#2c2c2c',
-                        background: 'none', border: 'none', cursor: 'pointer',
-                        borderBottom: categoryId === '' ? '1px solid #d4a843' : '1px solid transparent',
-                        transition: 'color 0.2s',
+                        fontSize: '0.92rem', fontWeight: categoryId === '' ? 600 : 400,
+                        color: categoryId === '' ? '#faf8f3' : '#214e41',
+                        backgroundColor: categoryId === '' ? '#214e41' : 'transparent',
+                        borderRadius: '30px',
+                        border: 'none', cursor: 'pointer',
+                        transition: 'all 0.3s ease',
                       }}
+                      onMouseEnter={e => { if (categoryId !== '') e.target.style.backgroundColor = 'rgba(33,78,65,0.04)' }}
+                      onMouseLeave={e => { if (categoryId !== '') e.target.style.backgroundColor = 'transparent' }}
                     >
                       {s.allCategories}
                     </button>
@@ -295,15 +312,18 @@ export default function HospitalityPage() {
                         onClick={() => handleCategory(cat.category_id)}
                         style={{
                           width: '100%', textAlign: lang === 'ar' ? 'right' : 'left',
-                          padding: '0.5rem 0',
+                          padding: '0.75rem 1rem',
                           fontFamily: 'Jost, sans-serif',
-                          fontSize: '0.82rem',
-                          fontWeight: categoryId === cat.category_id ? 500 : 300,
-                          color: categoryId === cat.category_id ? '#3d9089' : '#2c2c2c',
-                          background: 'none', border: 'none', cursor: 'pointer',
-                          borderBottom: categoryId === cat.category_id ? '1px solid #d4a843' : '1px solid transparent',
-                          transition: 'color 0.2s',
+                          fontSize: '0.92rem',
+                          fontWeight: categoryId === cat.category_id ? 600 : 400,
+                          color: categoryId === cat.category_id ? '#faf8f3' : '#214e41',
+                          backgroundColor: categoryId === cat.category_id ? '#214e41' : 'transparent',
+                          borderRadius: '30px',
+                          border: 'none', cursor: 'pointer',
+                          transition: 'all 0.3s ease',
                         }}
+                        onMouseEnter={e => { if (categoryId !== cat.category_id) e.target.style.backgroundColor = 'rgba(33,78,65,0.04)' }}
+                        onMouseLeave={e => { if (categoryId !== cat.category_id) e.target.style.backgroundColor = 'transparent' }}
                       >
                         {cat.name}
                       </button>

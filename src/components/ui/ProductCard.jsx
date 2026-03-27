@@ -28,18 +28,24 @@ export default function ProductCard({ product }) {
           transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.boxShadow = '0 12px 36px rgba(33,78,65,0.08)'
-          e.currentTarget.style.transform = 'translateY(-4px)'
-          e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1.05)'
-          e.currentTarget.querySelector('.pc-btn').style.opacity = '1'
-          e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = '0 15px 45px rgba(33,78,65,0.1)'
+          e.currentTarget.style.transform = 'translateY(-6px)'
+          e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1.08)'
+          const btn = e.currentTarget.querySelector('.pc-btn')
+          if (btn) {
+            btn.style.opacity = '1'
+            btn.style.transform = 'translate(-50%, -20px)'
+          }
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.04)'
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(33,78,65,0.05)'
           e.currentTarget.style.transform = 'translateY(0)'
           e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1)'
-          e.currentTarget.querySelector('.pc-btn').style.opacity = '0'
-          e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(8px)'
+          const btn = e.currentTarget.querySelector('.pc-btn')
+          if (btn) {
+            btn.style.opacity = '0'
+            btn.style.transform = 'translate(-50%, 0)'
+          }
         }}
       >
         {/* Image */}
@@ -58,7 +64,7 @@ export default function ProductCard({ product }) {
             }}
           />
 
-          {/* Add to cart overlay */}
+          {/* Add to cart overlay — Pill Shape floating */}
           <button
             className="pc-btn"
             onClick={e => { 
@@ -67,21 +73,25 @@ export default function ProductCard({ product }) {
               addToCart(product)
             }}
             style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0,
-              padding: '0.75rem',
-              backgroundColor: '#214e41', color: 'white',
-              fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-              fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
-              border: 'none', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-              opacity: 0, transform: 'translateY(8px)',
-              transition: 'all 0.3s ease',
+              position: 'absolute', bottom: '1.5rem', left: '50%',
+              transform: 'translate(-50%, 0)',
+              padding: '0.85rem 1.75rem',
+              backgroundColor: '#214e41', color: '#faf8f3',
+              fontFamily: 'Jost, sans-serif', fontSize: '0.75rem',
+              fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase',
+              border: 'none', borderRadius: '40px', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem',
+              opacity: 0,
+              transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: '0 8px 25px rgba(33,78,65,0.2)',
+              whiteSpace: 'nowrap',
+              zIndex: 10
             }}
-            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#214e41'}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#d4a843'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(212,168,67,0.3)'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#214e41'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(33,78,65,0.2)'; }}
           >
-            <ShoppingBag size={13} strokeWidth={1.5} />
-            Add to Cart
+            <ShoppingBag size={14} strokeWidth={2} />
+            {t.product.addToCartBtn || 'Add to Cart'}
           </button>
 
           {/* Sale badge */}
@@ -97,43 +107,45 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* Info */}
-        <div style={{ padding: '1rem' }}>
+        <div style={{ padding: '1.5rem', textAlign: 'center' }}>
           <h3 style={{
             fontFamily: 'Cormorant Garamond, serif',
-            fontSize: '1.1rem', fontWeight: 500,
-            color: '#2c2c2c', marginBottom: '0.35rem',
-            lineHeight: 1.3,
-            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+            fontSize: '1.25rem', fontWeight: 500,
+            color: '#214e41', marginBottom: '0.5rem',
+            lineHeight: 1.2,
+            overflow: 'hidden', textOverflow: 'ellipsis',
+            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'
           }}>
             {product.name}
           </h3>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
             {product.special ? (
               <>
                 <span style={{
-                  fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                  fontWeight: 500, color: '#3d9089',
+                  fontFamily: 'Jost, sans-serif', fontSize: '1rem',
+                  fontWeight: 600, color: '#d4a843',
                 }}>{product.special}</span>
                 <span style={{
-                  fontFamily: 'Jost, sans-serif', fontSize: '0.78rem',
-                  fontWeight: 300, color: '#999', textDecoration: 'line-through',
+                  fontFamily: 'Jost, sans-serif', fontSize: '0.85rem',
+                  fontWeight: 400, color: '#999', textDecoration: 'line-through',
                 }}>{product.price}</span>
               </>
             ) : (
               <span style={{
-                fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                fontWeight: 500, color: '#2c2c2c',
+                fontFamily: 'Jost, sans-serif', fontSize: '1rem',
+                fontWeight: 600, color: '#214e41',
               }}>{product.price}</span>
             )}
           </div>
         </div>
 
-        {/* Signature gradient line */}
+        {/* Signature gold line at bottom */}
         <div style={{
-          height: '4px',
-          background: 'linear-gradient(90deg, #d4a843, #3d9089)',
-          opacity: 0.6,
+          height: '3px',
+          background: '#d4a843',
+          width: '100%',
+          opacity: 0.8,
         }} />
       </div>
     </Link>
