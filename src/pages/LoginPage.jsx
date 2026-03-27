@@ -14,12 +14,28 @@ export default function LoginPage() {
   const [showPwd, setShowPwd] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 10)
     return () => clearTimeout(timer)
   }, [])
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
+
+  const handleEmailChange = (e) => {
+    const val = e.target.value
+    setEmail(val)
+    if (val && !validateEmail(val)) {
+      setEmailError(lang === 'ar' ? 'بريد غير صحيح' : 'Invalid email.')
+    } else {
+      setEmailError('')
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -102,11 +118,17 @@ export default function LoginPage() {
                   <label style={labelStyle}>{a.email}</label>
                   <div style={{ position: 'relative' }}>
                     <Mail size={15} style={{ position: 'absolute', top: '50%', [lang === 'ar' ? 'right' : 'left']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com"
-                      style={{ ...inputStyle, [lang === 'ar' ? 'paddingRight' : 'paddingLeft']: '2.75rem' }}
-                      onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
-                      onBlur={e => e.target.style.borderColor = '#ddd'} />
+                    <input type="email" name="email" autoComplete="username" required value={email} onChange={handleEmailChange} placeholder="you@example.com"
+                      style={{ ...inputStyle, [lang === 'ar' ? 'paddingRight' : 'paddingLeft']: '2.75rem', [lang === 'ar' ? 'paddingLeft' : 'paddingRight']: (email && !emailError) ? '2.5rem' : '1rem', borderColor: emailError ? '#dc2626' : (email && !emailError) ? '#22c55e' : '#ddd' }}
+                      onFocus={e => e.target.style.borderColor = emailError ? '#dc2626' : 'var(--color-teal-500)'}
+                      onBlur={e => e.target.style.borderColor = emailError ? '#dc2626' : (email && !emailError) ? '#22c55e' : '#ddd'} />
+                    {email && !emailError && (
+                      <Check size={16} style={{ position: 'absolute', top: '50%', [lang === 'ar' ? 'left' : 'right']: '0.85rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+                    )}
                   </div>
+                  {emailError && (
+                    <div style={{ color: '#dc2626', fontSize: '0.65rem', marginTop: '0.3rem', fontWeight: 600 }}>{emailError}</div>
+                  )}
                 </div>
 
                 {/* Password */}
@@ -117,7 +139,7 @@ export default function LoginPage() {
                   </div>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [lang === 'ar' ? 'right' : 'left']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type={showPwd ? 'text' : 'password'} required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••"
+                    <input type={showPwd ? 'text' : 'password'} name="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••"
                       style={{ ...inputStyle, [lang === 'ar' ? 'paddingRight' : 'paddingLeft']: '2.75rem', [lang === 'ar' ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
                       onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
                       onBlur={e => e.target.style.borderColor = '#ddd'} />

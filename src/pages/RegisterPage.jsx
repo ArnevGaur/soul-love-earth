@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import { useLanguage } from '../context/LanguageContext'
-import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, Check } from 'lucide-react'
 
 export default function RegisterPage() {
   const { t, lang } = useLanguage()
@@ -14,6 +14,8 @@ export default function RegisterPage() {
   const [showPwd, setShowPwd] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [phoneError, setPhoneError] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -25,14 +27,32 @@ export default function RegisterPage() {
 
   const handlePhoneChange = (e) => {
     const value = e.target.value
-    // If they type a letter, alert and block
+    // If they type a letter, show inline error and block
     if (/[a-zA-Z]/.test(value)) {
-      alert(lang === 'ar' ? 'يرجى إدخال أرقام فقط' : 'Please enter numbers only for the phone field.')
+      setPhoneError(lang === 'ar' ? 'يرجى إدخال أرقام فقط' : 'Please enter numbers only.')
       return
     }
+    
+    setPhoneError('') // Clear error if input is valid or empty
+    
     // Allow digits, spaces, plus, minus, and parens
     if (value === '' || /^[\d\s+\-()]*$/.test(value)) {
       setForm(f => ({ ...f, phone: value }))
+    }
+  }
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
+
+  const handleEmailChange = (e) => {
+    const val = e.target.value
+    setForm(f => ({ ...f, email: val }))
+    if (val && !validateEmail(val)) {
+      setEmailError(lang === 'ar' ? 'يرجى إدخال بريد إلكتروني صحيح' : 'Please enter a valid email address.')
+    } else {
+      setEmailError('')
     }
   }
 
@@ -165,11 +185,17 @@ export default function RegisterPage() {
                   <label style={labelStyle}>{a.email}</label>
                   <div style={{ position: 'relative' }}>
                     <Mail size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type="email" required value={form.email} onChange={update('email')} placeholder="you@example.com"
-                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
-                      onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
-                      onBlur={e => e.target.style.borderColor = '#ddd'} />
+                    <input type="email" name="email" autoComplete="username" required value={form.email} onChange={handleEmailChange} placeholder="you@example.com"
+                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [ltr ? 'paddingRight' : 'paddingLeft']: (form.email && !emailError) ? '2.5rem' : '1rem', borderColor: emailError ? '#dc2626' : (form.email && !emailError) ? '#22c55e' : '#ddd' }}
+                      onFocus={e => e.target.style.borderColor = emailError ? '#dc2626' : 'var(--color-teal-500)'}
+                      onBlur={e => e.target.style.borderColor = emailError ? '#dc2626' : (form.email && !emailError) ? '#22c55e' : '#ddd'} />
+                    {form.email && !emailError && (
+                      <Check size={16} style={{ position: 'absolute', top: '50%', [ltr ? 'right' : 'left']: '0.85rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+                    )}
                   </div>
+                  {emailError && (
+                    <div style={{ color: '#dc2626', fontSize: '0.65rem', marginTop: '0.3rem', fontWeight: 600, letterSpacing: '0.02em' }}>{emailError}</div>
+                  )}
                 </div>
 
                 {/* Phone */}
@@ -177,11 +203,17 @@ export default function RegisterPage() {
                   <label style={labelStyle}>{a.phone}</label>
                   <div style={{ position: 'relative' }}>
                     <Phone size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type="tel" value={form.phone} onChange={handlePhoneChange} placeholder="+971 50 000 0000"
-                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
-                      onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
-                      onBlur={e => e.target.style.borderColor = '#ddd'} />
+                    <input type="tel" name="phone" value={form.phone} onChange={handlePhoneChange} placeholder="+971 50 000 0000"
+                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [ltr ? 'paddingRight' : 'paddingLeft']: (form.phone && !phoneError && form.phone.length > 5) ? '2.5rem' : '1rem', borderColor: phoneError ? '#dc2626' : (form.phone && !phoneError && form.phone.length > 5) ? '#22c55e' : '#ddd' }}
+                      onNameFocus={e => e.target.style.borderColor = phoneError ? '#dc2626' : 'var(--color-teal-500)'}
+                      onBlur={e => e.target.style.borderColor = phoneError ? '#dc2626' : (form.phone && !phoneError && form.phone.length > 5) ? '#22c55e' : '#ddd'} />
+                    {form.phone && !phoneError && form.phone.length > 5 && (
+                      <Check size={16} style={{ position: 'absolute', top: '50%', [ltr ? 'right' : 'left']: '0.85rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+                    )}
                   </div>
+                  {phoneError && (
+                    <div style={{ color: '#dc2626', fontSize: '0.65rem', marginTop: '0.3rem', fontWeight: 600, letterSpacing: '0.02em' }}>{phoneError}</div>
+                  )}
                 </div>
 
                 {/* Password */}
@@ -189,7 +221,7 @@ export default function RegisterPage() {
                   <label style={labelStyle}>{a.password}</label>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type={showPwd ? 'text' : 'password'} required value={form.password} onChange={update('password')} placeholder="Min. 8 characters"
+                    <input type={showPwd ? 'text' : 'password'} name="password" autoComplete="new-password" required value={form.password} onChange={update('password')} placeholder="Min. 8 characters"
                       style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [!ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
                       onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
                       onBlur={e => e.target.style.borderColor = '#ddd'} />
@@ -205,7 +237,7 @@ export default function RegisterPage() {
                   <label style={labelStyle}>{a.confirmPassword}</label>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type={showPwd ? 'text' : 'password'} required value={form.confirmPassword} onChange={update('confirmPassword')} placeholder="••••••••"
+                    <input type={showPwd ? 'text' : 'password'} name="confirm-password" autoComplete="new-password" required value={form.confirmPassword} onChange={update('confirmPassword')} placeholder="••••••••"
                       style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
                       onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
                       onBlur={e => e.target.style.borderColor = '#ddd'} />
