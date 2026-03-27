@@ -303,25 +303,55 @@ function CardholderField({ cardholderName, setCardholderName }) {
 
 function PhoneField() {
   const [focused, setFocused] = useState(false)
-  const [phoneValue, setPhoneValue] = useState('')
+  const [phoneValue, setPhoneValue] = useState('+971 ')
   const [phoneError, setPhoneError] = useState('')
 
+  const formatPhoneNumber = (digits) => {
+    if (digits.length <= 2) return digits
+    if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`
+    return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`
+  }
+
   const handleChange = (e) => {
-    const value = e.target.value
-    if (/[a-zA-Z]/.test(value)) {
-      setPhoneError('Phone number can contain digits only.')
-      return
+    let value = e.target.value
+    
+    // Always start with +971
+    if (!value.startsWith('+971 ')) {
+      value = '+971 ' + value.replace(/^\+971\s*/, '')
     }
-    const digitCount = value.replace(/\D/g, '').length
-    if (value && digitCount < 7) {
-      setPhoneError('Please enter a valid phone number.')
+    
+    // Extract only digits after +971
+    const digitsAfterCountry = value.replace(/^\+971\s*/, '').replace(/\D/g, '')
+    
+    // Limit to 9 digits after country code
+    const limitedDigits = digitsAfterCountry.slice(0, 9)
+    
+    // Format the phone number with spacing
+    if (limitedDigits.length > 0) {
+      value = '+971 ' + formatPhoneNumber(limitedDigits)
+    } else {
+      value = '+971 '
+    }
+    
+    setPhoneValue(value)
+    
+    // Validation
+    if (limitedDigits.length > 0 && limitedDigits.length < 9) {
+      setPhoneError('UAE mobile numbers must have 9 digits after +971.')
+    } else if (limitedDigits.length === 9) {
+      // Check if it starts with valid UAE mobile prefix (5, 3, or 6)
+      const firstDigit = limitedDigits.charAt(0)
+      if (!['5', '3', '6'].includes(firstDigit)) {
+        setPhoneError('UAE mobile numbers must start with 5, 3, or 6 after +971.')
+      } else {
+        setPhoneError('')
+      }
     } else {
       setPhoneError('')
     }
-    setPhoneValue(value)
   }
 
-  const isValidPhone = phoneValue !== '' && phoneValue.replace(/\D/g, '').length >= 7 && !phoneError
+  const isValidPhone = phoneValue.replace(/^\+971\s*/, '').replace(/\D/g, '').length === 9 && !phoneError
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
