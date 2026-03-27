@@ -315,30 +315,45 @@ export default function CheckoutPage() {
                 </h3>
 
                 {cartItems.length === 0 ? (
-                  <p style={{ fontFamily: 'var(--font-body)', color: '#999', fontStyle: 'italic' }}>Your cart is empty.</p>
+                  <div style={{ textAlign: 'center', padding: '5rem 2rem', backgroundColor: 'white', borderRadius: '16px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+                    <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(61,144,137,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem auto' }}>
+                      <ShoppingBag size={32} color="#3d9089" />
+                    </div>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: '#1a2e2c', marginBottom: '1rem', fontWeight: 400 }}>Your cart is empty</h2>
+                    <p style={{ fontFamily: 'var(--font-body)', color: '#777', marginBottom: '2.5rem', maxWidth: '400px', margin: '0 auto 2.5rem auto' }}>Add some of our elegantly crafted pieces to your cart before proceeding to checkout.</p>
+                    <Link to="/shop" style={{
+                      display: 'inline-block', padding: '1rem 2.5rem', backgroundColor: '#2c635a', color: 'white',
+                      fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase',
+                      textDecoration: 'none', borderRadius: '40px', transition: 'all 0.3s ease',
+                      boxShadow: '0 8px 25px rgba(44, 99, 90, 0.12)',
+                    }}>Return to Shop</Link>
+                  </div>
                 ) : (
                   <>
                     <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                      {cartItems.map(item => (
-                        <li key={item.product_id} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                          <div style={{ position: 'relative', flexShrink: 0 }}>
-                            <img src={item.thumb} alt={item.name} style={{ width: '72px', height: '72px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #eaeaea' }} />
-                            <span style={{
-                              position: 'absolute', top: '-8px', right: '-8px',
-                              backgroundColor: 'var(--color-charcoal)', color: 'white',
-                              width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%',
-                              fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 600,
-                            }}>{item.quantity}</span>
-                          </div>
-                          <div style={{ flex: 1 }}>
-                            <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-charcoal)', fontWeight: 600, margin: '0 0 0.2rem 0' }}>{item.name}</h4>
-                            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#aaa' }}>Qty {item.quantity}</span>
-                          </div>
-                          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-teal-600)', fontWeight: 600 }}>
-                            {item.special || item.price}
-                          </div>
-                        </li>
-                      ))}
+                      {cartItems.map(item => {
+                        if (!item) return null
+                        return (
+                          <li key={item.product_id} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                            <div style={{ position: 'relative', flexShrink: 0 }}>
+                              <img src={item.thumb} alt={item.name} style={{ width: '72px', height: '72px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #eaeaea' }} />
+                              <span style={{
+                                position: 'absolute', top: '-8px', right: '-8px',
+                                backgroundColor: 'var(--color-charcoal)', color: 'white',
+                                width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%',
+                                fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 600,
+                              }}>{item.quantity}</span>
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-charcoal)', fontWeight: 600, margin: '0 0 0.2rem 0' }}>{item.name}</h4>
+                              <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#aaa' }}>Qty {item.quantity}</span>
+                            </div>
+                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--color-teal-600)', fontWeight: 600 }}>
+                              {item.special || item.price}
+                            </div>
+                          </li>
+                        )
+                      })}
                     </ul>
 
                     <div style={{ borderTop: '1px solid #eee', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>

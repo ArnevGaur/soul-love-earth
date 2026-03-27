@@ -4,8 +4,14 @@ const CartContext = createContext()
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
-    const saved = localStorage.getItem('sle_cart')
-    return saved ? JSON.parse(saved) : []
+    try {
+      const saved = localStorage.getItem('sle_cart')
+      const parsed = saved ? JSON.parse(saved) : []
+      return Array.isArray(parsed) ? parsed.filter(item => item && item.product_id) : []
+    } catch (e) {
+      console.error('Cart parse error:', e)
+      return []
+    }
   })
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false)
 
@@ -41,12 +47,13 @@ export function CartProvider({ children }) {
 
   const clearCart = () => setCartItems([])
 
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const cartCount = cartItems.reduce((acc, item) => acc + (item?.quantity || 0), 0)
   
   const cartTotal = cartItems.reduce((acc, item) => {
+    if (!item) return acc
     const priceStr = String(item.special || item.price || '0')
     const price = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0
-    return acc + (price * item.quantity)
+    return acc + (price * (item.quantity || 0))
   }, 0)
 
   return (

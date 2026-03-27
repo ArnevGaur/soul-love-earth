@@ -101,7 +101,9 @@ export default function CartDrawer() {
             </div>
           ) : (
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {cartItems.map(item => (
+               {cartItems.map(item => {
+                if (!item) return null
+                return (
                 <li key={item.product_id} style={{ display: 'flex', gap: '1.25rem' }}>
                   <div style={{ flexShrink: 0 }}>
                     <img 
@@ -163,7 +165,8 @@ export default function CartDrawer() {
                     </div>
                   </div>
                 </li>
-              ))}
+              )
+            })}
             </ul>
           )}
         </div>
