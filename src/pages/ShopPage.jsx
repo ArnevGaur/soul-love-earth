@@ -5,7 +5,8 @@ import Footer from '../components/layout/Footer'
 import ProductCard from '../components/ui/ProductCard'
 import { fetchProducts, fetchCategories } from '../services/opencart'
 import { useLanguage } from '../context/LanguageContext'
-import { Search, SlidersHorizontal, X } from 'lucide-react'
+import { Search, SlidersHorizontal, X, Filter, ChevronDown } from 'lucide-react'
+import FilterPane from '../components/shop/FilterPane'
 
 export default function ShopPage() {
   const { t } = useLanguage()
@@ -29,7 +30,9 @@ export default function ShopPage() {
   const [searchInput, setSearchInput] = useState(searchParams.get('q') || '')
   const [categoryId, setCategoryId] = useState(searchParams.get('cat') || '')
   const [sortIdx,    setSortIdx]    = useState(0)
-  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [sortOpen,   setSortOpen]   = useState(false) // Custom sort dropdown state
+  const [filtersOpen, setFiltersOpen] = useState(false) // Controls left Categories sidebar on mobile
+  const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false) // Controls new right slide-out Filter Pane
 
   // Sync state with URL params
   useEffect(() => {
@@ -160,43 +163,101 @@ export default function ShopPage() {
               </div>
             </form>
 
-            {/* Filter toggle (mobile) */}
-            <button
-              onClick={() => setFiltersOpen(!filtersOpen)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.4rem',
-                padding: '0.7rem 1.25rem',
-                backgroundColor: filtersOpen ? '#3d9089' : 'white',
-                color: filtersOpen ? 'white' : '#3d9089',
-                border: '1px solid rgba(61,144,137,0.3)',
-                fontFamily: 'Jost, sans-serif',
-                fontSize: '0.75rem', fontWeight: 500,
-                letterSpacing: '0.1em', textTransform: 'uppercase',
-                cursor: 'pointer', transition: 'all 0.2s',
-              }}
-            >
-              <SlidersHorizontal size={14} strokeWidth={1.5} />
-              {s.sortBy.split(' ')[0]} {/* Approximate "Filters" if needed */}
-            </button>
+            {/* Categories toggle (mobile) & Right Filter Toggle (always visible) */}
+            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.4rem',
+                  padding: '0.7rem 1.25rem',
+                  backgroundColor: filtersOpen ? '#214e41' : 'white',
+                  color: filtersOpen ? 'white' : '#214e41',
+                  border: '1px solid rgba(33,78,65,0.3)',
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.75rem', fontWeight: 500,
+                  letterSpacing: '0.1em', textTransform: 'uppercase',
+                  cursor: 'pointer', transition: 'all 0.2s',
+                }}
+                className="categories-mobile-btn"
+              >
+                <SlidersHorizontal size={14} strokeWidth={1.5} />
+                CATEGORIES
+              </button>
 
-            {/* Sort */}
-            <select
-              value={sortIdx}
-              onChange={handleSort}
-              style={{
-                padding: '0.7rem 1.25rem',
-                fontFamily: 'Jost, sans-serif',
-                fontSize: '0.78rem', fontWeight: 400,
-                border: '1px solid rgba(61,144,137,0.3)',
-                backgroundColor: 'white', color: '#2c2c2c',
-                outline: 'none', cursor: 'pointer',
-                marginLeft: 'auto',
-              }}
-            >
-              {SORT_OPTIONS.map((opt, i) => (
-                <option key={i} value={i}>{opt.label}</option>
-              ))}
-            </select>
+              <button
+                onClick={() => setIsFilterPaneOpen(true)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.4rem',
+                  padding: '0.7rem 1.25rem',
+                  backgroundColor: 'white',
+                  color: '#214e41',
+                  border: '1px solid #dcdcdc',
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.75rem', fontWeight: 500,
+                  letterSpacing: '0.1em', textTransform: 'uppercase',
+                  cursor: 'pointer', transition: 'all 0.2s',
+                }}
+              >
+                <Filter size={14} strokeWidth={1.5} />
+                FILTER
+              </button>
+            </div>
+
+            {/* Custom Sort Dropdown */}
+            <div style={{ position: 'relative', marginLeft: 'auto' }}>
+              <button
+                onClick={() => setSortOpen(!sortOpen)}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  width: '190px',
+                  padding: '0.8rem 1.25rem',
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.85rem', fontWeight: 400, color: '#2c2c2c',
+                  backgroundColor: 'white',
+                  border: '1px solid rgba(61,144,137,0.4)', // Teal border from wireframe
+                  cursor: 'pointer',
+                  outline: 'none',
+                }}
+              >
+                {SORT_OPTIONS[sortIdx].label}
+                <ChevronDown size={16} strokeWidth={1.5} style={{ transition: 'transform 0.2s', transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
+              </button>
+
+              {sortOpen && (
+                <>
+                  <div 
+                    onClick={() => setSortOpen(false)}
+                    style={{ position: 'fixed', inset: 0, zIndex: 40 }}
+                  />
+                  <div style={{
+                    position: 'absolute', top: '100%', left: 0, right: 0,
+                    backgroundColor: 'white', border: '1px solid rgba(61,144,137,0.4)',
+                    borderTop: 'none', zIndex: 50,
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.06)'
+                  }}>
+                    {SORT_OPTIONS.map((opt, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setSortIdx(i); setSortOpen(false); handleSort({ target: { value: i } }); }}
+                        style={{
+                          display: 'block', width: '100%', textAlign: 'left',
+                          padding: '0.8rem 1.25rem',
+                          fontFamily: 'Jost, sans-serif', fontSize: '0.85rem',
+                          color: sortIdx === i ? '#3d9089' : '#2c2c2c',
+                          backgroundColor: 'transparent', border: 'none',
+                          cursor: 'pointer',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.backgroundColor = '#faf8f3'}
+                        onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Active filters */}
@@ -403,6 +464,9 @@ export default function ShopPage() {
         </div>
       </main>
       <Footer />
+      
+      {/* Interactive Right Filter Slider */}
+      <FilterPane isOpen={isFilterPaneOpen} onClose={() => setIsFilterPaneOpen(false)} />
 
       <style>{`
         @keyframes shimmer {
@@ -411,6 +475,7 @@ export default function ShopPage() {
         }
         @media (min-width: 769px) {
           .shop-sidebar { display: block !important; }
+          .categories-mobile-btn { display: none !important; }
         }
       `}</style>
     </>
