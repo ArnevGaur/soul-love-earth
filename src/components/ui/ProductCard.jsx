@@ -18,13 +18,25 @@ export default function ProductCard({ product }) {
   return (
     <Link to={`/product/${product.product_id}`} style={{ textDecoration: 'none' }}>
       <div
-        style={{ backgroundColor: 'white', cursor: 'pointer' }}
+        style={{ 
+          backgroundColor: 'white', 
+          cursor: 'pointer',
+          borderRadius: '24px',
+          overflow: 'hidden',
+          boxShadow: '0 4px 16px rgba(33,78,65,0.04)',
+          border: '1px solid rgba(33,78,65,0.06)',
+          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}
         onMouseEnter={e => {
+          e.currentTarget.style.boxShadow = '0 12px 36px rgba(33,78,65,0.08)'
+          e.currentTarget.style.transform = 'translateY(-4px)'
           e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1.05)'
           e.currentTarget.querySelector('.pc-btn').style.opacity = '1'
           e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(0)'
         }}
         onMouseLeave={e => {
+          e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.04)'
+          e.currentTarget.style.transform = 'translateY(0)'
           e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1)'
           e.currentTarget.querySelector('.pc-btn').style.opacity = '0'
           e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(8px)'
@@ -114,6 +126,13 @@ export default function ProductCard({ product }) {
             )}
           </div>
         </div>
+
+        {/* Signature gradient line */}
+        <div style={{
+          height: '2px',
+          background: 'linear-gradient(90deg, #d4a843, #3d9089)',
+          opacity: 0.6,
+        }} />
       </div>
     </Link>
   )

@@ -151,9 +151,9 @@ export default function ShopPage() {
             {/* Search */}
             <form onSubmit={handleSearch} style={{ flex: 1, minWidth: '200px', display: 'flex' }}>
               <div style={{ position: 'relative', width: '100%', maxWidth: '380px' }}>
-                <Search size={15} strokeWidth={1.5} style={{
-                  position: 'absolute', left: '0.875rem', top: '50%',
-                  transform: 'translateY(-50%)', color: '#3d9089',
+                <Search size={15} strokeWidth={2} style={{
+                  position: 'absolute', left: '1.25rem', top: '50%',
+                  transform: 'translateY(-50%)', color: '#214e41',
                 }} />
                 <input
                   type="text"
@@ -162,15 +162,20 @@ export default function ShopPage() {
                   placeholder={t.nav.search}
                   style={{
                     width: '100%',
-                    padding: '0.7rem 1rem 0.7rem 2.5rem',
+                    padding: '0.75rem 1rem 0.75rem 2.8rem',
                     fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.82rem',
-                    fontWeight: 300,
-                    border: '1px solid rgba(61,144,137,0.3)',
-                    backgroundColor: 'white',
+                    fontSize: '0.85rem',
+                    fontWeight: 400,
+                    border: '1px solid rgba(33,78,65,0.15)',
+                    borderRadius: '30px',
+                    backgroundColor: '#ffffff',
+                    boxShadow: 'inset 0 2px 6px rgba(33,78,65,0.03)',
                     outline: 'none',
-                    color: '#2c2c2c',
+                    color: '#214e41',
+                    transition: 'border-color 0.3s, box-shadow 0.3s'
                   }}
+                  onFocus={e => { e.target.style.borderColor = '#d4a843'; e.target.style.boxShadow = '0 0 0 3px rgba(212,168,67,0.1)'; }}
+                  onBlur={e => { e.target.style.borderColor = 'rgba(33,78,65,0.15)'; e.target.style.boxShadow = 'inset 0 2px 6px rgba(33,78,65,0.03)'; }}
                 />
               </div>
             </form>
@@ -180,37 +185,43 @@ export default function ShopPage() {
               <button
                 onClick={() => setFiltersOpen(!filtersOpen)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '0.4rem',
-                  padding: '0.7rem 1.25rem',
-                  backgroundColor: filtersOpen ? '#214e41' : 'white',
-                  color: filtersOpen ? 'white' : '#214e41',
-                  border: '1px solid rgba(33,78,65,0.3)',
+                  display: 'flex', alignItems: 'center', gap: '0.5rem',
+                  padding: '0.75rem 1.75rem',
+                  backgroundColor: filtersOpen ? '#214e41' : '#ffffff',
+                  color: filtersOpen ? '#ffffff' : '#214e41',
+                  border: '1px solid rgba(33,78,65,0.15)',
+                  borderRadius: '30px',
+                  boxShadow: '0 4px 12px rgba(33,78,65,0.05)',
                   fontFamily: 'Jost, sans-serif',
-                  fontSize: '0.75rem', fontWeight: 500,
-                  letterSpacing: '0.1em', textTransform: 'uppercase',
-                  cursor: 'pointer', transition: 'all 0.2s',
+                  fontSize: '0.75rem', fontWeight: 600,
+                  letterSpacing: '0.12em', textTransform: 'uppercase',
+                  cursor: 'pointer', transition: 'all 0.3s ease',
                 }}
                 className="categories-mobile-btn"
               >
-                <SlidersHorizontal size={14} strokeWidth={1.5} />
+                <SlidersHorizontal size={14} strokeWidth={2} />
                 CATEGORIES
               </button>
 
               <button
                 onClick={() => setIsFilterPaneOpen(true)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '0.4rem',
-                  padding: '0.7rem 1.25rem',
-                  backgroundColor: 'white',
+                  display: 'flex', alignItems: 'center', gap: '0.5rem',
+                  padding: '0.75rem 1.75rem',
+                  backgroundColor: '#ffffff',
                   color: '#214e41',
-                  border: '1px solid #dcdcdc',
+                  border: '1px solid rgba(33,78,65,0.15)',
+                  borderRadius: '30px',
+                  boxShadow: '0 4px 12px rgba(33,78,65,0.05)',
                   fontFamily: 'Jost, sans-serif',
-                  fontSize: '0.75rem', fontWeight: 500,
-                  letterSpacing: '0.1em', textTransform: 'uppercase',
-                  cursor: 'pointer', transition: 'all 0.2s',
+                  fontSize: '0.75rem', fontWeight: 600,
+                  letterSpacing: '0.12em', textTransform: 'uppercase',
+                  cursor: 'pointer', transition: 'all 0.3s ease',
                 }}
+                onMouseEnter={e => e.currentTarget.style.backgroundColor = '#faf8f3'}
+                onMouseLeave={e => e.currentTarget.style.backgroundColor = '#ffffff'}
               >
-                <Filter size={14} strokeWidth={1.5} />
+                <Filter size={14} strokeWidth={2} />
                 FILTER
               </button>
             </div>
@@ -221,18 +232,21 @@ export default function ShopPage() {
                 onClick={() => setSortOpen(!sortOpen)}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  width: '190px',
-                  padding: '0.8rem 1.25rem',
+                  width: '210px',
+                  padding: '0.75rem 1.5rem',
                   fontFamily: 'Jost, sans-serif',
-                  fontSize: '0.85rem', fontWeight: 400, color: '#2c2c2c',
-                  backgroundColor: 'white',
-                  border: '1px solid rgba(61,144,137,0.4)', // Teal border from wireframe
+                  fontSize: '0.85rem', fontWeight: 500, color: '#214e41',
+                  backgroundColor: '#ffffff',
+                  border: sortOpen ? '1px solid #d4a843' : '1px solid rgba(33,78,65,0.15)',
+                  borderRadius: '30px',
+                  boxShadow: '0 4px 12px rgba(33,78,65,0.05)',
                   cursor: 'pointer',
                   outline: 'none',
+                  transition: 'all 0.3s ease'
                 }}
               >
                 {SORT_OPTIONS[sortIdx].label}
-                <ChevronDown size={16} strokeWidth={1.5} style={{ transition: 'transform 0.2s', transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
+                <ChevronDown size={14} strokeWidth={2} color={sortOpen ? '#d4a843' : '#214e41'} style={{ transition: 'transform 0.3s', transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
               </button>
 
               {sortOpen && (
@@ -242,10 +256,11 @@ export default function ShopPage() {
                     style={{ position: 'fixed', inset: 0, zIndex: 40 }}
                   />
                   <div style={{
-                    position: 'absolute', top: '100%', left: 0, right: 0,
-                    backgroundColor: 'white', border: '1px solid rgba(61,144,137,0.4)',
-                    borderTop: 'none', zIndex: 50,
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.06)'
+                    position: 'absolute', top: 'calc(100% + 8px)', left: 0, right: 0,
+                    backgroundColor: '#ffffff', border: '1px solid rgba(33,78,65,0.1)',
+                    borderRadius: '20px', zIndex: 50,
+                    boxShadow: '0 12px 36px rgba(33,78,65,0.12)',
+                    overflow: 'hidden', padding: '0.5rem 0'
                   }}>
                     {SORT_OPTIONS.map((opt, i) => (
                       <button
@@ -253,9 +268,9 @@ export default function ShopPage() {
                         onClick={() => { setSortIdx(i); setSortOpen(false); handleSort({ target: { value: i } }); }}
                         style={{
                           display: 'block', width: '100%', textAlign: 'left',
-                          padding: '0.8rem 1.25rem',
-                          fontFamily: 'Jost, sans-serif', fontSize: '0.85rem',
-                          color: sortIdx === i ? '#3d9089' : '#2c2c2c',
+                          padding: '0.7rem 1.5rem',
+                          fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 500,
+                          color: sortIdx === i ? '#d4a843' : '#214e41',
                           backgroundColor: 'transparent', border: 'none',
                           cursor: 'pointer',
                           transition: 'background-color 0.2s'
@@ -278,10 +293,11 @@ export default function ShopPage() {
               {search && (
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                  padding: '0.3rem 0.75rem',
-                  backgroundColor: 'rgba(61,144,137,0.1)',
+                  padding: '0.4rem 1rem',
+                  backgroundColor: 'rgba(33,78,65,0.06)',
                   fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-                  color: '#3d9089', border: '1px solid rgba(61,144,137,0.2)',
+                  color: '#214e41', border: '1px solid rgba(33,78,65,0.15)',
+                  borderRadius: '20px'
                 }}>
                   "{search}"
                   <X size={11} style={{ cursor: 'pointer' }} onClick={() => { setSearch(''); setSearchInput('') }} />
@@ -290,10 +306,11 @@ export default function ShopPage() {
               {categoryId && (
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                  padding: '0.3rem 0.75rem',
-                  backgroundColor: 'rgba(61,144,137,0.1)',
+                  padding: '0.4rem 1rem',
+                  backgroundColor: 'rgba(33,78,65,0.06)',
                   fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-                  color: '#3d9089', border: '1px solid rgba(61,144,137,0.2)',
+                  color: '#214e41', border: '1px solid rgba(33,78,65,0.15)',
+                  borderRadius: '20px'
                 }}>
                   {categories.find(c => c.category_id === categoryId)?.name || 'Category'}
                   <X size={11} style={{ cursor: 'pointer' }} onClick={() => setCategoryId('')} />
@@ -306,22 +323,27 @@ export default function ShopPage() {
 
             {/* Sidebar — Categories */}
             <aside style={{
-              width: '220px',
+              width: '250px',
               flexShrink: 0,
               display: filtersOpen ? 'block' : 'none',
             }}
               className="shop-sidebar"
             >
               <div style={{
-                backgroundColor: 'white',
-                border: '1px solid rgba(61,144,137,0.15)',
-                padding: '1.5rem',
+                position: 'sticky', top: '2rem',
+                backgroundColor: '#ffffff',
+                border: '1px solid rgba(33,78,65,0.08)',
+                borderRadius: '24px',
+                boxShadow: '0 4px 24px rgba(33,78,65,0.04)',
+                padding: '1.75rem',
               }}>
                 <h3 style={{
                   fontFamily: 'Jost, sans-serif',
-                  fontSize: '0.65rem', fontWeight: 600,
-                  letterSpacing: '0.2em', textTransform: 'uppercase',
-                  color: '#d4a843', marginBottom: '1rem',
+                  fontSize: '0.75rem', fontWeight: 600,
+                  letterSpacing: '0.15em', textTransform: 'uppercase',
+                  color: '#214e41', marginBottom: '1.5rem',
+                  borderBottom: '1px solid rgba(33,78,65,0.1)',
+                  paddingBottom: '0.5rem'
                 }}>{s.allCategories}</h3>
 
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
