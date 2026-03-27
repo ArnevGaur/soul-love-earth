@@ -69,7 +69,7 @@ export default function ProductCard({ product }) {
             style={{
               position: 'absolute', bottom: 0, left: 0, right: 0,
               padding: '0.75rem',
-              backgroundColor: '#214e41', color: 'white',
+              backgroundColor: '#2c635a', color: 'white',
               fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
               fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
               border: 'none', cursor: 'pointer',
@@ -78,7 +78,7 @@ export default function ProductCard({ product }) {
               transition: 'all 0.3s ease',
             }}
             onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#214e41'}
+            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2c635a'}
           >
             <ShoppingBag size={13} strokeWidth={1.5} />
             Add to Cart

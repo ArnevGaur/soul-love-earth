@@ -6,7 +6,7 @@ import { X, Trash2, Plus, Minus } from 'lucide-react'
 export default function CartDrawer() {
   const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal } = useCart()
   const { t, lang } = useLanguage()
-  const c = t.cart
+  const c = t?.cart || {}
   const navigate = useNavigate()
   const isRtl = lang === 'ar'
 
@@ -194,11 +194,11 @@ export default function CartDrawer() {
             <button 
               onClick={() => { setCartDrawerOpen(false); navigate('/checkout') }}
               style={{
-                width: '100%', padding: '1.1rem', backgroundColor: '#3d9089', color: 'white', border: 'none',
+                width: '100%', padding: '1.1rem', backgroundColor: '#2c635a', color: 'white', border: 'none',
                 fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', fontWeight: 600, 
                 letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
                 borderRadius: '40px', transition: 'all 0.3s ease',
-                boxShadow: '0 8px 25px rgba(61, 144, 137, 0.2)'
+                boxShadow: '0 8px 25px rgba(44, 99, 90, 0.15)'
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.backgroundColor = '#d4a843'
@@ -206,9 +206,9 @@ export default function CartDrawer() {
                 e.currentTarget.style.boxShadow = '0 12px 30px rgba(212,168,67,0.3)'
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = '#3d9089'
+                e.currentTarget.style.backgroundColor = '#2c635a'
                 e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(61, 144, 137, 0.2)'
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(44, 99, 90, 0.15)'
               }}
             >
               {c.checkout}

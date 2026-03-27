@@ -301,7 +301,7 @@ export default function ProductPage() {
                     {product.category?.name}
                   </Link>
  
-                  <h1 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(2.5rem,5vw,3.5rem)', fontWeight:600, color:'#214e41', margin:'1rem 0 1.5rem 0', lineHeight:1.1 }}>
+                  <h1 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(2.5rem,5vw,3.5rem)', fontWeight:600, color:'#2c635a', margin:'1rem 0 1.5rem 0', lineHeight:1.1 }}>
                     {product.name}
                   </h1>
  
@@ -315,7 +315,7 @@ export default function ProductPage() {
  
                   {/* Price */}
                   <div style={{ display:'flex', alignItems:'baseline', gap:'1rem', marginBottom:'2.5rem' }}>
-                    <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'2.5rem', color:'#2c635a', fontWeight:500 }}>{displayPrice}</span>
+                    <span style={{ fontFamily:'Jost, sans-serif', fontSize:'2.25rem', color:'#2c635a', fontWeight:600, letterSpacing:'-0.01em' }}>{displayPrice}</span>
                     {originalPrice && <span style={{ fontFamily:'Jost, sans-serif', fontSize:'1.2rem', color:'#bbb', textDecoration:'line-through', fontWeight: 300 }}>{originalPrice}</span>}
                   </div>
  
@@ -335,7 +335,7 @@ export default function ProductPage() {
                   {/* Quantity & CTA Wrapper */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '3rem' }}>
                     <div style={{ display:'flex', alignItems:'center', gap:'2rem' }}>
-                      <span style={{ fontFamily:'Jost, sans-serif', fontSize:'0.75rem', fontWeight:600, letterSpacing:'0.15em', textTransform:'uppercase', color:'#3d9089' }}>{p.quantity}</span>
+                      <span style={{ fontFamily:'Jost, sans-serif', fontSize:'0.75rem', fontWeight:600, letterSpacing:'0.15em', textTransform:'uppercase', color:'#2c635a' }}>{p.quantity}</span>
                       <div style={{ 
                         display:'flex', alignItems:'center', 
                         backgroundColor:'white', 
@@ -354,11 +354,11 @@ export default function ProductPage() {
                       onClick={handleAddToCart}
                       style={{
                         width:'100%', padding:'1.25rem',
-                        backgroundColor: added ? '#317570' : '#3d9089',
+                        backgroundColor: added ? '#214e41' : '#2c635a',
                         color:'white', border:'none', cursor:'pointer', borderRadius:'40px',
                         fontFamily:'Jost, sans-serif', fontSize:'0.85rem', fontWeight:700, letterSpacing:'0.2em', textTransform:'uppercase',
                         transition:'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)', display:'flex', alignItems:'center', justifyContent:'center', gap:'0.75rem',
-                        boxShadow: '0 8px 25px rgba(61,144,137,0.15)',
+                        boxShadow: '0 8px 25px rgba(44, 99, 90, 0.15)',
                       }}
                       onMouseEnter={e => { 
                         if(!added) {
@@ -369,9 +369,9 @@ export default function ProductPage() {
                       }}
                       onMouseLeave={e => { 
                         if(!added) {
-                          e.currentTarget.style.backgroundColor='#3d9089'
+                          e.currentTarget.style.backgroundColor='#2c635a'
                           e.currentTarget.style.transform='translateY(0)'
-                          e.currentTarget.style.boxShadow='0 8px 25px rgba(61,144,137,0.15)'
+                          e.currentTarget.style.boxShadow='0 8px 25px rgba(44, 99, 90, 0.15)'
                         }
                       }}
                     >
@@ -400,7 +400,7 @@ export default function ProductPage() {
  
                    {/* Existing reviews */}
                    <div dir={t.dir}>
-                    <h2 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'2.5rem', fontWeight:600, color:'#3d9089', marginBottom:'0.5rem' }}>
+                    <h2 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'2.5rem', fontWeight:600, color:'#2c635a', marginBottom:'0.5rem' }}>
                        {p.reviews}
                      </h2>
                     {avgRating && (
@@ -423,7 +423,7 @@ export default function ProductPage() {
 
                   {/* Write a review */}
                   <div style={{ backgroundColor:'white', borderRadius:'32px', padding:'2.5rem', border:'1px solid rgba(61,144,137,0.06)', boxShadow:'0 15px 45px rgba(61,144,137,0.04)' }} dir={t.dir}>
-                    <h3 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'1.8rem', fontWeight:600, color:'#3d9089', marginBottom:'1.5rem' }}>
+                    <h3 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'1.8rem', fontWeight:600, color:'#2c635a', marginBottom:'1.5rem' }}>
                       {p.writeReview}
                     </h3>
                     {reviewSubmitted && (
@@ -502,7 +502,7 @@ export default function ProductPage() {
                   <div style={{ height:'1px', backgroundColor:'rgba(61,144,137,0.15)', marginBottom:'3.5rem' }} />
                   <div style={{ textAlign:'center', marginBottom:'4rem' }} dir={t.dir}>
                     <span style={{ fontFamily:'Jost, sans-serif', fontSize:'0.7rem', fontWeight: 600, letterSpacing:'0.3em', textTransform:'uppercase', color:'#d4a843' }}>{p.relatedSub}</span>
-                    <h2 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(2.5rem,5vw,3.5rem)', fontWeight:600, color:'#214e41', marginTop:'0.75rem' }}>
+                    <h2 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'1.75rem', fontWeight:600, color:'#2c635a', marginTop:'0.75rem' }}>
                       {p.relatedTitle}
                     </h2>
                   </div>
@@ -521,15 +521,14 @@ export default function ProductPage() {
 }
 
 const labelStyle = {
-  fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', fontWeight: 600,
-  letterSpacing: '0.12em', textTransform: 'uppercase', color: '#3d9089',
+  letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2c635a',
   marginBottom: '0.2rem'
 }
  
 const inputStyle = {
   width: '100%', padding: '1rem 1.25rem',
   border: '1.5px solid rgba(61,144,137,0.1)', borderRadius: '30px',
-  fontFamily: 'Jost, sans-serif', fontSize: '0.95rem', color: '#3d9089',
+  fontFamily: 'Jost, sans-serif', fontSize: '0.95rem', color: '#2c635a',
   outline: 'none', transition: 'all 0.3s ease', backgroundColor: '#fcfbf8',
   boxSizing: 'border-box',
 }

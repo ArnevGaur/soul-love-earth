@@ -44,7 +44,7 @@ export function CartProvider({ children }) {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   
   const cartTotal = cartItems.reduce((acc, item) => {
-    const priceStr = item.special ? item.special : item.price
+    const priceStr = String(item.special || item.price || '0')
     const price = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0
     return acc + (price * item.quantity)
   }, 0)

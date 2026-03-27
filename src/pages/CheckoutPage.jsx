@@ -159,9 +159,9 @@ export default function CheckoutPage() {
             <Link to="/shop" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-teal-600)', textDecoration: 'none', fontFamily: 'var(--font-body)', fontSize: '0.82rem', fontWeight: 500 }}>
               <ArrowLeft size={15} /> Back to Shop
             </Link>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 600, color: '#3d9089', marginTop: '1rem', marginBottom: 0 }}>
-              Secure Checkout
-            </h1>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 600, color: '#2c635a', marginTop: '1rem', marginBottom: 0 }}>
+               Secure Checkout
+             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.5rem' }}>
               <Lock size={13} color="#3d9089" />
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#888' }}>256-bit SSL encrypted & secure</span>
@@ -286,16 +286,17 @@ export default function CheckoutPage() {
                   width: '100%',
                   marginTop: '1.75rem',
                   padding: '1.25rem',
-                  backgroundColor: (isProcessing || cartItems.length === 0) ? '#b0c8c6' : '#3d9089',
+                  backgroundColor: (isProcessing || cartItems.length === 0) ? '#b0c8c6' : '#2c635a',
                   color: 'white',
                   fontFamily: 'var(--font-body)', fontSize: '0.88rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
-                  border: 'none', borderRadius: '6px',
+                  border: 'none', borderRadius: '40px',
                   cursor: (isProcessing || cartItems.length === 0) ? 'not-allowed' : 'pointer',
-                  transition: 'background-color 0.2s',
+                  transition: 'all 0.3s ease',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem',
+                  boxShadow: (isProcessing || cartItems.length === 0) ? 'none' : '0 8px 25px rgba(44, 99, 90, 0.15)',
                 }}
-                onMouseEnter={e => { if (!isProcessing && cartItems.length > 0) e.currentTarget.style.backgroundColor = '#2d7070' }}
-                onMouseLeave={e => { if (!isProcessing && cartItems.length > 0) e.currentTarget.style.backgroundColor = '#3d9089' }}
+                onMouseEnter={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = '#d4a843'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(212,168,67,0.3)'; } }}
+                onMouseLeave={e => { if (!isProcessing && cartItems.length > 0) { e.currentTarget.style.backgroundColor = '#2c635a'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(44, 99, 90, 0.15)'; } }}
               >
                 {isProcessing
                   ? <><span style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid white', borderTopColor: 'transparent', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} /> Processing…</>
@@ -353,7 +354,7 @@ export default function CheckoutPage() {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '2px solid #eee' }}>
                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--color-charcoal)', fontWeight: 600 }}>Total</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 500 }}>AED {finalTotal.toFixed(2)}</span>
+                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 700, letterSpacing: '-0.02em' }}>AED {finalTotal.toFixed(2)}</span>
                     </div>
                   </>
                 )}

@@ -371,7 +371,7 @@ export function LanguageProvider({ children }) {
     document.documentElement.lang = lang
   }, [lang])
 
-  const t = translations[lang]
+  const t = translations[lang] || translations.en
   const toggleLang = () => setLang(l => l === 'en' ? 'ar' : 'en')
 
   return (
