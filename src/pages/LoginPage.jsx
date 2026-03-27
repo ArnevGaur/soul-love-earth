@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -37,9 +38,52 @@ export default function LoginPage() {
     }
   }
 
+  const handlePasswordChange = (e) => {
+    const val = e.target.value
+    setPassword(val)
+    
+    // Length check
+    if (val && val.length < 8) {
+      setPasswordError(lang === 'ar' ? 'يجب أن تكون كلمة المرور 8 أحرف على الأقل' : 'Minimum 8 characters required.')
+    } else {
+      setPasswordError('')
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    
+    // Validate required fields
+    if (!email.trim()) {
+      const message = lang === 'ar' ? 'يرجى إدخال البريد الإلكتروني' : 'Please enter your email address'
+      setError(message)
+      alert(message)
+      return
+    }
+    if (!password.trim()) {
+      const message = lang === 'ar' ? 'يرجى إدخال كلمة المرور' : 'Please enter your password'
+      setError(message)
+      alert(message)
+      return
+    }
+    
+    // Check for email validation error
+    if (emailError) {
+      const message = lang === 'ar' ? 'يرجى تصحيح البريد الإلكتروني' : 'Please fix the email error'
+      setError(message)
+      alert(message)
+      return
+    }
+    
+    // Check for password validation error
+    if (passwordError) {
+      const message = lang === 'ar' ? 'يرجى تصحيح كلمة المرور' : 'Please fix the password error'
+      setError(message)
+      alert(message)
+      return
+    }
+    
     setLoading(true)
     // Simulate auth
     await new Promise(r => setTimeout(r, 1200))
@@ -115,7 +159,7 @@ export default function LoginPage() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
                 {/* Email */}
                 <div>
-                  <label style={labelStyle}>{a.email}</label>
+                  <label style={labelStyle}>{a.email}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                   <div style={{ position: 'relative' }}>
                     <Mail size={15} style={{ position: 'absolute', top: '50%', [lang === 'ar' ? 'right' : 'left']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
                     <input type="email" name="email" autoComplete="username" required value={email} onChange={handleEmailChange} placeholder="you@example.com"
@@ -134,20 +178,26 @@ export default function LoginPage() {
                 {/* Password */}
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                    <label style={labelStyle}>{a.password}</label>
+                    <label style={labelStyle}>{a.password}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                     <Link to="#" style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#214e41', textDecoration: 'none' }}>{a.forgotPassword}</Link>
                   </div>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [lang === 'ar' ? 'right' : 'left']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type={showPwd ? 'text' : 'password'} name="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••"
-                      style={{ ...inputStyle, [lang === 'ar' ? 'paddingRight' : 'paddingLeft']: '2.75rem', [lang === 'ar' ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
-                      onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
-                      onBlur={e => e.target.style.borderColor = '#ddd'} />
+                    <input type={showPwd ? 'text' : 'password'} name="password" autoComplete="current-password" required value={password} onChange={handlePasswordChange} placeholder="Min. 8 characters"
+                      style={{ ...inputStyle, [lang === 'ar' ? 'paddingRight' : 'paddingLeft']: '2.75rem', [lang === 'ar' ? 'paddingLeft' : 'paddingRight']: '2.75rem', borderColor: passwordError ? '#dc2626' : (password && password.length >= 8) ? '#22c55e' : '#ddd' }}
+                      onFocus={e => e.target.style.borderColor = passwordError ? '#dc2626' : 'var(--color-teal-500)'}
+                      onBlur={e => e.target.style.borderColor = passwordError ? '#dc2626' : (password && password.length >= 8) ? '#22c55e' : '#ddd' } />
                     <button type="button" onClick={() => setShowPwd(v => !v)}
                       style={{ position: 'absolute', top: '50%', [lang === 'ar' ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#aaa', padding: 0 }}>
                       {showPwd ? <EyeOff size={15} /> : <Eye size={15} />}
                     </button>
+                    {password && !passwordError && password.length >= 8 && (
+                      <Check size={16} style={{ position: 'absolute', top: '50%', [lang === 'ar' ? 'left' : 'right']: '3rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
+                    )}
                   </div>
+                  {passwordError && (
+                    <div style={{ color: '#dc2626', fontSize: '0.65rem', marginTop: '0.3rem', fontWeight: 600 }}>{passwordError}</div>
+                  )}
                 </div>
 
                 {/* Submit */}

@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const navigate = useNavigate()
   const a = t.auth
   const ltr = lang !== 'ar'
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '', confirmPassword: '' })
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '+971 ', password: '', confirmPassword: '' })
   const [showPwd, setShowPwd] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -28,18 +28,47 @@ export default function RegisterPage() {
   const update = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }))
 
   const handlePhoneChange = (e) => {
-    const value = e.target.value
-    // If they type a letter, show inline error and block
-    if (/[a-zA-Z]/.test(value)) {
-      setPhoneError(lang === 'ar' ? 'يرجى إدخال أرقام فقط' : 'Please enter numbers only.')
-      return
+    let value = e.target.value
+    
+    // Always start with +971
+    if (!value.startsWith('+971 ')) {
+      value = '+971 ' + value.replace(/^\+971\s*/, '')
     }
     
-    setPhoneError('') // Clear error if input is valid or empty
+    // Extract only digits after +971
+    const digitsAfterCountry = value.replace(/^\+971\s*/, '').replace(/\D/g, '')
     
-    // Allow digits, spaces, plus, minus, and parens
-    if (value === '' || /^[\d\s+\-()]*$/.test(value)) {
-      setForm(f => ({ ...f, phone: value }))
+    // Limit to 9 digits after country code
+    const limitedDigits = digitsAfterCountry.slice(0, 9)
+    
+    // Format the phone number with spacing
+    const formatPhoneNumber = (digits) => {
+      if (digits.length <= 2) return digits
+      if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`
+      return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`
+    }
+    
+    if (limitedDigits.length > 0) {
+      value = '+971 ' + formatPhoneNumber(limitedDigits)
+    } else {
+      value = '+971 '
+    }
+    
+    setForm(f => ({ ...f, phone: value }))
+    
+    // Validation
+    if (limitedDigits.length > 0 && limitedDigits.length < 9) {
+      setPhoneError(lang === 'ar' ? 'يجب أن تحتوي أرقام الهواتف المحمولة في الإمارات على 9 أرقام بعد +971' : 'UAE mobile numbers must have 9 digits after +971.')
+    } else if (limitedDigits.length === 9) {
+      // Check if it starts with valid UAE mobile prefix (5, 3, or 6)
+      const firstDigit = limitedDigits.charAt(0)
+      if (!['5', '3', '6'].includes(firstDigit)) {
+        setPhoneError(lang === 'ar' ? 'يجب أن تبدأ أرقام الهواتف المحمولة في الإمارات بـ 5 أو 3 أو 6 بعد +971' : 'UAE mobile numbers must start with 5, 3, or 6 after +971.')
+      } else {
+        setPhoneError('')
+      }
+    } else {
+      setPhoneError('')
     }
   }
 
@@ -92,8 +121,51 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    
+    // Validate all required fields except last name
+    if (!form.firstName.trim()) {
+      const message = lang === 'ar' ? 'يرجى إدخال الاسم الأول' : 'Please enter your first name'
+      setError(message)
+      alert(message)
+      return
+    }
+    if (!form.email.trim()) {
+      const message = lang === 'ar' ? 'يرجى إدخال البريد الإلكتروني' : 'Please enter your email address'
+      setError(message)
+      alert(message)
+      return
+    }
+    if (!form.phone.trim() || form.phone === '+971 ') {
+      const message = lang === 'ar' ? 'يرجى إدخال رقم الهاتف' : 'Please enter your phone number'
+      setError(message)
+      alert(message)
+      return
+    }
+    if (!form.password.trim()) {
+      const message = lang === 'ar' ? 'يرجى إدخال كلمة المرور' : 'Please enter your password'
+      setError(message)
+      alert(message)
+      return
+    }
+    if (!form.confirmPassword.trim()) {
+      const message = lang === 'ar' ? 'يرجى تأكيد كلمة المرور' : 'Please confirm your password'
+      setError(message)
+      alert(message)
+      return
+    }
+    
+    // Check for existing validation errors
+    if (emailError || phoneError || passwordError || matchError) {
+      const message = lang === 'ar' ? 'يرجى تصحيح الأخطاء قبل المتابعة' : 'Please fix the errors before continuing'
+      setError(message)
+      alert(message)
+      return
+    }
+    
     if (form.password !== form.confirmPassword) {
-      setError(lang === 'ar' ? 'كلمتا المرور غير متطابقتين' : 'Passwords do not match.')
+      const message = lang === 'ar' ? 'كلمتا المرور غير متطابقتين' : 'Passwords do not match'
+      setError(message)
+      alert(message)
       return
     }
     setLoading(true)
@@ -192,7 +264,7 @@ export default function RegisterPage() {
                 {/* Name row */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
-                    <label style={labelStyle}>{a.firstName}</label>
+                    <label style={labelStyle}>{a.firstName}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                     <div style={{ position: 'relative' }}>
                       <User size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
                       <input type="text" required value={form.firstName} onChange={update('firstName')} placeholder={lang === 'ar' ? 'محمد' : 'John'}
@@ -205,7 +277,7 @@ export default function RegisterPage() {
                     <label style={labelStyle}>{a.lastName}</label>
                     <div style={{ position: 'relative' }}>
                       <User size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                      <input type="text" required value={form.lastName} onChange={update('lastName')} placeholder={lang === 'ar' ? 'الأحمد' : 'Smith'}
+                      <input type="text" value={form.lastName} onChange={update('lastName')} placeholder={lang === 'ar' ? 'الأحمد' : 'Smith'}
                         style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem' }}
                         onFocus={e => e.target.style.borderColor = 'var(--color-teal-500)'}
                         onBlur={e => e.target.style.borderColor = '#ddd'} />
@@ -215,7 +287,7 @@ export default function RegisterPage() {
 
                 {/* Email */}
                 <div>
-                  <label style={labelStyle}>{a.email}</label>
+                  <label style={labelStyle}>{a.email}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                   <div style={{ position: 'relative' }}>
                     <Mail size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
                     <input type="email" name="email" autoComplete="username" required value={form.email} onChange={handleEmailChange} placeholder="you@example.com"
@@ -233,14 +305,14 @@ export default function RegisterPage() {
 
                 {/* Phone */}
                 <div>
-                  <label style={labelStyle}>{a.phone}</label>
+                  <label style={labelStyle}>{a.phone}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                   <div style={{ position: 'relative' }}>
                     <Phone size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
-                    <input type="tel" name="phone" value={form.phone} onChange={handlePhoneChange} placeholder="+971 50 000 0000"
-                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [ltr ? 'paddingRight' : 'paddingLeft']: (form.phone && !phoneError && form.phone.length > 5) ? '2.5rem' : '1rem', borderColor: phoneError ? '#dc2626' : (form.phone && !phoneError && form.phone.length > 5) ? '#22c55e' : '#ddd' }}
-                      onNameFocus={e => e.target.style.borderColor = phoneError ? '#dc2626' : 'var(--color-teal-500)'}
-                      onBlur={e => e.target.style.borderColor = phoneError ? '#dc2626' : (form.phone && !phoneError && form.phone.length > 5) ? '#22c55e' : '#ddd'} />
-                    {form.phone && !phoneError && form.phone.length > 5 && (
+                    <input type="tel" name="phone" required value={form.phone} onChange={handlePhoneChange} placeholder="+971 50 000 0000"
+                      style={{ ...inputStyle, [ltr ? 'paddingLeft' : 'paddingRight']: '2.75rem', [ltr ? 'paddingRight' : 'paddingLeft']: (form.phone && !phoneError && form.phone.replace(/^\+971\s*/, '').replace(/\D/g, '').length === 9) ? '2.5rem' : '1rem', borderColor: phoneError ? '#dc2626' : (form.phone && !phoneError && form.phone.replace(/^\+971\s*/, '').replace(/\D/g, '').length === 9) ? '#22c55e' : '#ddd' }}
+                      onFocus={e => e.target.style.borderColor = phoneError ? '#dc2626' : 'var(--color-teal-500)'}
+                      onBlur={e => e.target.style.borderColor = phoneError ? '#dc2626' : (form.phone && !phoneError && form.phone.replace(/^\+971\s*/, '').replace(/\D/g, '').length === 9) ? '#22c55e' : '#ddd'} />
+                    {form.phone && !phoneError && form.phone.replace(/^\+971\s*/, '').replace(/\D/g, '').length === 9 && (
                       <Check size={16} style={{ position: 'absolute', top: '50%', [ltr ? 'right' : 'left']: '0.85rem', transform: 'translateY(-50%)', color: '#22c55e' }} />
                     )}
                   </div>
@@ -251,7 +323,7 @@ export default function RegisterPage() {
 
                 {/* Password */}
                 <div>
-                  <label style={labelStyle}>{a.password}</label>
+                  <label style={labelStyle}>{a.password}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
                     <input type={showPwd ? 'text' : 'password'} name="password" autoComplete="new-password" required value={form.password} onChange={handlePasswordChange} placeholder="Min. 8 characters"
@@ -273,7 +345,7 @@ export default function RegisterPage() {
 
                 {/* Confirm Password */}
                 <div>
-                  <label style={labelStyle}>{a.confirmPassword}</label>
+                  <label style={labelStyle}>{a.confirmPassword}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', top: '50%', [ltr ? 'left' : 'right']: '1rem', transform: 'translateY(-50%)', color: '#aaa' }} />
                     <input type={showPwd ? 'text' : 'password'} name="confirm-password" autoComplete="new-password" required value={form.confirmPassword} onChange={handleConfirmPasswordChange} placeholder="••••••••"
