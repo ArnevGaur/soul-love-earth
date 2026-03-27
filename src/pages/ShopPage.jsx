@@ -121,7 +121,7 @@ export default function ShopPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '80px' }}>
+      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px' }}>
 
         {/* Page Header */}
         <div style={{

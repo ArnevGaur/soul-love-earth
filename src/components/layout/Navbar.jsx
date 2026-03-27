@@ -92,12 +92,13 @@ export default function Navbar() {
           right: 0,
           zIndex: 100,
           transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
-          backgroundColor: isScrolled ? 'rgba(250, 248, 243, 0.98)' : 'rgba(26, 46, 44, 0.35)',
+          backgroundColor: isScrolled ? '#ffffff' : 'rgba(26, 46, 44, 0.35)',
           backgroundImage: 'none',
           backdropFilter: isScrolled ? 'blur(20px)' : 'blur(12px)',
           WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'blur(12px)',
-          borderBottom: isScrolled ? '1px solid rgba(61, 144, 137, 0.12)' : '1px solid rgba(255,255,255,0.05)',
-          padding: scrolled ? '0.65rem 1.75rem' : '1.15rem 1.75rem',
+          borderBottom: isScrolled ? '1px solid rgba(33, 78, 65, 0.08)' : '1px solid rgba(255,255,255,0.05)',
+          boxShadow: isScrolled ? '0 4px 20px rgba(0,0,0,0.02)' : 'none',
+          padding: isScrolled ? '0.6rem 1.75rem' : '1.1rem 1.75rem',
         }}
       >
         <nav style={{ 
