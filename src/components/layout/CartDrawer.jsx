@@ -1,7 +1,7 @@
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Link, useNavigate } from 'react-router-dom'
-import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
+import { X, Trash2, Plus, Minus } from 'lucide-react'
 
 export default function CartDrawer() {
   const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal } = useCart()
@@ -12,14 +12,13 @@ export default function CartDrawer() {
 
   return (
     <>
-      {/* Backdrop — frosted glass like FilterPane */}
-      <div
+      {/* Backdrop */}
+      <div 
         onClick={() => setCartDrawerOpen(false)}
         style={{
-          position: 'fixed', inset: 0,
-          backgroundColor: 'rgba(26,47,44,0.3)',
-          backdropFilter: 'blur(5px)',
-          WebkitBackdropFilter: 'blur(5px)',
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(21, 46, 43, 0.4)', // Soul Love Dark Green tint
+          backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
           zIndex: 1001,
           opacity: cartDrawerOpen ? 1 : 0,
           pointerEvents: cartDrawerOpen ? 'auto' : 'none',
@@ -27,155 +26,139 @@ export default function CartDrawer() {
         }}
       />
 
-      {/* Drawer */}
+      {/* Drawer — slides in from right (LTR) or left (RTL) */}
       <div style={{
         position: 'fixed', top: 0, [isRtl ? 'left' : 'right']: 0, bottom: 0,
         width: '100%', maxWidth: '400px',
         backgroundColor: '#faf8f3',
         zIndex: 1002,
+        boxShadow: isRtl ? '20px 0 80px rgba(33,78,65,0.15)' : '-20px 0 80px rgba(33,78,65,0.15)',
         transform: cartDrawerOpen ? 'translateX(0)' : isRtl ? 'translateX(-100%)' : 'translateX(100%)',
         transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         display: 'flex', flexDirection: 'column',
-        boxShadow: '-20px 0 80px rgba(33,78,65,0.15)',
-        borderTopLeftRadius: '32px',
-        borderBottomLeftRadius: '32px',
-        overflow: 'hidden',
         direction: t.dir,
+        borderTopLeftRadius: !isRtl ? '32px' : 0,
+        borderBottomLeftRadius: !isRtl ? '32px' : 0,
+        borderTopRightRadius: isRtl ? '32px' : 0,
+        borderBottomRightRadius: isRtl ? '32px' : 0,
+        overflow: 'hidden'
       }}>
-
         {/* Header */}
         <div style={{
-          padding: '1.75rem 1.75rem 1.25rem',
-          background: '#214e41',
+          padding: '1.5rem 2rem',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          borderBottom: '1px solid rgba(33,78,65,0.08)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <ShoppingBag size={18} strokeWidth={1.5} color="#d4a843" />
-            <h2 style={{
-              fontFamily: 'Cormorant Garamond, serif',
-              fontSize: '1.4rem', fontWeight: 500,
-              color: '#faf8f3', margin: 0,
-              letterSpacing: '0.02em'
-            }}>{c.title}</h2>
-            {cartItems.length > 0 && (
-              <span style={{
-                fontFamily: 'Jost, sans-serif', fontSize: '0.65rem', fontWeight: 600,
-                letterSpacing: '0.1em',
-                backgroundColor: '#d4a843', color: '#214e41',
-                borderRadius: '20px', padding: '0.15rem 0.6rem',
-              }}>{cartItems.length}</span>
-            )}
-          </div>
-          <button
-            onClick={() => setCartDrawerOpen(false)}
-            style={{
-              background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)',
-              borderRadius: '50%', width: '34px', height: '34px',
+          <h2 style={{ 
+            fontFamily: 'Cormorant Garamond, serif', 
+            fontSize: '1.4rem', 
+            fontWeight: 600,
+            color: '#214e41', 
+            margin: 0,
+            paddingBottom: '0.2rem',
+            borderBottom: '2px solid #d4a843'
+          }}>
+            {c.title}
+          </h2>
+          <button 
+            onClick={() => setCartDrawerOpen(false)} 
+            style={{ 
+              background: 'rgba(33,78,65,0.05)', 
+              border: 'none', 
+              cursor: 'pointer', 
+              color: '#214e41', 
+              width: '32px', height: '32px',
+              borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: '#faf8f3', transition: 'all 0.2s'
+              transition: 'all 0.3s ease'
             }}
-            onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(212,168,67,0.25)'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'}
+            onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(33,78,65,0.1)'}
+            onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(33,78,65,0.05)'}
           >
-            <X size={16} strokeWidth={2} />
+            <X size={18} strokeWidth={2} />
           </button>
         </div>
 
-        {/* Gradient separator */}
-        <div style={{ height: '3px', background: 'linear-gradient(90deg, #d4a843, #3d9089)', opacity: 0.7 }} />
-
         {/* Items */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem 2rem' }}>
           {cartItems.length === 0 ? (
-            <div style={{ textAlign: 'center', marginTop: '4rem' }}>
-              <ShoppingBag size={48} strokeWidth={1} color="rgba(33,78,65,0.2)" style={{ marginBottom: '1rem' }} />
-              <p style={{
-                fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                color: 'rgba(33,78,65,0.5)', marginBottom: '2rem'
-              }}>{c.empty}</p>
-              <button
+            <div style={{ textAlign: 'center', color: '#999', marginTop: '4rem', fontFamily: 'Jost, sans-serif' }}>
+              <div style={{ marginBottom: '1.5rem', opacity: 0.3 }}>
+                <ShoppingBag size={48} style={{ margin: '0 auto' }} />
+              </div>
+              <p style={{ fontSize: '0.9rem', marginBottom: '1.5rem' }}>{c.empty}</p>
+              <button 
                 onClick={() => setCartDrawerOpen(false)}
                 style={{
-                  padding: '0.75rem 2rem',
-                  backgroundColor: '#214e41', color: '#faf8f3',
-                  border: 'none', borderRadius: '30px',
-                  fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-                  fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
-                  cursor: 'pointer', transition: 'all 0.3s ease'
+                  padding: '0.8rem 2rem', backgroundColor: '#214e41', color: 'white', border: 'none',
+                  fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', fontWeight: 600,
+                  letterSpacing: '0.12em', textTransform: 'uppercase', cursor: 'pointer',
+                  borderRadius: '30px', transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
                 onMouseLeave={e => e.currentTarget.style.backgroundColor = '#214e41'}
               >{c.continueShopping}</button>
             </div>
           ) : (
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {cartItems.map(item => (
-                <li key={item.product_id} style={{
-                  display: 'flex', gap: '1rem',
-                  backgroundColor: '#ffffff',
-                  borderRadius: '16px',
-                  padding: '0.85rem',
-                  border: '1px solid rgba(33,78,65,0.07)',
-                  boxShadow: '0 2px 10px rgba(33,78,65,0.04)'
-                }}>
-                  <img
-                    src={item.thumb} alt={item.name}
-                    style={{ width: '72px', height: '88px', objectFit: 'cover', borderRadius: '10px', backgroundColor: '#f0f9f7', flexShrink: 0 }}
-                  />
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
-                      <h4 style={{
-                        fontFamily: 'Cormorant Garamond, serif', fontSize: '1.05rem', fontWeight: 500,
-                        color: '#214e41', margin: '0 0 0.25rem 0',
-                        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                <li key={item.product_id} style={{ display: 'flex', gap: '1.25rem' }}>
+                  <div style={{ flexShrink: 0 }}>
+                    <img 
+                      src={item.thumb} 
+                      alt={item.name} 
+                      style={{ 
+                        width: '80px', height: '100px', objectFit: 'cover', 
+                        backgroundColor: '#f5f5f5', borderRadius: '14px',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                      }} 
+                    />
+                  </div>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <h4 style={{ 
+                        fontFamily: 'Jost, sans-serif', fontSize: '0.95rem', fontWeight: 600,
+                        color: '#214e41', margin: '0 0 0.4rem 0' 
                       }}>{item.name}</h4>
-                      <button
-                        onClick={() => removeFromCart(item.product_id)}
-                        style={{
-                          background: 'none', border: 'none', color: 'rgba(33,78,65,0.3)',
-                          cursor: 'pointer', flexShrink: 0, transition: 'color 0.2s', padding: '2px'
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#c0392b'}
-                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(33,78,65,0.3)'}
+                      <button 
+                        onClick={() => removeFromCart(item.product_id)} 
+                        style={{ background: 'none', border: 'none', color: '#cc3300', cursor: 'pointer', padding: '4px', opacity: 0.6 }}
+                        onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                        onMouseLeave={e => e.currentTarget.style.opacity = 0.6}
                       >
-                        <Trash2 size={14} strokeWidth={1.5} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
-                    <span style={{
+                    <div style={{ 
                       fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 500,
-                      color: item.special ? '#3d9089' : '#214e41', marginBottom: 'auto'
+                      color: '#d4a843', marginBottom: '0.75rem' 
                     }}>
                       {item.special ? item.special : item.price}
-                    </span>
-                    {/* Quantity stepper */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.6rem' }}>
-                      <div style={{
-                        display: 'flex', alignItems: 'center',
-                        border: '1px solid rgba(33,78,65,0.15)', borderRadius: '20px',
-                        overflow: 'hidden', backgroundColor: '#faf8f3'
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <div style={{ 
+                        display: 'flex', alignItems: 'center', 
+                        backgroundColor: 'white', border: '1px solid rgba(33,78,65,0.1)',
+                        borderRadius: '20px', padding: '2px 4px'
                       }}>
-                        <button
-                          onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
-                          style={{
-                            background: 'none', border: 'none', padding: '5px 10px',
-                            cursor: 'pointer', color: '#214e41', transition: 'background 0.2s'
+                        <button 
+                          onClick={() => updateQuantity(item.product_id, item.quantity - 1)} 
+                          style={{ 
+                            background: 'none', border: 'none', padding: '6px', cursor: 'pointer', 
+                            color: '#214e41', display: 'flex', alignItems: 'center'
                           }}
-                          onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(33,78,65,0.08)'}
-                          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                        ><Minus size={11} strokeWidth={2} /></button>
-                        <span style={{
+                        ><Minus size={12} /></button>
+                        <span style={{ 
                           fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', fontWeight: 600,
-                          color: '#214e41', width: '22px', textAlign: 'center'
+                          width: '24px', textAlign: 'center', color: '#214e41' 
                         }}>{item.quantity}</span>
-                        <button
-                          onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
-                          style={{
-                            background: 'none', border: 'none', padding: '5px 10px',
-                            cursor: 'pointer', color: '#214e41', transition: 'background 0.2s'
+                        <button 
+                          onClick={() => updateQuantity(item.product_id, item.quantity + 1)} 
+                          style={{ 
+                            background: 'none', border: 'none', padding: '6px', cursor: 'pointer', 
+                            color: '#214e41', display: 'flex', alignItems: 'center'
                           }}
-                          onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(33,78,65,0.08)'}
-                          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                        ><Plus size={11} strokeWidth={2} /></button>
+                        ><Plus size={12} /></button>
                       </div>
                     </div>
                   </div>
@@ -187,39 +170,46 @@ export default function CartDrawer() {
 
         {/* Footer */}
         {cartItems.length > 0 && (
-          <div style={{
-            padding: '1.5rem 1.75rem',
-            backgroundColor: '#ffffff',
+          <div style={{ 
+            padding: '2rem', 
+            backgroundColor: 'white', 
             borderTop: '1px solid rgba(33,78,65,0.08)',
+            boxShadow: '0 -10px 40px rgba(33,78,65,0.05)'
           }}>
-            {/* Gradient line */}
-            <div style={{ height: '2px', background: 'linear-gradient(90deg, #d4a843, #3d9089)', opacity: 0.5, marginBottom: '1.25rem', borderRadius: '2px' }} />
-
-            <div style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
-              marginBottom: '0.5rem'
+            <div style={{ 
+              display: 'flex', justifyContent: 'space-between', 
+              marginBottom: '1.25rem', fontFamily: 'Jost, sans-serif', 
+              fontSize: '1rem', color: '#214e41' 
             }}>
-              <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(33,78,65,0.5)' }}>{c.subtotal}</span>
-              <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.6rem', fontWeight: 500, color: '#214e41' }}>AED {cartTotal.toFixed(2)}</span>
+              <span style={{ fontWeight: 400 }}>{c.subtotal}</span>
+              <span style={{ fontWeight: 700, color: '#214e41' }}>AED {cartTotal.toFixed(2)}</span>
             </div>
-            <p style={{
-              fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-              color: 'rgba(33,78,65,0.4)', marginBottom: '1.25rem', textAlign: 'center'
-            }}>{c.shipping}</p>
-
-            <button
+            <p style={{ 
+              fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', 
+              color: '#999', marginBottom: '1.5rem', textAlign: 'center',
+              letterSpacing: '0.02em'
+            }}>
+              {c.shipping}
+            </p>
+            <button 
               onClick={() => { setCartDrawerOpen(false); navigate('/checkout') }}
               style={{
-                width: '100%', padding: '1rem',
-                backgroundColor: '#214e41', color: '#faf8f3',
-                border: 'none', borderRadius: '30px',
-                fontFamily: 'Jost, sans-serif', fontSize: '0.75rem',
-                fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase',
-                cursor: 'pointer', transition: 'all 0.3s ease',
-                boxShadow: '0 4px 16px rgba(33,78,65,0.2)'
+                width: '100%', padding: '1.1rem', backgroundColor: '#3d9089', color: 'white', border: 'none',
+                fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', fontWeight: 600, 
+                letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
+                borderRadius: '40px', transition: 'all 0.3s ease',
+                boxShadow: '0 8px 25px rgba(61, 144, 137, 0.2)'
               }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#d4a843'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(212,168,67,0.3)' }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#214e41'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.2)' }}
+              onMouseEnter={e => {
+                e.currentTarget.style.backgroundColor = '#d4a843'
+                e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(212,168,67,0.3)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.backgroundColor = '#3d9089'
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(61, 144, 137, 0.2)'
+              }}
             >
               {c.checkout}
             </button>
@@ -229,3 +219,4 @@ export default function CartDrawer() {
     </>
   )
 }
+
