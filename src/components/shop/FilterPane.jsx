@@ -5,7 +5,7 @@ import { X, ChevronDown } from 'lucide-react'
 function Accordion({ title, children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '1.5rem 0' }}>
+    <div style={{ borderBottom: '1px solid rgba(33,78,65,0.1)', padding: '1.5rem 0' }}>
       <button 
         onClick={() => setOpen(!open)}
         style={{
@@ -32,7 +32,7 @@ function Accordion({ title, children, defaultOpen = true }) {
         </h4>
         <ChevronDown 
           size={16} 
-          color="#c75440" // Matches the red arrows from the reference
+          color="#d4a843" // Core Brand Gold
           style={{ 
             transform: open ? 'rotate(180deg)' : 'none',
             transition: 'transform 0.3s' 
@@ -57,21 +57,21 @@ function Accordion({ title, children, defaultOpen = true }) {
   )
 }
 
-export default function FilterPane({ isOpen, onClose }) {
-  // Mock states for interaction
-  const [price, setPrice] = useState([10, 408])
-  const [availability, setAvailability] = useState({ inStock: false, outOfStock: false })
-  const [activeColor, setActiveColor] = useState(null)
-  const [sizes, setSizes] = useState({ '10': false, '14': false })
-
+export default function FilterPane({ 
+  isOpen, 
+  onClose,
+  filters,
+  setFilters,
+  onClear
+}) {
   const colors = [
     { name: 'Black', hex: '#000000' },
     { name: 'Navy', hex: '#0a3a6c' },
     { name: 'Brown', hex: '#b37651' },
-    { name: 'Dark Green', hex: '#0e2b10' },
+    { name: 'Brand Green', hex: '#214e41' },
     { name: 'Lime', hex: '#588b30' },
     { name: 'Grey', hex: '#7f7f7f' },
-    { name: 'Red', hex: '#ea2b3b' },
+    { name: 'Red', hex: '#c75440' }, // Soft earth red
   ]
 
   // Shared checkbox style
@@ -99,12 +99,12 @@ export default function FilterPane({ isOpen, onClose }) {
         }}
       />
       <span style={{ flex: 1 }}>{label}</span>
-      {count && (
+      {count !== null && (
         <span style={{
-          backgroundColor: '#ea2b3b', // Red badge matches wireframe
-          color: 'white',
+          backgroundColor: '#d4a843', // Brand Gold Badge
+          color: '#ffffff',
           fontSize: '0.65rem',
-          fontWeight: 500,
+          fontWeight: 600,
           width: '18px',
           height: '18px',
           display: 'flex',
@@ -157,7 +157,7 @@ export default function FilterPane({ isOpen, onClose }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '1.5rem 2rem',
-          borderBottom: '1px solid rgba(0,0,0,0.08)',
+          borderBottom: '1px solid rgba(33,78,65,0.1)',
         }}>
           <h3 style={{
             fontFamily: 'Jost, sans-serif',
@@ -168,33 +168,37 @@ export default function FilterPane({ isOpen, onClose }) {
             color: '#214e41', // Dark green header
             margin: 0,
             paddingBottom: '0.2rem',
-            borderBottom: '2px solid #ca3636' // Solid red underline from layout
+            borderBottom: '2px solid #d4a843' // Brand gold underline
           }}>
             FILTER
           </h3>
           <button 
-            onClick={onClose}
+            onClick={onClear}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '0.4rem',
               padding: '0.4rem 0.8rem',
-              backgroundColor: '#1b2a41', // Dark navy/black button from the picture layout
-              color: 'white',
-              border: 'none',
+              backgroundColor: 'transparent',
+              color: '#214e41',
+              border: '1px solid #214e41',
               borderRadius: '2px', // Slight curve
               fontFamily: 'Jost, sans-serif',
               fontSize: '0.75rem',
               fontWeight: 500,
-              cursor: 'pointer'
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = '#214e41'
+              e.currentTarget.style.color = '#ffffff'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = 'transparent'
+              e.currentTarget.style.color = '#214e41'
             }}
           >
-            <div style={{
-              width: '12px', height: '12px', borderRadius: '50%', 
-              backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'
-            }}>
-               <X size={10} color="#1b2a41" strokeWidth={3} />
-            </div>
+             <X size={12} strokeWidth={2.5} style={{ color: 'inherit' }} />
             Clear
           </button>
         </div>
@@ -205,55 +209,79 @@ export default function FilterPane({ isOpen, onClose }) {
           {/* Price */}
           <Accordion title="PRICE">
             <div style={{ paddingBottom: '0.5rem' }}>
-              {/* Fake Range Slider Visual */}
-              <div style={{
-                position: 'relative',
-                height: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '1.5rem',
-              }}>
-                <div style={{ position: 'absolute', left: 0, right: 0, height: '2px', backgroundColor: '#e2e2e2' }} />
-                <div style={{ position: 'absolute', left: '0%', right: '0%', height: '2px', backgroundColor: '#1b2a41' }} />
-                <div style={{ position: 'absolute', left: '0%', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#1b2a41', transform: 'translate(-50%, 0)' }} />
-                <div style={{ position: 'absolute', left: '100%', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#1b2a41', transform: 'translate(-50%, 0)' }} />
+              {/* Functional Dual Range Slider */}
+              <div className="dual-slider" style={{ marginBottom: '1.5rem' }}>
+                <div className="slider-track" />
+                <div 
+                  className="slider-range" 
+                  style={{ 
+                    left: `${((Number(filters.minPrice) || 0) / 2000) * 100}%`, 
+                    width: `${(((Number(filters.maxPrice || 2000)) - (Number(filters.minPrice) || 0)) / 2000) * 100}%` 
+                  }} 
+                />
+                <input 
+                  type="range" 
+                  className="min-slider" 
+                  min="0" 
+                  max="2000" 
+                  value={filters.minPrice || 0} 
+                  onChange={e => {
+                    const val = Math.min(Number(e.target.value), (Number(filters.maxPrice || 2000)) - 1);
+                    setFilters({ ...filters, minPrice: val });
+                  }} 
+                />
+                <input 
+                  type="range" 
+                  className="max-slider" 
+                  min="0" 
+                  max="2000" 
+                  value={filters.maxPrice || 2000} 
+                  onChange={e => {
+                    const val = Math.max(Number(e.target.value), (Number(filters.minPrice) || 0) + 1);
+                    setFilters({ ...filters, maxPrice: val });
+                  }} 
+                />
               </div>
 
               {/* Price Inputs */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#1b2a41' }}>AED</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#214e41' }}>AED</span>
                 <input 
                   type="text" 
-                  value={price[0]}
-                  onChange={e => setPrice([e.target.value, price[1]])}
+                  value={filters.minPrice}
+                  onChange={e => setFilters({ ...filters, minPrice: e.target.value })}
+                  placeholder="0"
                   style={{
                     flex: 1,
-                    width: '60px',
-                    padding: '0.5rem',
+                    width: '50px',
+                    padding: '0.4rem',
                     textAlign: 'center',
-                    border: '1px solid #dcdcdc',
+                    border: '1px solid rgba(33,78,65,0.2)',
                     fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.9rem',
-                    color: '#1b2a41',
+                    fontSize: '0.85rem',
+                    color: '#214e41',
                     background: 'none',
                     outline: 'none'
                   }} 
                 />
                 
-                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#1b2a41' }}>AED</span>
+                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#666', padding: '0 0.1rem' }}>to</span>
+
+                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#214e41' }}>AED</span>
                 <input 
                   type="text" 
-                  value={price[1]}
-                  onChange={e => setPrice([price[0], e.target.value])}
+                  value={filters.maxPrice}
+                  onChange={e => setFilters({ ...filters, maxPrice: e.target.value })}
+                  placeholder="2000"
                   style={{
                     flex: 1,
-                    width: '60px',
-                    padding: '0.5rem',
+                    width: '50px',
+                    padding: '0.4rem',
                     textAlign: 'center',
-                    border: '1px solid #dcdcdc',
+                    border: '1px solid rgba(33,78,65,0.2)',
                     fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.9rem',
-                    color: '#1b2a41',
+                    fontSize: '0.85rem',
+                    color: '#214e41',
                     background: 'none',
                     outline: 'none'
                   }} 
@@ -266,13 +294,13 @@ export default function FilterPane({ isOpen, onClose }) {
           <Accordion title="AVAILABILITY">
              <CheckboxRow 
                label="In Stock" 
-               checked={availability.inStock} 
-               onChange={() => setAvailability({ ...availability, inStock: !availability.inStock })}
+               checked={filters.inStock} 
+               onChange={() => setFilters({ ...filters, inStock: !filters.inStock })}
              />
              <CheckboxRow 
                label="Out of Stock" 
-               checked={availability.outOfStock} 
-               onChange={() => setAvailability({ ...availability, outOfStock: !availability.outOfStock })}
+               checked={filters.outOfStock} 
+               onChange={() => setFilters({ ...filters, outOfStock: !filters.outOfStock })}
              />
           </Accordion>
 
@@ -280,22 +308,22 @@ export default function FilterPane({ isOpen, onClose }) {
           <Accordion title="COLOR">
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
               {colors.map(color => {
-                const isActive = activeColor === color.hex
+                const isActive = filters.color === color.hex
                 return (
                   <button
                     key={color.hex}
-                    onClick={() => setActiveColor(isActive ? null : color.hex)}
+                    onClick={() => setFilters({ ...filters, color: isActive ? '' : color.hex })}
                     style={{
                       width: '44px',
                       height: '44px',
                       borderRadius: '50%',
                       backgroundColor: color.hex,
-                      border: isActive ? '3px solid #faf8f3' : '1px solid rgba(0,0,0,0.1)',
-                      outline: isActive ? '2px solid #dcdcdc' : 'none',
+                      border: isActive ? '3px solid #faf8f3' : '1px solid rgba(0,0,0,0.06)',
+                      outline: isActive ? '2px solid #214e41' : 'none',
                       cursor: 'pointer',
                       padding: 0,
                       transition: 'all 0.2s',
-                      boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.1)' : 'none',
+                      boxShadow: isActive ? '0 4px 12px rgba(33,78,65,0.15)' : 'none',
                     }}
                     title={color.name}
                     aria-label={color.name}
@@ -309,20 +337,79 @@ export default function FilterPane({ isOpen, onClose }) {
           <Accordion title="SIZE">
              <CheckboxRow 
                label="10 inches" 
-               count={1}
-               checked={sizes['10']} 
-               onChange={() => setSizes({ ...sizes, '10': !sizes['10'] })}
+               count={null}
+               checked={filters.sizes['10']} 
+               onChange={() => setFilters({ 
+                 ...filters, 
+                 sizes: { ...filters.sizes, '10': !filters.sizes['10'] } 
+               })}
              />
              <CheckboxRow 
                label="14 inches" 
-               count={1}
-               checked={sizes['14']} 
-               onChange={() => setSizes({ ...sizes, '14': !sizes['14'] })}
+               count={null}
+               checked={filters.sizes['14']} 
+               onChange={() => setFilters({ 
+                 ...filters, 
+                 sizes: { ...filters.sizes, '14': !filters.sizes['14'] } 
+               })}
              />
           </Accordion>
 
         </div>
       </div>
+      <style>{`
+        .dual-slider {
+          position: relative;
+          width: 100%;
+          height: 24px;
+        }
+        .slider-track {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 2px;
+          background-color: rgba(33,78,65,0.1);
+          width: 100%;
+          z-index: 1;
+        }
+        .slider-range {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 2px;
+          background-color: #d4a843;
+          z-index: 2;
+        }
+        .dual-slider input[type="range"] {
+          position: absolute;
+          width: 100%;
+          appearance: none;
+          background: transparent;
+          pointer-events: none;
+          margin: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 3;
+        }
+        .dual-slider input[type="range"]::-webkit-slider-thumb {
+          appearance: none;
+          pointer-events: auto;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background-color: #214e41;
+          cursor: pointer;
+        }
+        .dual-slider input[type="range"]::-moz-range-thumb {
+          pointer-events: auto;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background-color: #214e41;
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
     </>
   )
 }

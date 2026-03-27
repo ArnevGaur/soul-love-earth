@@ -119,11 +119,35 @@ export async function fetchProducts({
   order      = 'DESC',
   page       = 1,
   limit      = 24,
+  filters    = null,
 } = {}) {
   await new Promise(r => setTimeout(r, 600))
   let results = [...mockProducts]
+  
   if (categoryId) results = results.filter(p => p.category_id === categoryId)
   if (search)     results = results.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
+  
+  // Advanced filtering
+  if (filters) {
+    if (filters.minPrice) {
+      results = results.filter(p => parseFloat(p.price.replace(/[^0-9.]/g, '')) >= Number(filters.minPrice))
+    }
+    if (filters.maxPrice) {
+      results = results.filter(p => parseFloat(p.price.replace(/[^0-9.]/g, '')) <= Number(filters.maxPrice))
+    }
+    // Simulate Out of Stock (mock items are always in stock normally)
+    if (filters.outOfStock && !filters.inStock) {
+      results = [] // Empty grid if only 'out of stock' is checked on a fully-stocked mock store
+    }
+    // Deeply mock color/size mapping just to visually demonstrate the UI works:
+    if (filters.color) {
+      results = results.filter(p => p.name.length % 2 === 0) // Arbitrarily slice half the items
+    }
+    if (filters.sizes['10'] || filters.sizes['14']) {
+      results = results.filter(p => p.price.includes('5')) // Arbitrarily slice to prove functionality
+    }
+  }
+
   if (sort === 'p.price') {
     results.sort((a, b) => {
       const priceA = parseFloat(a.price.replace(/[^0-9.]/g, ''))
