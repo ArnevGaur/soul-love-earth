@@ -21,9 +21,9 @@ function Accordion({ title, children, defaultOpen = true }) {
       >
         <h4 style={{
           fontFamily: 'Jost, sans-serif',
-          fontSize: '0.85rem',
+          fontSize: '0.82rem',
           fontWeight: 600,
-          letterSpacing: '0.1em',
+          letterSpacing: '0.15em',
           textTransform: 'uppercase',
           color: '#214e41',
           margin: 0
@@ -127,10 +127,12 @@ export default function FilterPane({
           position: 'fixed',
           inset: 0,
           backgroundColor: 'rgba(26,47,44,0.3)',
+          backdropFilter: 'blur(5px)',
+          WebkitBackdropFilter: 'blur(5px)',
           zIndex: 1000,
           opacity: isOpen ? 1 : 0,
           pointerEvents: isOpen ? 'auto' : 'none',
-          transition: 'opacity 0.3s ease'
+          transition: 'opacity 0.4s ease'
         }}
       />
 
@@ -141,14 +143,17 @@ export default function FilterPane({
         right: 0,
         bottom: 0,
         width: '100%',
-        maxWidth: '360px',
+        maxWidth: '380px',
         backgroundColor: '#faf8f3', // Off-white theme base
         zIndex: 1010,
         transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-        transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+        transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: '-10px 0 40px rgba(0,0,0,0.05)'
+        boxShadow: '-20px 0 80px rgba(33,78,65,0.15)',
+        borderTopLeftRadius: '32px',
+        borderBottomLeftRadius: '32px',
+        overflow: 'hidden'
       }}>
 
         {/* Header */}
@@ -178,16 +183,18 @@ export default function FilterPane({
               display: 'flex',
               alignItems: 'center',
               gap: '0.4rem',
-              padding: '0.4rem 0.8rem',
+              padding: '0.45rem 1.25rem',
               backgroundColor: 'transparent',
               color: '#214e41',
-              border: '1px solid #214e41',
-              borderRadius: '2px', // Slight curve
+              border: '1px solid rgba(33,78,65,0.2)',
+              borderRadius: '24px', // Elegant Pill shape
               fontFamily: 'Jost, sans-serif',
-              fontSize: '0.75rem',
-              fontWeight: 500,
+              fontSize: '0.72rem',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
               cursor: 'pointer',
-              transition: 'all 0.2s'
+              transition: 'all 0.3s ease'
             }}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = '#214e41'
@@ -253,16 +260,22 @@ export default function FilterPane({
                   placeholder="0"
                   style={{
                     flex: 1,
-                    width: '50px',
-                    padding: '0.4rem',
+                    width: '60px',
+                    padding: '0.6rem',
                     textAlign: 'center',
-                    border: '1px solid rgba(33,78,65,0.2)',
+                    border: '1px solid rgba(33,78,65,0.15)',
+                    borderRadius: '12px',
+                    backgroundColor: '#ffffff',
+                    boxShadow: 'inset 0 2px 5px rgba(33,78,65,0.04)',
                     fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.85rem',
+                    fontSize: '0.88rem',
+                    fontWeight: 500,
                     color: '#214e41',
-                    background: 'none',
-                    outline: 'none'
+                    outline: 'none',
+                    transition: 'border-color 0.3s'
                   }} 
+                  onFocus={e => e.target.style.borderColor = '#d4a843'}
+                  onBlur={e => e.target.style.borderColor = 'rgba(33,78,65,0.15)'}
                 />
                 
                 <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#666', padding: '0 0.1rem' }}>to</span>
@@ -275,16 +288,22 @@ export default function FilterPane({
                   placeholder="2000"
                   style={{
                     flex: 1,
-                    width: '50px',
-                    padding: '0.4rem',
+                    width: '60px',
+                    padding: '0.6rem',
                     textAlign: 'center',
-                    border: '1px solid rgba(33,78,65,0.2)',
+                    border: '1px solid rgba(33,78,65,0.15)',
+                    borderRadius: '12px',
+                    backgroundColor: '#ffffff',
+                    boxShadow: 'inset 0 2px 5px rgba(33,78,65,0.04)',
                     fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.85rem',
+                    fontSize: '0.88rem',
+                    fontWeight: 500,
                     color: '#214e41',
-                    background: 'none',
-                    outline: 'none'
+                    outline: 'none',
+                    transition: 'border-color 0.3s'
                   }} 
+                  onFocus={e => e.target.style.borderColor = '#d4a843'}
+                  onBlur={e => e.target.style.borderColor = 'rgba(33,78,65,0.15)'}
                 />
               </div>
             </div>
