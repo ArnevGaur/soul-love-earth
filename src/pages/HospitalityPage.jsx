@@ -104,7 +104,7 @@ export default function HospitalityPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '80px', direction: t?.dir }}>
+      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px', direction: t?.dir }}>
 
         {/* Page Header */}
         <div style={{

@@ -4,7 +4,7 @@ A premium, bilingual e-commerce platform built for the **Soul Love & Earth** con
 
 ## Tech Stack
 - **Framework:** React 19 + Vite
-- **Styling:** Tailwind CSS v4 (with custom brand tokens & animations)
+- **Styling:** Vanilla CSS (with custom brand tokens & animations)
 - **Routing:** React Router v7
 - **Animations:** Framer Motion (Page Transitions)
 - **Icons:** Lucide React
@@ -14,19 +14,19 @@ A premium, bilingual e-commerce platform built for the **Soul Love & Earth** con
 
 ### 🌍 Full Bilingual Support (Context API)
 - Complete English (LTR) and Arabic (RTL) localization.
-- Dynamic layout flipping and typography adjustments based on the active language.
-- Real-time language switching without page reloads.
+- **Zero-Crash Architecture:** Systemically hardened to handle corrupt or invalid locale data with safe fallbacks.
+- Dynamic layout flipping and typography adjustments.
 
 ### 🛍️ Comprehensive Storefront
 - **Shop Page:** Dynamic filtering by category, search queries, and sorting.
-- **Hospitality Collection:** A dedicated B2B view for hotel amenities and bulk products.
-- **Cart Drawer:** A slide-out global cart with real-time price calculations.
-- **Order Tracking:** A dedicated `/orders` portal.
+- **Product Details:** High-performance sliding carousel with fluid transitions and premium navigation.
+- **Smart Navigation:** Context-aware redirection that returns users to their previous location when emptying the cart from the Checkout view.
+- **Cart Drawer:** A sliding-edge global cart with real-time price parsing and defensive data sanitization.
 
 ### ✨ Premium UI / UX
-- **Apple-Style Transitions:** Smooth, choreographed fade and slide animations between pages.
-- **Glassmorphism:** Frost-glass navigation bars that adapt to scroll state.
-- **Responsive Architecture:** Pixel-perfect on both mobile and 4K desktop screens.
+- **Dynamic Masonry Grid:** Responsive category grid with nested accordion navigation.
+- **Branding Unification:** Harmonized color palette across all primary CTAs using signature **#2c635a** green and **#d4a843** gold.
+- **Geometric Excellence:** Consistent use of pill-shaped (40px) geometry for all buttons, inputs, and badges.
 
 ## Project Structure
 
@@ -43,7 +43,7 @@ src/
 ├── services/
 │   └── opencart.js     # Mock API endpoints (Prepared for real OpenCart integration)
 ├── App.jsx             # Main Router and Theme Provider
-└── index.css           # Global CSS variables and core styling
+├── index.css           # Global CSS variables and core styling
 ```
 
 ## Running the Application
@@ -57,12 +57,13 @@ npm run dev
 
 ## Brand Identity
 
-| Token         | Hex       | Usage                                |
-|---------------|-----------|--------------------------------------|
-| **Teal 500**  | `#3d9089` | Primary Brand Color / Buttons        |
-| **Gold 400**  | `#d4a843` | Accents / Highlights / Labels        |
-| **Cream**     | `#faf8f3` | Premium Background Base              |
-| **Charcoal**  | `#2c2c2c` | Standard Body Text                   |
+| Token             | Hex       | Usage                                |
+|-------------------|-----------|--------------------------------------|
+| **Forest Green**  | `#2c635a` | Primary Brand Color / Main Buttons   |
+| **Teal 500**      | `#3d9089` | Secondary Brand Color / Titles       |
+| **Gold 400**      | `#d4a843` | Highlights / Hover States / Badges   |
+| **Cream**         | `#faf8f3` | Premium Background Base              |
+| **Charcoal**      | `#2c2c2c` | Standard Body Text                   |
 
 - **Display Font:** Cormorant Garamond (Headings)
-- **Body Font:** Jost (UI components, paragraphs)
+- **Body Font:** Jost (UI components, prices, paragraphs)
