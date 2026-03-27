@@ -1,7 +1,7 @@
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { X, Trash2, Plus, Minus } from 'lucide-react'
+import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
 
 export default function CartDrawer() {
   const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal } = useCart()
@@ -190,7 +190,7 @@ export default function CartDrawer() {
               fontSize: '1rem', color: '#214e41' 
             }}>
               <span style={{ fontWeight: 400 }}>{c.subtotal}</span>
-              <span style={{ fontWeight: 700, color: '#2c635a' }}>AED {cartTotal.toFixed(2)}</span>
+              <span style={{ fontWeight: 700, color: '#2c635a' }}>AED {(cartTotal || 0).toFixed(2)}</span>
             </div>
             <p style={{ 
               fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', 

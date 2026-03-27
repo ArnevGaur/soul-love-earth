@@ -4,7 +4,7 @@ A premium, bilingual e-commerce platform built for the **Soul Love & Earth** con
 
 ## Tech Stack
 - **Framework:** React 19 + Vite
-- **Styling:** Tailwind CSS v4 (with custom brand tokens & animations)
+- **Styling:** Vanilla CSS (with custom brand tokens & animations)
 - **Routing:** React Router v7
 - **Animations:** Framer Motion (Page Transitions)
 - **Icons:** Lucide React
@@ -43,7 +43,7 @@ src/
 ├── services/
 │   └── opencart.js     # Mock API endpoints (Prepared for real OpenCart integration)
 ├── App.jsx             # Main Router and Theme Provider
-└── index.css           # Global CSS variables and core styling
+├── index.css           # Global CSS variables and core styling
 ```
 
 ## Running the Application
@@ -57,12 +57,13 @@ npm run dev
 
 ## Brand Identity
 
-| Token         | Hex       | Usage                                |
-|---------------|-----------|--------------------------------------|
-| **Teal 500**  | `#3d9089` | Primary Brand Color / Buttons        |
-| **Gold 400**  | `#d4a843` | Accents / Highlights / Labels        |
-| **Cream**     | `#faf8f3` | Premium Background Base              |
-| **Charcoal**  | `#2c2c2c` | Standard Body Text                   |
+| Token             | Hex       | Usage                                |
+|-------------------|-----------|--------------------------------------|
+| **Forest Green**  | `#2c635a` | Primary Brand Color / Main Buttons   |
+| **Teal 500**      | `#3d9089` | Secondary Brand Color / Titles       |
+| **Gold 400**      | `#d4a843` | Highlights / Hover States / Badges   |
+| **Cream**         | `#faf8f3` | Premium Background Base              |
+| **Charcoal**      | `#2c2c2c` | Standard Body Text                   |
 
 - **Display Font:** Cormorant Garamond (Headings)
-- **Body Font:** Jost (UI components, paragraphs)
+- **Body Font:** Jost (UI components, prices, paragraphs)

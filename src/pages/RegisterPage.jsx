@@ -53,19 +53,68 @@ export default function RegisterPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
+      <main style={{ minHeight: '100vh', paddingTop: '100px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+
+        <div style={{
+          position: 'fixed', inset: 0, top: 0,
+          backgroundImage: 'url(/register-backdrop.jpg)',
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          zIndex: 0
+        }} />
+
+        <div style={{ 
+          flex: 1, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          padding: '2rem 1.5rem',
+          position: 'relative', 
+          zIndex: 2 
+        }}>
           <div style={{ width: '100%', maxWidth: '520px' }}>
 
-            {/* Logo */}
-            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-              <Link to="/"><img src="/logo.png" alt="Soul Love & Earth" style={{ height: '56px', width: 'auto' }} /></Link>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 300, color: 'var(--color-charcoal)', marginTop: '1.25rem', marginBottom: '0.4rem' }}>{a.registerTitle}</h1>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#999' }}>{a.registerSub}</p>
-            </div>
+            {/* Card with Branding inside */}
+            <div style={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.65)', 
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              borderRadius: '20px', 
+              padding: '3.5rem 2.5rem', 
+              boxShadow: '0 15px 45px rgba(0,0,0,0.15)', 
+              border: '1px solid rgba(255,255,255,0.4)' 
+            }}>
+              {/* Branding Header */}
+              <div style={{ 
+                textAlign: 'center',
+                marginBottom: '3rem'
+              }}>
+                <h1 style={{ 
+                  fontFamily: 'var(--font-display)', 
+                  fontSize: 'clamp(2.2rem, 6vw, 2.6rem)', 
+                  fontWeight: 300, 
+                  color: '#1a2e2c', 
+                  margin: 0,
+                  lineHeight: 1.1,
+                  letterSpacing: '0.04em'
+                }}>
+                  {a.registerTitle}
+                </h1>
+                <p style={{ 
+                  fontFamily: 'var(--font-body)', 
+                  fontSize: '1rem', 
+                  color: '#444',
+                  marginTop: '1rem',
+                  marginBottom: 0,
+                  fontWeight: 300,
+                  letterSpacing: '0.01em',
+                  lineHeight: 1.5,
+                  maxWidth: '400px',
+                  margin: '1rem auto 0'
+                }}>
+                  {a.registerSub}
+                </p>
+              </div>
 
-            {/* Card */}
-            <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.07)', border: '1px solid #ece8e0' }}>
               {error && (
                 <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '6px', padding: '0.85rem 1rem', marginBottom: '1.5rem', fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#dc2626' }}>{error}</div>
               )}
