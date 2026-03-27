@@ -121,14 +121,27 @@ export default function ShopPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px' }}>
+      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh' }}>
 
         {/* Page Header */}
         <div style={{
-          backgroundColor: '#1a2e2c',
-          padding: '3.5rem 2rem',
+          position: 'relative',
+          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          padding: '6rem 2rem 4rem',
           textAlign: 'center',
+          overflow: 'hidden'
         }}>
+          {/* Dark overlay for text readability - brighter */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(10,26,24,0.75) 0%, rgba(26,46,44,0.7) 100%)',
+            zIndex: 1
+          }} />
+          
           <span style={{
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.65rem',
@@ -141,6 +154,8 @@ export default function ShopPage() {
             justifyContent: 'center',
             gap: '0.75rem',
             marginBottom: '0.75rem',
+            position: 'relative',
+            zIndex: 2
           }}>
             <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
             {s.title}
@@ -152,6 +167,9 @@ export default function ShopPage() {
             fontWeight: 300,
             color: '#faf8f3',
             lineHeight: 1.1,
+            position: 'relative',
+            zIndex: 2,
+            textShadow: '0 2px 4px rgba(0,0,0,0.2)'
           }}>
             {s.sub}
           </h1>
