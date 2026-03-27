@@ -20,7 +20,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: t?.nav?.home || 'HOME', href: '/' },
-    { label: t?.nav?.shop,    href: '/shop' },
+    { label: t?.nav?.shop,    href: '/#categories' },
     { label: t?.nav?.hospitality, href: '/hospitality', isHospitality: true },
     { label: t?.nav?.offers,  href: '/offers' },
     { label: t?.nav?.myOrders, href: '/orders' },
@@ -87,11 +87,11 @@ export default function Navbar() {
           right: 0,
           zIndex: 100,
           transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
-          backgroundColor: scrolled ? 'rgba(250, 248, 243, 0.98)' : 'transparent',
-          backgroundImage: scrolled ? 'none' : 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 65%, rgba(0,0,0,0) 100%)',
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(61, 144, 137, 0.12)' : 'none',
+          backgroundColor: scrolled ? 'rgba(250, 248, 243, 0.98)' : 'rgba(26, 46, 44, 0.35)',
+          backgroundImage: 'none',
+          backdropFilter: scrolled ? 'blur(20px)' : 'blur(12px)',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'blur(12px)',
+          borderBottom: scrolled ? '1px solid rgba(61, 144, 137, 0.12)' : '1px solid rgba(255,255,255,0.05)',
           padding: scrolled ? '0.65rem 1.75rem' : '1.15rem 1.75rem',
         }}
       >
@@ -150,6 +150,12 @@ export default function Navbar() {
                     onMouseLeave={() => link.isHospitality && setHospOpen(false)}>
                   <Link
                     to={link.href}
+                    onClick={(e) => {
+                      if (link.href === '/#categories' && window.location.pathname === '/') {
+                        e.preventDefault()
+                        document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                      }
+                    }}
                     style={{
                       fontFamily: 'Jost, sans-serif',
                       fontSize: '0.72rem',
@@ -484,6 +490,12 @@ export default function Navbar() {
                 setMenuOpen(false)
                 if (link.isHospitality) {
                   setHospOpen(false)
+                }
+                if (link.href === '/#categories' && window.location.pathname === '/') {
+                  e.preventDefault()
+                  setTimeout(() => {
+                    document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+                  }, 100)
                 }
               }}
               style={{
