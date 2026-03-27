@@ -23,6 +23,7 @@ import RegisterPage from './pages/RegisterPage'
 import OrdersPage from './pages/OrdersPage'
 import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
+import AuthBackdrop from './components/layout/AuthBackdrop'
 import './index.css'
 
 function AnimatedRoutes() {
@@ -59,6 +60,7 @@ export default function App() {
     <LanguageProvider>
       <CartProvider>
       <BrowserRouter>
+        <AuthBackdrop />
         <AnimatedRoutes />
         <RouteProgress />
         <WhatsAppButton />

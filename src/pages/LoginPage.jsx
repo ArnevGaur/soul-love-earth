@@ -29,19 +29,61 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
-          <div style={{ width: '100%', maxWidth: '460px' }}>
+      <main style={{ minHeight: '100vh', paddingTop: '100px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+        
 
-            {/* Logo */}
-            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-              <Link to="/"><img src="/logo.png" alt="Soul Love & Earth" style={{ height: '56px', width: 'auto' }} /></Link>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 300, color: 'var(--color-charcoal)', marginTop: '1.25rem', marginBottom: '0.4rem' }}>{a.loginTitle}</h1>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#999' }}>{a.loginSub}</p>
-            </div>
+        <div style={{ 
+          flex: 1, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          padding: '2rem 1.5rem',
+          position: 'relative', 
+          zIndex: 2 
+        }}>
+          <div style={{ width: '100%', maxWidth: '480px' }}>
 
-            {/* Card */}
-            <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.07)', border: '1px solid #ece8e0' }}>
+            {/* Glassmorphism Card */}
+            <div style={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.65)', 
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              borderRadius: '20px', 
+              padding: '3.5rem 2.5rem', 
+              boxShadow: '0 15px 45px rgba(0,0,0,0.15)', 
+              border: '1px solid rgba(255,255,255,0.4)' 
+            }}>
+              
+              {/* Branding Header */}
+              <div style={{ 
+                textAlign: 'center',
+                marginBottom: '3rem'
+              }}>
+                <h1 style={{ 
+                  fontFamily: 'var(--font-display)', 
+                  fontSize: 'clamp(2.2rem, 6vw, 2.6rem)', 
+                  fontWeight: 300, 
+                  color: '#1a2e2c', 
+                  margin: 0,
+                  lineHeight: 1.1,
+                  letterSpacing: '0.04em'
+                }}>
+                  {a.loginTitle}
+                </h1>
+                <p style={{ 
+                  fontFamily: 'var(--font-body)', 
+                  fontSize: '1rem', 
+                  color: '#444',
+                  marginTop: '1rem',
+                  marginBottom: 0,
+                  fontWeight: 300,
+                  letterSpacing: '0.01em',
+                  lineHeight: 1.5
+                }}>
+                  {a.loginSub}
+                </p>
+              </div>
+
               {error && (
                 <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '6px', padding: '0.85rem 1rem', marginBottom: '1.5rem', fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#dc2626' }}>{error}</div>
               )}
@@ -89,12 +131,12 @@ export default function LoginPage() {
 
               {/* Divider */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1.75rem 0' }}>
-                <div style={{ flex: 1, height: '1px', backgroundColor: '#eee' }} />
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#ccc' }}>OR</span>
-                <div style={{ flex: 1, height: '1px', backgroundColor: '#eee' }} />
+                <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(0,0,0,0.08)' }} />
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#999' }}>OR</span>
+                <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(0,0,0,0.08)' }} />
               </div>
 
-              <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#777' }}>
+              <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#666' }}>
                 {a.noAccount}{' '}
                 <Link to="/register" style={{ color: '#214e41', fontWeight: 600, textDecoration: 'none' }}>{a.registerLink}</Link>
               </p>

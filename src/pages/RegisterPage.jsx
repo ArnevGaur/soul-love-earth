@@ -55,12 +55,6 @@ export default function RegisterPage() {
       <Navbar />
       <main style={{ minHeight: '100vh', paddingTop: '100px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
 
-        <div style={{
-          position: 'fixed', inset: 0, top: 0,
-          backgroundImage: 'url(/register-backdrop.jpg)',
-          backgroundSize: 'cover', backgroundPosition: 'center',
-          zIndex: 0
-        }} />
 
         <div style={{ 
           flex: 1, 
