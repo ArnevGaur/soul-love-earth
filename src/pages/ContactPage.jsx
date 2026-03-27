@@ -97,29 +97,37 @@ export default function ContactPage() {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: '3rem',
-            alignItems: 'start'
+            alignItems: 'stretch'
           }}>
             
             {/* Contact Information Cards */}
-            <div className="animate-fade-up delay-300" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="animate-fade-up delay-300" style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '1.5rem'
+            }}>
               
               {/* Card 1 */}
               <div style={{
                 backgroundColor: 'white',
                 padding: '2.5rem',
-                border: '1px solid rgba(61, 144, 137, 0.1)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+                border: '1px solid rgba(61, 144, 137, 0.08)',
+                boxShadow: '0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 10px -2px rgba(0,0,0,0.02)',
                 display: 'flex',
                 gap: '1.5rem',
-                transition: 'transform 0.3s ease, border-color 0.3s ease',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                borderRadius: '16px',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.transform = 'translateY(-8px)';
+                e.currentTarget.style.boxShadow = '0 20px 40px -10px rgba(61,144,137,0.12)';
                 e.currentTarget.style.borderColor = 'var(--color-gold-300)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(61, 144, 137, 0.1)';
+                e.currentTarget.style.boxShadow = '0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 10px -2px rgba(0,0,0,0.02)';
+                e.currentTarget.style.borderColor = 'rgba(61, 144, 137, 0.08)';
               }}>
                 <div style={{ 
                   width: '50px', height: '50px', 
@@ -144,19 +152,23 @@ export default function ContactPage() {
               <div style={{
                 backgroundColor: 'white',
                 padding: '2.5rem',
-                border: '1px solid rgba(61, 144, 137, 0.1)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+                border: '1px solid rgba(61, 144, 137, 0.08)',
+                boxShadow: '0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 10px -2px rgba(0,0,0,0.02)',
                 display: 'flex',
                 gap: '1.5rem',
-                transition: 'transform 0.3s ease, border-color 0.3s ease',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                borderRadius: '16px',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.transform = 'translateY(-8px)';
+                e.currentTarget.style.boxShadow = '0 20px 40px -10px rgba(61,144,137,0.12)';
                 e.currentTarget.style.borderColor = 'var(--color-gold-300)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(61, 144, 137, 0.1)';
+                e.currentTarget.style.boxShadow = '0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 10px -2px rgba(0,0,0,0.02)';
+                e.currentTarget.style.borderColor = 'rgba(61, 144, 137, 0.08)';
               }}>
                 <div style={{ 
                   width: '50px', height: '50px', 
@@ -180,19 +192,23 @@ export default function ContactPage() {
               <div style={{
                 backgroundColor: 'white',
                 padding: '2.5rem',
-                border: '1px solid rgba(61, 144, 137, 0.1)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+                border: '1px solid rgba(61, 144, 137, 0.08)',
+                boxShadow: '0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 10px -2px rgba(0,0,0,0.02)',
                 display: 'flex',
                 gap: '1.5rem',
-                transition: 'transform 0.3s ease, border-color 0.3s ease',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                borderRadius: '16px',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.transform = 'translateY(-8px)';
+                e.currentTarget.style.boxShadow = '0 20px 40px -10px rgba(61,144,137,0.12)';
                 e.currentTarget.style.borderColor = 'var(--color-gold-300)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(61, 144, 137, 0.1)';
+                e.currentTarget.style.boxShadow = '0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 10px -2px rgba(0,0,0,0.02)';
+                e.currentTarget.style.borderColor = 'rgba(61, 144, 137, 0.08)';
               }}>
                 <div style={{ 
                   width: '50px', height: '50px', 
@@ -214,19 +230,25 @@ export default function ContactPage() {
 
             </div>
 
-            {/* Contact Form */}
             <div className="animate-fade-up delay-400" style={{
               backgroundColor: 'white',
-              padding: '3.5rem',
-              border: '1px solid rgba(61, 144, 137, 0.1)',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
+              padding: '0',
+              border: '1px solid rgba(61, 144, 137, 0.08)',
+              boxShadow: '0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 10px -2px rgba(0,0,0,0.02)',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--color-charcoal)', marginBottom: '0.5rem', lineHeight: 1.2 }}>
-                {c.title}
-              </h2>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: '#666', marginBottom: '2.5rem' }}>
-                {c.sub}
-              </p>
+              <div style={{ padding: '2rem 2.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--color-charcoal)', marginBottom: '0.25rem', lineHeight: 1.2 }}>
+                  {c.title}
+                </h2>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: '#666', marginBottom: '1.5rem' }}>
+                  {c.sub}
+                </p>
 
               {submitted ? (
                 <div className="animate-fade-in" style={{
@@ -246,9 +268,9 @@ export default function ContactPage() {
                   <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-teal-700)' }}></p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} dir={t.dir}>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }} dir={t.dir}>
                   
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="contact-form-grid">
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="contact-form-grid">
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <label htmlFor="name" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>{c.yourName.toUpperCase()}</label>
                       <input 
@@ -302,18 +324,19 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
                     <label htmlFor="message" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.05em', color: 'var(--color-charcoal)' }}>{c.message.toUpperCase()}</label>
                     <textarea 
                       id="message" 
                       name="message" 
-                      rows="6" 
+                      rows="4" 
                       required 
                       value={formData.message}
                       onChange={handleChange}
                       style={{
                         width: '100%', padding: '0.8rem 1rem', fontFamily: 'var(--font-body)', fontSize: '0.95rem',
-                        border: '1px solid #e0e0e0', backgroundColor: '#fafafa', outline: 'none', resize: 'vertical', transition: 'border-color 0.3s ease'
+                        border: '1px solid #e0e0e0', backgroundColor: '#fafafa', outline: 'none', resize: 'vertical', transition: 'border-color 0.3s ease',
+                        flex: 1
                       }}
                       onFocus={(e) => e.target.style.borderColor = 'var(--color-teal-400)'}
                       onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
@@ -342,6 +365,7 @@ export default function ContactPage() {
                   </button>
                 </form>
               )}
+              </div>
             </div>
 
           </div>
