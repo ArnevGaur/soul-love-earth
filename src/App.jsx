@@ -14,6 +14,7 @@ import ReturnPolicyPage from './pages/ReturnPolicyPage'
 import ReportScamPage from './pages/ReportScamPage'
 import TermsPage from './pages/TermsPage'
 import ReviewTermsPage from './pages/ReviewTermsPage'
+import OrderPlacedPage from './pages/OrderPlacedPage'
 import WhatsAppButton from './components/ui/WhatsAppButton'
 import RouteProgress from './components/ui/RouteProgress'
 import { CartProvider } from './context/CartContext'
@@ -46,6 +47,7 @@ function AnimatedRoutes() {
         <Route path="/report-scam" element={<PageTransition><ReportScamPage /></PageTransition>} />
         <Route path="/terms" element={<PageTransition><TermsPage /></PageTransition>} />
         <Route path="/review-terms" element={<PageTransition><ReviewTermsPage /></PageTransition>} />
+        <Route path="/order-placed" element={<PageTransition><OrderPlacedPage /></PageTransition>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/orders" element={<PageTransition><OrdersPage /></PageTransition>} />
