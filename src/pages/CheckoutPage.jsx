@@ -300,7 +300,7 @@ export default function CheckoutPage() {
               >
                 {isProcessing
                   ? <><span style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid white', borderTopColor: 'transparent', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} /> Processing…</>
-                  : <><Lock size={14} /> Pay AED {finalTotal.toFixed(2)}</>
+                  : <><Lock size={14} /> Pay AED {(finalTotal || 0).toFixed(2)}</>
                 }
               </button>
               <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -359,17 +359,17 @@ export default function CheckoutPage() {
                     <div style={{ borderTop: '1px solid #eee', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
                         <span>Subtotal</span>
-                        <span style={{ color: 'var(--color-charcoal)' }}>AED {cartTotal.toFixed(2)}</span>
+                        <span style={{ color: 'var(--color-charcoal)' }}>AED {(cartTotal || 0).toFixed(2)}</span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
                         <span>Shipping</span>
-                        <span style={{ color: '#2c635a', fontWeight: 500 }}>AED {shipping.toFixed(2)}</span>
+                        <span style={{ color: '#2c635a', fontWeight: 500 }}>AED {(shipping || 0).toFixed(2)}</span>
                       </div>
                     </div>
-
+ 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '2px solid #eee' }}>
                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--color-charcoal)', fontWeight: 600 }}>Total</span>
-                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 700, letterSpacing: '-0.02em' }}>AED {finalTotal.toFixed(2)}</span>
+                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.8rem', color: '#2c635a', fontWeight: 700, letterSpacing: '-0.02em' }}>AED {(finalTotal || 0).toFixed(2)}</span>
                     </div>
                   </>
                 )}

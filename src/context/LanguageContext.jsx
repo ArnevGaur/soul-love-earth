@@ -168,7 +168,7 @@ export const translations = {
       email: 'Email Address', password: 'Password',
       forgotPassword: 'Forgot password?', loginBtn: 'Sign In',
       noAccount: "Don't have an account?", registerLink: 'Create one',
-      registerTitle: 'Create Your Account',
+      registerTitle: 'Create Account',
       registerSub: 'Join the conscious community of Soul Love & Earth',
       firstName: 'First Name', lastName: 'Last Name',
       phone: 'Phone Number', confirmPassword: 'Confirm Password',
