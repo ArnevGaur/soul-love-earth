@@ -75,8 +75,7 @@ export default function ContactPage() {
       title: 'Business Hours',
       details: [
         'Monday - Friday: 9:00 AM - 6:00 PM',
-        'Saturday: Closed',
-        'Sunday: Closed'
+        'Saturday & Sunday: Closed'
       ],
       color: 'gold'
     }
@@ -243,25 +242,14 @@ export default function ContactPage() {
           margin: '0 auto',
           position: 'relative'
         }}>
-          
-          {/* Decorative line */}
-          <div style={{
-            position: 'absolute',
-            left: '2rem',
-            top: '3rem',
-            width: '1px',
-            height: mounted ? '80px' : '0px',
-            backgroundColor: 'var(--color-gold-400)',
-            opacity: 0.3,
-            transition: 'height 1.2s ease 0.5s'
-          }} />
 
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: '3rem',
             position: 'relative',
-            zIndex: 1
+            zIndex: 1,
+            alignItems: 'stretch'
           }}>
             
             {/* Contact Information Cards */}
@@ -277,7 +265,7 @@ export default function ContactPage() {
                     opacity: mounted ? 1 : 0,
                     transform: mounted ? 'translateY(0)' : 'translateY(30px)',
                     transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                    transitionDelay: `${0.15 * index}s`
+                    transitionDelay: '0s'
                   }}
                 >
                   {/* Bright White Card */}
@@ -348,7 +336,9 @@ export default function ContactPage() {
                 opacity: mounted ? 1 : 0,
                 transform: mounted ? 'translateY(0)' : 'translateY(30px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: '0.6s'
+                transitionDelay: '0s',
+                display: 'flex',
+                height: '100%'
               }}
             >
               {/* Bright White Card */}
@@ -360,7 +350,11 @@ export default function ContactPage() {
                 position: 'relative',
                 overflow: 'hidden',
                 transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.08)'
+                boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1,
+                width: '100%'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-8px)'
@@ -374,7 +368,7 @@ export default function ContactPage() {
               }}
               >
 
-                <div style={{ padding: '3rem', position: 'relative', zIndex: 1 }}>
+                <div style={{ padding: '3rem', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <h2 style={{ 
                     fontFamily: 'var(--font-display)', 
                     fontSize: '2.2rem', 
@@ -434,9 +428,17 @@ export default function ContactPage() {
                       </p>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} dir={t.dir}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1 }} dir={t.dir}>
                       
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                      <div style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: '1fr 1fr', 
+                        gap: '1.5rem',
+                        opacity: mounted ? 1 : 0,
+                        transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+                        transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                        transitionDelay: '0s'
+                      }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                           <label htmlFor="name" style={{ 
                             fontFamily: 'var(--font-body)', 
@@ -562,7 +564,15 @@ export default function ContactPage() {
                         />
                       </div>
 
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      <div style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        gap: '0.75rem',
+                        opacity: mounted ? 1 : 0,
+                        transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+                        transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                        transitionDelay: '0s'
+                      }}>
                         <label htmlFor="message" style={{ 
                           fontFamily: 'var(--font-body)', 
                           fontSize: '0.75rem', 
@@ -605,7 +615,14 @@ export default function ContactPage() {
                         ></textarea>
                       </div>
 
-                      <button 
+                      <div style={{
+                        opacity: mounted ? 1 : 0,
+                        transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+                        transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                        transitionDelay: '0s',
+                        marginTop: 'auto'
+                      }}>
+                        <button 
                         type="submit" 
                         disabled={isSubmitting}
                         style={{ 
@@ -662,6 +679,7 @@ export default function ContactPage() {
                           </>
                         )}
                       </button>
+                      </div>
                     </form>
                   )}
                 </div>

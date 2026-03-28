@@ -1,40 +1,42 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
-import { ArrowRight, ShoppingBag, Eye } from 'lucide-react'
+import { useCart } from '../../context/CartContext'
+import { ArrowRight, ShoppingBag, Eye, Check } from 'lucide-react'
 
 const products = [
   {
-    id: 1,
+    id: '50',
     name: 'Ramadan Blessings Gift Box',
-    price: 'AED 180',
+    price: 'AED 180.00',
     badge: 'New',
     image: '/images/Products/ramadan-1.jpg?v=2',
   },
   {
-    id: 2,
+    id: '51',
     name: 'Ramadan Lantern Gift Box',
-    price: 'AED 169',
+    price: 'AED 169.00',
     badge: 'New',
     image: '/images/Products/ramadan-2.jpg?v=2',
   },
   {
-    id: 3,
+    id: '52',
     name: 'Ramadan Serenity Gift Box',
-    price: 'AED 175',
+    price: 'AED 175.00',
     badge: 'New',
     image: '/images/Products/ramadan-3.jpg?v=2',
   },
   {
-    id: 4,
+    id: '53',
     name: 'Ramadan Reflection Gift Box',
-    price: 'AED 199',
+    price: 'AED 199.00',
     badge: 'New',
     image: '/images/Products/ramadan-4.jpg?v=2',
   },
   {
-    id: 5,
+    id: '54',
     name: 'Ramadan Blessings Gift Box by Soul Love & Earth',
-    price: 'AED 199',
+    price: 'AED 199.00',
     badge: 'New',
     image: '/images/Products/ramadan-5.jpg?v=2',
   },
@@ -76,7 +78,7 @@ export default function NewArrivals() {
             fontFamily: 'Cormorant Garamond, serif',
             fontSize: 'clamp(2rem, 4vw, 3rem)',
             fontWeight: 400,
-            color: '#3d9089',
+            color: '#2d6b66',
             margin: '0 0 1rem',
             letterSpacing: '0.01em',
             lineHeight: 1.1,
@@ -262,22 +264,44 @@ export default function NewArrivals() {
 
 function ProductCard({ product }) {
   const { lang, t } = useLanguage()
+  const { addToCart } = useCart()
   const isRtl = t?.dir === 'rtl'
+  const [added, setAdded] = useState(false)
+
+  const handleAddToCart = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // Add to cart with product data
+    addToCart({
+      product_id: product.id,
+      name: product.name,
+      price: product.price.replace(/[^0-9.]/g, ''),
+      thumb: product.image,
+      quantity: 1
+    })
+    
+    setAdded(true)
+    setTimeout(() => setAdded(false), 2000)
+  }
 
   return (
-    <div style={{
-      borderRadius: '8px',
-      overflow: 'hidden',
-      background: '#ffffff',
-      border: '1px solid rgba(61,144,137,0.06)',
-      boxShadow: '0 8px 30px rgba(0,0,0,0.03)',
-      transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-      cursor: 'pointer',
-      position: 'relative',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    }}
+    <Link 
+      to={`/product/${product.id}`}
+      style={{
+        borderRadius: '8px',
+        overflow: 'hidden',
+        background: '#ffffff',
+        border: '1px solid rgba(61,144,137,0.06)',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.03)',
+        transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+        cursor: 'pointer',
+        position: 'relative',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        textDecoration: 'none',
+      }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-8px)'
         e.currentTarget.style.boxShadow = '0 24px 48px rgba(61,144,137,0.1)'
@@ -379,17 +403,21 @@ function ProductCard({ product }) {
           overflow: 'hidden',
           transition: 'border-color 0.4s ease',
         }}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+          onClick={handleAddToCart}
         >
           <div className="btn-bg" style={{
             position: 'absolute',
             inset: 0,
-            background: '#d4a843',
+            background: added ? '#3d9089' : '#d4a843',
             transform: isRtl ? 'translateX(101%)' : 'translateX(-101%)',
             transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             zIndex: 0,
           }} />
-          <ShoppingBag className="btn-icon" size={15} strokeWidth={1.5} color="#3d9089" style={{ position: 'relative', zIndex: 1, transition: 'color 0.4s ease' }} />
+          {added ? (
+            <Check className="btn-icon" size={15} strokeWidth={1.5} color="#3d9089" style={{ position: 'relative', zIndex: 1, transition: 'color 0.4s ease' }} />
+          ) : (
+            <ShoppingBag className="btn-icon" size={15} strokeWidth={1.5} color="#3d9089" style={{ position: 'relative', zIndex: 1, transition: 'color 0.4s ease' }} />
+          )}
           <span className="btn-text" style={{
             position: 'relative', zIndex: 1,
             fontFamily: 'Jost, sans-serif',
@@ -400,7 +428,10 @@ function ProductCard({ product }) {
             color: '#3d9089',
             transition: 'color 0.4s ease',
           }}>
-            {lang === 'ar' ? 'أضف للسلة' : 'Add to Bag'}
+            {added 
+              ? (lang === 'ar' ? 'تمت الإضافة' : 'Added!') 
+              : (lang === 'ar' ? 'أضف للسلة' : 'Add to Bag')
+            }
           </span>
         </button>
       </div>
@@ -410,6 +441,6 @@ function ProductCard({ product }) {
         background: 'linear-gradient(90deg, #d4a843, #3d9089)',
         opacity: 0.6,
       }} />
-    </div>
+    </Link>
   )
 }

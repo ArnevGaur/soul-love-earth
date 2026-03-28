@@ -9,11 +9,23 @@ export default function ValueProps() {
 
   return (
     <section style={{
-      backgroundColor: '#142a28',
-      padding: '4rem 1.5rem',
       position: 'relative',
+      backgroundImage: 'url(/public/contactleaves.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
+      padding: '4rem 1.5rem',
       overflow: 'hidden',
     }}>
+      {/* Dark overlay for text readability */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(180deg, rgba(10,26,24,0.88) 0%, rgba(20,42,40,0.9) 100%)',
+        zIndex: 0
+      }} />
+
       {/* Background soft glow */}
       <div style={{
         position: 'absolute',
@@ -24,13 +36,14 @@ export default function ValueProps() {
         height: '60vw',
         background: 'radial-gradient(circle, rgba(61,144,137,0.15) 0%, transparent 60%)',
         pointerEvents: 'none',
+        zIndex: 1,
       }} />
 
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
         position: 'relative',
-        zIndex: 1,
+        zIndex: 2,
       }} dir={t.dir}>
 
         {/* Section Label */}
