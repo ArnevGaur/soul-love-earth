@@ -8,6 +8,120 @@ import Footer from '../components/layout/Footer'
 import ProductCard from '../components/ui/ProductCard'
 import { ArrowLeft, ShoppingBag, Star, Shield, Leaf, Package, Minus, Plus, ChevronLeft, ChevronRight, Send } from 'lucide-react'
 
+// Assumed products data for New Arrivals
+const assumedProducts = {
+  '50': {
+    product_id: '50',
+    name: 'Ramadan Blessings Gift Box',
+    price: '180.00',
+    special: false,
+    description: 'A beautifully curated gift box featuring traditional Ramadan essentials including premium dates, artisanal sweets, and elegant decor pieces that bring warmth and spirituality to your celebrations.',
+    images: ['/images/Products/ramadan-1.jpg?v=2'],
+    thumb: '/images/Products/ramadan-1.jpg?v=2',
+    category: 'Gifts',
+    rating: 4.8,
+    reviews: [
+      { author: 'Ahmad K.', rating: 5, date: 'March 2024', text: 'Beautiful packaging and amazing quality. Perfect for gifting!' },
+      { author: 'Sarah M.', rating: 4, date: 'February 2024', text: 'Loved the selection of items. Very thoughtful curation.' }
+    ],
+    tags: ['Handcrafted', 'Eco-Friendly', 'Traditional'],
+    related: [
+      { product_id: '51', name: 'Ramadan Lantern Gift Box', price: '169.00', special: false, thumb: '/images/Products/ramadan-2.jpg?v=2', category: 'Gifts' },
+      { product_id: '52', name: 'Ramadan Serenity Gift Box', price: '175.00', special: false, thumb: '/images/Products/ramadan-3.jpg?v=2', category: 'Gifts' },
+      { product_id: '53', name: 'Ramadan Reflection Gift Box', price: '199.00', special: false, thumb: '/images/Products/ramadan-4.jpg?v=2', category: 'Gifts' },
+      { product_id: '54', name: 'Ramadan Blessings Gift Box by Soul Love & Earth', price: '199.00', special: false, thumb: '/images/Products/ramadan-5.jpg?v=2', category: 'Gifts' }
+    ]
+  },
+  '51': {
+    product_id: '51',
+    name: 'Ramadan Lantern Gift Box',
+    price: '169.00',
+    special: false,
+    description: 'Illuminate your Ramadan evenings with this exquisite lantern gift box featuring handcrafted brass lanterns, premium dates, and traditional treats for a blessed month.',
+    images: ['/images/Products/ramadan-2.jpg?v=2'],
+    thumb: '/images/Products/ramadan-2.jpg?v=2',
+    category: 'Gifts',
+    rating: 4.9,
+    reviews: [
+      { author: 'Fatima R.', rating: 5, date: 'March 2024', text: 'The lantern is absolutely stunning. Great craftsmanship!' },
+      { author: 'Omar S.', rating: 5, date: 'February 2024', text: 'Bought 3 for my family. Everyone loved them.' }
+    ],
+    tags: ['Handcrafted', 'Traditional', 'Lantern'],
+    related: [
+      { product_id: '50', name: 'Ramadan Blessings Gift Box', price: '180.00', special: false, thumb: '/images/Products/ramadan-1.jpg?v=2', category: 'Gifts' },
+      { product_id: '52', name: 'Ramadan Serenity Gift Box', price: '175.00', special: false, thumb: '/images/Products/ramadan-3.jpg?v=2', category: 'Gifts' },
+      { product_id: '53', name: 'Ramadan Reflection Gift Box', price: '199.00', special: false, thumb: '/images/Products/ramadan-4.jpg?v=2', category: 'Gifts' },
+      { product_id: '54', name: 'Ramadan Blessings Gift Box by Soul Love & Earth', price: '199.00', special: false, thumb: '/images/Products/ramadan-5.jpg?v=2', category: 'Gifts' }
+    ]
+  },
+  '52': {
+    product_id: '52',
+    name: 'Ramadan Serenity Gift Box',
+    price: '175.00',
+    special: false,
+    description: 'Find peace and tranquility with this serenity-focused gift box containing organic herbs, meditation essentials, calming teas, and artisanal treats for mindful Ramadan moments.',
+    images: ['/images/Products/ramadan-3.jpg?v=2'],
+    thumb: '/images/Products/ramadan-3.jpg?v=2',
+    category: 'Gifts',
+    rating: 4.7,
+    reviews: [
+      { author: 'Layla H.', rating: 5, date: 'March 2024', text: 'Perfect for my meditation practice during Ramadan.' },
+      { author: 'Khalid A.', rating: 4, date: 'February 2024', text: 'Beautiful presentation and quality items.' }
+    ],
+    tags: ['Organic', 'Wellness', 'Mindful'],
+    related: [
+      { product_id: '50', name: 'Ramadan Blessings Gift Box', price: '180.00', special: false, thumb: '/images/Products/ramadan-1.jpg?v=2', category: 'Gifts' },
+      { product_id: '51', name: 'Ramadan Lantern Gift Box', price: '169.00', special: false, thumb: '/images/Products/ramadan-2.jpg?v=2', category: 'Gifts' },
+      { product_id: '53', name: 'Ramadan Reflection Gift Box', price: '199.00', special: false, thumb: '/images/Products/ramadan-4.jpg?v=2', category: 'Gifts' },
+      { product_id: '54', name: 'Ramadan Blessings Gift Box by Soul Love & Earth', price: '199.00', special: false, thumb: '/images/Products/ramadan-5.jpg?v=2', category: 'Gifts' }
+    ]
+  },
+  '53': {
+    product_id: '53',
+    name: 'Ramadan Reflection Gift Box',
+    price: '199.00',
+    special: false,
+    description: 'A premium reflection-themed gift box with a journal, calligraphy set, luxury prayer mat, and gourmet treats to enhance your spiritual journey during the holy month.',
+    images: ['/images/Products/ramadan-4.jpg?v=2'],
+    thumb: '/images/Products/ramadan-4.jpg?v=2',
+    category: 'Gifts',
+    rating: 4.9,
+    reviews: [
+      { author: 'Nadia J.', rating: 5, date: 'March 2024', text: 'The journal and calligraphy set are exquisite. Highly recommend!' },
+      { author: 'Yusuf B.', rating: 5, date: 'February 2024', text: 'Worth every dirham. Premium quality throughout.' }
+    ],
+    tags: ['Premium', 'Spiritual', 'Journal'],
+    related: [
+      { product_id: '50', name: 'Ramadan Blessings Gift Box', price: '180.00', special: false, thumb: '/images/Products/ramadan-1.jpg?v=2', category: 'Gifts' },
+      { product_id: '51', name: 'Ramadan Lantern Gift Box', price: '169.00', special: false, thumb: '/images/Products/ramadan-2.jpg?v=2', category: 'Gifts' },
+      { product_id: '52', name: 'Ramadan Serenity Gift Box', price: '175.00', special: false, thumb: '/images/Products/ramadan-3.jpg?v=2', category: 'Gifts' },
+      { product_id: '54', name: 'Ramadan Blessings Gift Box by Soul Love & Earth', price: '199.00', special: false, thumb: '/images/Products/ramadan-5.jpg?v=2', category: 'Gifts' }
+    ]
+  },
+  '54': {
+    product_id: '54',
+    name: 'Ramadan Blessings Gift Box by Soul Love & Earth',
+    price: '199.00',
+    special: false,
+    description: 'Our signature gift box featuring exclusive Soul Love & Earth products, artisanal goods from ethical suppliers, and a handwoven basket made by local artisans.',
+    images: ['/images/Products/ramadan-5.jpg?v=2'],
+    thumb: '/images/Products/ramadan-5.jpg?v=2',
+    category: 'Gifts',
+    rating: 5.0,
+    reviews: [
+      { author: 'Mariam L.', rating: 5, date: 'March 2024', text: 'Absolutely love the variety and quality. The basket is gorgeous!' },
+      { author: 'Rashid K.', rating: 5, date: 'February 2024', text: 'The best Ramadan gift box I have ever purchased. Will buy again.' }
+    ],
+    tags: ['Signature', 'Artisanal', 'Ethical'],
+    related: [
+      { product_id: '50', name: 'Ramadan Blessings Gift Box', price: '180.00', special: false, thumb: '/images/Products/ramadan-1.jpg?v=2', category: 'Gifts' },
+      { product_id: '51', name: 'Ramadan Lantern Gift Box', price: '169.00', special: false, thumb: '/images/Products/ramadan-2.jpg?v=2', category: 'Gifts' },
+      { product_id: '52', name: 'Ramadan Serenity Gift Box', price: '175.00', special: false, thumb: '/images/Products/ramadan-3.jpg?v=2', category: 'Gifts' },
+      { product_id: '53', name: 'Ramadan Reflection Gift Box', price: '199.00', special: false, thumb: '/images/Products/ramadan-4.jpg?v=2', category: 'Gifts' }
+    ]
+  }
+}
+
 function StarRow({ rating, setRating, interactive = false }) {
   const [hover, setHover] = useState(0)
   return (
@@ -87,12 +201,22 @@ export default function ProductPage() {
   useEffect(() => {
     setLoading(true)
     setActiveImg(0)
-    fetchProduct(id).then(data => {
-      if (!data) navigate('/shop')
-      setProduct(data)
-      setReviews(data?.reviews || [])
+    
+    // Check if this is an assumed product (New Arrivals)
+    if (assumedProducts[id]) {
+      const assumedProduct = assumedProducts[id]
+      setProduct(assumedProduct)
+      setReviews(assumedProduct.reviews || [])
       setLoading(false)
-    })
+    } else {
+      // Fetch from database for real products
+      fetchProduct(id).then(data => {
+        if (!data) navigate('/shop')
+        setProduct(data)
+        setReviews(data?.reviews || [])
+        setLoading(false)
+      })
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [id])
 
@@ -472,10 +596,10 @@ export default function ProductPage() {
                         type="submit"
                         style={{
                           marginTop: '0.5rem',
-                          padding:'1.1rem', backgroundColor:'#3d9089', color:'white', border:'none', borderRadius:'30px',
+                          padding:'1.1rem', backgroundColor:'#2c635a', color:'white', border:'none', borderRadius:'30px',
                           fontFamily:'Jost, sans-serif', fontSize:'0.85rem', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase', cursor:'pointer',
                           display:'flex', alignItems:'center', justifyContent:'center', gap:'0.8rem', transition:'all 0.3s ease',
-                          boxShadow: '0 8px 20px rgba(61,144,137,0.1)'
+                          boxShadow: '0 8px 20px rgba(44, 99, 90, 0.15)'
                         }}
                         onMouseEnter={e => {
                           e.currentTarget.style.backgroundColor='#d4a843'
@@ -483,9 +607,9 @@ export default function ProductPage() {
                           e.currentTarget.style.boxShadow='0 10px 25px rgba(212,168,67,0.2)'
                         }}
                         onMouseLeave={e => {
-                          e.currentTarget.style.backgroundColor='#3d9089'
+                          e.currentTarget.style.backgroundColor='#2c635a'
                           e.currentTarget.style.transform='translateY(0)'
-                          e.currentTarget.style.boxShadow='0 8px 20px rgba(61,144,137,0.1)'
+                          e.currentTarget.style.boxShadow='0 8px 20px rgba(44, 99, 90, 0.15)'
                         }}
                       >
                         <Send size={15} style={{ transform: t.dir === 'rtl' ? 'rotate(180deg)' : 'none' }} /> {p.submitReview}
@@ -496,14 +620,14 @@ export default function ProductPage() {
                 </div>
               </div>
 
-              {/* Related Products */}
+              {/* From the Same Collection */}
               {product.related?.length > 0 && (
                 <div style={{ marginTop:'5rem' }}>
                   <div style={{ height:'1px', backgroundColor:'rgba(61,144,137,0.15)', marginBottom:'3.5rem' }} />
                   <div style={{ textAlign:'center', marginBottom:'4rem' }} dir={t.dir}>
-                    <span style={{ fontFamily:'Jost, sans-serif', fontSize:'0.7rem', fontWeight: 600, letterSpacing:'0.3em', textTransform:'uppercase', color:'#d4a843' }}>{p.relatedSub}</span>
+                    <span style={{ fontFamily:'Jost, sans-serif', fontSize:'0.7rem', fontWeight: 600, letterSpacing:'0.3em', textTransform:'uppercase', color:'#d4a843' }}>Explore More</span>
                     <h2 style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'1.75rem', fontWeight:600, color:'#2c635a', marginTop:'0.75rem' }}>
-                      {p.relatedTitle}
+                      From the Same Collection
                     </h2>
                   </div>
                   <div className="related-grid">

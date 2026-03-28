@@ -41,7 +41,7 @@ export default function Categories() {
           fontFamily: 'Cormorant Garamond, serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 400,
-          color: '#3d9089',
+          color: '#2d6b66',
           margin: 0,
           letterSpacing: '0.01em',
           lineHeight: 1.1,

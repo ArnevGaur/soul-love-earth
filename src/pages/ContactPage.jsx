@@ -368,7 +368,7 @@ export default function ContactPage() {
               }}
               >
 
-                <div style={{ padding: '3rem', position: 'relative', zIndex: 1 }}>
+                <div style={{ padding: '3rem', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <h2 style={{ 
                     fontFamily: 'var(--font-display)', 
                     fontSize: '2.2rem', 
@@ -428,7 +428,7 @@ export default function ContactPage() {
                       </p>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} dir={t.dir}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1 }} dir={t.dir}>
                       
                       <div style={{ 
                         display: 'grid', 
@@ -619,7 +619,8 @@ export default function ContactPage() {
                         opacity: mounted ? 1 : 0,
                         transform: mounted ? 'translateY(0)' : 'translateY(20px)',
                         transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                        transitionDelay: '0s'
+                        transitionDelay: '0s',
+                        marginTop: 'auto'
                       }}>
                         <button 
                         type="submit" 
