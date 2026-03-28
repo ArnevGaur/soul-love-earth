@@ -9,6 +9,55 @@ import { Search, SlidersHorizontal, X, Filter, ChevronDown } from 'lucide-react'
 import FilterPane from '../components/shop/FilterPane'
 import { useRef } from 'react'
 
+// Assumed Ramadan products for Gifts category
+const ramadanProducts = [
+  {
+    product_id: '50',
+    name: 'Ramadan Blessings Gift Box',
+    price: '180.00',
+    special: false,
+    thumb: '/images/Products/ramadan-1.jpg?v=2',
+    category: 'Gifts',
+    category_id: 'ramadan'
+  },
+  {
+    product_id: '51',
+    name: 'Ramadan Lantern Gift Box',
+    price: '169.00',
+    special: false,
+    thumb: '/images/Products/ramadan-2.jpg?v=2',
+    category: 'Gifts',
+    category_id: 'ramadan'
+  },
+  {
+    product_id: '52',
+    name: 'Ramadan Serenity Gift Box',
+    price: '175.00',
+    special: false,
+    thumb: '/images/Products/ramadan-3.jpg?v=2',
+    category: 'Gifts',
+    category_id: 'ramadan'
+  },
+  {
+    product_id: '53',
+    name: 'Ramadan Reflection Gift Box',
+    price: '199.00',
+    special: false,
+    thumb: '/images/Products/ramadan-4.jpg?v=2',
+    category: 'Gifts',
+    category_id: 'ramadan'
+  },
+  {
+    product_id: '54',
+    name: 'Ramadan Blessings Gift Box by Soul Love & Earth',
+    price: '199.00',
+    special: false,
+    thumb: '/images/Products/ramadan-5.jpg?v=2',
+    category: 'Gifts',
+    category_id: 'ramadan'
+  }
+]
+
 export default function ShopPage() {
   const { t } = useLanguage()
   const s = t.shop
@@ -58,10 +107,28 @@ export default function ShopPage() {
     setCategoryId(cat)
   }, [searchParams])
 
-  // Load categories once
+  // Load categories once and inject Ramadan subcategory under Gifts
   useEffect(() => {
     fetchCategories()
-      .then(data => setCategories(Array.isArray(data) ? data : data.categories || []))
+      .then(data => {
+        let cats = Array.isArray(data) ? data : data.categories || []
+        
+        // Inject Ramadan subcategory under Gifts
+        cats = cats.map(cat => {
+          if (cat.name === 'Gifts') {
+            return {
+              ...cat,
+              subcategories: [
+                ...(cat.subcategories || []),
+                { category_id: 'ramadan', name: 'Ramadan', parent_id: cat.category_id }
+              ]
+            }
+          }
+          return cat
+        })
+        
+        setCategories(cats)
+      })
       .catch(() => setCategories([]))
   }, [])
 
@@ -78,14 +145,25 @@ export default function ShopPage() {
         order: sort.order,
         filters
       })
-      setProducts(Array.isArray(data) ? data : data.products || [])
+      let fetchedProducts = Array.isArray(data) ? data : data.products || []
+      
+      // Handle Ramadan subcategory selection
+      if (categoryId === 'ramadan') {
+        fetchedProducts = ramadanProducts
+      }
+      // Add Ramadan products when viewing all products
+      else if (!categoryId && !search) {
+        fetchedProducts = [...ramadanProducts, ...fetchedProducts]
+      }
+      
+      setProducts(fetchedProducts)
     } catch (err) {
       setError('Could not load products. Please try again.')
       setProducts([])
     } finally {
       setLoading(false)
     }
-  }, [categoryId, search, sortIdx, filters])
+  }, [categoryId, search, sortIdx, filters, categories])
 
   useEffect(() => { loadProducts() }, [loadProducts])
 
@@ -121,14 +199,27 @@ export default function ShopPage() {
   return (
     <>
       <Navbar />
-      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px' }}>
+      <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh' }}>
 
         {/* Page Header */}
         <div style={{
-          backgroundColor: '#1a2e2c',
-          padding: '3.5rem 2rem',
+          position: 'relative',
+          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          padding: '6rem 2rem 4rem',
           textAlign: 'center',
+          overflow: 'hidden'
         }}>
+          {/* Dark overlay for text readability - brighter */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(10,26,24,0.75) 0%, rgba(26,46,44,0.7) 100%)',
+            zIndex: 1
+          }} />
+          
           <span style={{
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.65rem',
@@ -141,6 +232,8 @@ export default function ShopPage() {
             justifyContent: 'center',
             gap: '0.75rem',
             marginBottom: '0.75rem',
+            position: 'relative',
+            zIndex: 2
           }}>
             <span style={{ width: '32px', height: '1px', backgroundColor: '#d4a843', display: 'inline-block' }} />
             {s.title}
@@ -152,6 +245,9 @@ export default function ShopPage() {
             fontWeight: 300,
             color: '#faf8f3',
             lineHeight: 1.1,
+            position: 'relative',
+            zIndex: 2,
+            textShadow: '0 2px 4px rgba(0,0,0,0.2)'
           }}>
             {s.sub}
           </h1>
@@ -441,7 +537,8 @@ export default function ShopPage() {
                     </button>
                   </li>
                   {categories.map(cat => {
-                    const isOpen = categoryId === cat.category_id || categoryId.startsWith(`${cat.category_id}-`);
+                    const isSubcategorySelected = cat.subcategories?.some(sub => sub.category_id === categoryId)
+                    const isOpen = categoryId === cat.category_id || categoryId.startsWith(`${cat.category_id}-`) || isSubcategorySelected
                     return (
                     <li key={cat.category_id}>
                       <button
