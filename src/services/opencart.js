@@ -59,7 +59,7 @@ const mockCategories = [
       { category_id: 'gifts-navratri', name: 'Navratri' },
       { category_id: 'gifts-ramadan', name: 'Ramadan' },
       { category_id: 'gifts-valentine', name: 'Valentine' },
-      { category_id: 'gifts-xmas', name: 'X-Mas' },
+      { category_id: 'gifts-christmas', name: 'Christmas' },
     ]
   },
   { category_id: 'bags', name: 'Bags' },
