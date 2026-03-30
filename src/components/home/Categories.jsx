@@ -18,7 +18,7 @@ export default function Categories() {
   const dir = t?.dir || 'ltr'
 
   return (
-    <section id="categories" style={{ padding: '4rem 1.5rem', background: '#faf8f3' }}>
+    <section id="categories" className="categories-section" style={{ padding: '4rem 1.5rem', background: '#faf8f3' }}>
       {/* Header */}
       <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '3rem', direction: dir }}>
         <span style={{
@@ -37,7 +37,7 @@ export default function Categories() {
           {t?.home?.collectionsSub || 'Explore'}
           <span style={{ width: '40px', height: '1px', backgroundColor: '#d4a843', opacity: 0.6 }} />
         </span>
-        <h2 style={{
+        <h2 className="categories-section-title" style={{
           fontFamily: 'Cormorant Garamond, serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 400,
@@ -109,9 +109,9 @@ export default function Categories() {
         @media (max-width: 768px) {
           .category-grid {
             grid-template-columns: 1fr;
-            grid-auto-rows: 250px;
+            grid-auto-rows: 220px;
           }
-          .cat-item-[class^="cat-item-"], .category-grid > a {
+          .category-grid > a {
             grid-column: span 1 !important;
           }
         }

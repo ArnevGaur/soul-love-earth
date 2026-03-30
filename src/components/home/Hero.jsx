@@ -14,7 +14,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section style={{
+    <section className="hero-section" style={{
       position: 'relative',
       height: '100vh',
       minHeight: '640px',
@@ -25,26 +25,28 @@ export default function Hero() {
     }}>
 
       {/* Background image with overlay */}
-      <div style={{
+      <div className="hero-bg-image" style={{
         position: 'absolute',
         inset: 0,
         backgroundImage: 'url(/hero-bg.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center 85%',
-        transform: 'scale(1.04)',
-        transition: 'transform 8s ease-out',
-        ...(loaded && { transform: 'scale(1)' }),
+        // Only scale on desktop
+        ...(window.innerWidth > 768 && {
+          transform: loaded ? 'scale(1)' : 'scale(1.04)',
+          transition: 'transform 8s ease-out'
+        }),
       }} />
 
       {/* Gradient overlay */}
-      <div style={{
+      <div className="hero-overlay" style={{
         position: 'absolute',
         inset: 0,
         background: 'linear-gradient(105deg, rgba(20,42,40,0.82) 0%, rgba(20,42,40,0.45) 55%, rgba(20,42,40,0.15) 100%)',
       }} />
 
       {/* Decorative vertical line */}
-      <div style={{
+      <div className="hero-v-line" style={{
         position: 'absolute',
         left: '2rem',
         top: '50%',
@@ -57,7 +59,7 @@ export default function Hero() {
       }} />
 
       {/* Content */}
-      <div style={{
+      <div className="hero-content" style={{
         position: 'relative',
         zIndex: 2,
         maxWidth: '1280px',
@@ -76,7 +78,7 @@ export default function Hero() {
           alignItems: t?.dir === 'rtl' ? 'flex-end' : 'flex-start', // Align text elements to the correct side within the 800px box
         }}>
           {/* Label */}
-          <div style={{
+          <div className="hero-label" style={{
             opacity: loaded ? 1 : 0,
             transform: loaded ? 'translateY(0)' : 'translateY(16px)',
             transition: 'all 0.7s ease 0.2s',
@@ -99,7 +101,7 @@ export default function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 style={{
+          <h1 className="hero-title" style={{
             fontFamily: 'Cormorant Garamond, serif',
             fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
             fontWeight: 300,
@@ -118,7 +120,7 @@ export default function Hero() {
           </h1>
 
           {/* Subtext */}
-          <p style={{
+          <p className="hero-subtitle" style={{
             fontFamily: 'Jost, sans-serif',
             fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
             fontWeight: 300,
@@ -135,7 +137,7 @@ export default function Hero() {
           </p>
 
           {/* CTAs */}
-          <div style={{
+          <div className="hero-cta-wrapper" style={{
             display: 'flex',
             gap: '1rem',
             flexWrap: 'wrap',
@@ -208,7 +210,7 @@ export default function Hero() {
       </div>
 
       {/* Bottom scroll indicator */}
-      <div style={{
+      <div className="hero-scroll-indicator" style={{
         position: 'absolute',
         bottom: '2rem',
         left: '50%',

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
 import { useCart } from '../../context/CartContext'
@@ -48,16 +48,30 @@ export default function NewArrivals() {
   const dir = t?.dir || 'ltr'
   const isRtl = dir === 'rtl'
 
-  const maxIndex = Math.max(0, products.length - 3)
+  // Responsive visible card count
+  const [visibleCount, setVisibleCount] = useState(3)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setVisibleCount(1)
+      else if (window.innerWidth < 1024) setVisibleCount(2)
+      else setVisibleCount(3)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const maxIndex = Math.max(0, products.length - visibleCount)
   const prev = () => setCurrent(c => Math.max(c - 1, 0))
   const next = () => setCurrent(c => Math.min(c + 1, maxIndex))
 
   return (
-    <section style={{ padding: '5rem 1.5rem', background: '#f9f9f7', position: 'relative' }}>
+    <section className="new-arrivals-section" style={{ padding: '5rem 1.5rem', background: '#f9f9f7', position: 'relative' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto' }} dir={dir}>
 
         {/* Header row */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '3rem' }}>
+        <div className="new-arrivals-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '3rem' }}>
           <span style={{
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.75rem',
@@ -142,20 +156,20 @@ export default function NewArrivals() {
             <ArrowRight size={22} strokeWidth={1.5} style={{ transform: isRtl ? 'none' : 'rotate(180deg)' }} />
           </button>
 
-          {/* Cards Wrapper - Added padding so cards have a massive gap from arrows */}
-          <div style={{ padding: '0 65px' }}>
-            <div style={{ overflow: 'hidden', padding: '10px 0' }}>
-              <div style={{
+          {/* Cards Wrapper */}
+          <div className="new-arrivals-cards-wrapper" style={{ padding: '0 65px' }}>
+            <div className="new-arrivals-overflow-hidden" style={{ overflow: 'hidden', padding: '10px 0' }}>
+              <div className="new-arrivals-track" style={{
                 display: 'flex',
                 gap: '2rem',
-                transform: `translateX(calc(${isRtl ? '' : '-'}${current * (100 / 3)}% ${isRtl ? '+' : '-'} ${current * (2 * 16 / 3)}px))`,
+                transform: `translateX(calc(${isRtl ? '' : '-'}${current * (100 / visibleCount)}% ${isRtl ? '+' : '-'} ${current * (2 * 16 / visibleCount)}px))`,
                 transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                 willChange: 'transform',
               }}>
                 {products.map(product => (
-                  <div key={product.id} style={{ 
-                    flex: '0 0 calc(33.333% - 1.33rem)', 
-                    minWidth: '260px', 
+                  <div key={product.id} className="new-arrivals-card-container" style={{ 
+                    flex: `0 0 calc(${100 / visibleCount}% - ${(visibleCount - 1) * 2 / visibleCount}rem)`, 
+                    minWidth: visibleCount === 1 ? '100%' : '260px', 
                   }}>
                     <ProductCard product={product} />
                   </div>

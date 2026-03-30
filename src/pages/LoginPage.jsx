@@ -98,7 +98,7 @@ export default function LoginPage() {
       <main style={{ minHeight: '100vh', paddingTop: '100px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
         
 
-        <div style={{ 
+        <div className="login-wrapper" style={{ 
           flex: 1, 
           display: 'flex', 
           alignItems: 'center', 
@@ -110,7 +110,7 @@ export default function LoginPage() {
           <div style={{ width: '100%', maxWidth: '480px' }}>
 
             {/* Glassmorphism Card */}
-            <div style={{ 
+            <div className="login-card" style={{ 
               backgroundColor: 'rgba(255, 255, 255, 0.5)', 
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',

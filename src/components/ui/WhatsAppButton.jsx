@@ -11,19 +11,20 @@ export default function WhatsAppButton() {
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
   return (
-    <div style={{
+    <div className="whatsapp-wrapper" style={{
       position: 'fixed',
-      bottom: '1.75rem',
-      right: '1.75rem',
-      zIndex: 200,
+      bottom: '2rem',
+      right: '2rem',
+      zIndex: 999,
       display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
+      flexDirection: 'column',
+      alignItems: 'flex-end',
+      gap: '0.75rem'
     }}>
 
       {/* Tooltip */}
       {tooltipVisible && (
-        <div style={{
+        <div className="whatsapp-tooltip" style={{
           backgroundColor: 'white',
           boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
           padding: '0.65rem 1rem',

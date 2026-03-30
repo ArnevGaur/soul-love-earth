@@ -30,7 +30,7 @@ export default function Testimonials() {
   const next = () => setCurrent(c => Math.min(maxIndex, c + 1))
 
   return (
-    <section style={{
+    <section className="testimonials-section" style={{
       backgroundColor: '#faf8f3',
       padding: '4rem 2rem',
       position: 'relative',
