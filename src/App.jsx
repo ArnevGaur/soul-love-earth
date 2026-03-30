@@ -26,6 +26,7 @@ import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
 import AuthBackdrop from './components/layout/AuthBackdrop'
 import './index.css'
+import './mobile.css'
 
 function AnimatedRoutes() {
   const location = useLocation()

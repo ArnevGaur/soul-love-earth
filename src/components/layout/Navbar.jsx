@@ -76,6 +76,7 @@ export default function Navbar() {
   return (
     <>
       <header
+        className="navbar-container"
         style={{
           position: 'fixed',
           top: 0,
@@ -92,7 +93,7 @@ export default function Navbar() {
           padding: isScrolled ? '0.6rem 1.75rem' : '1.1rem 1.75rem',
         }}
       >
-        <nav style={{ 
+        <nav className="navbar-grid-mobile" style={{ 
           position: 'relative', 
           maxWidth: '1700px', 
           margin: '0 auto', 
@@ -105,12 +106,13 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', textDecoration: 'none' }}>
               <img
+                className="navbar-logo-img"
                 src="/logo.png"
                 alt="Soul Love & Earth"
                 style={{ height: scrolled ? '36px' : '46px', transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)', width: 'auto' }}
               />
               <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-                <span style={{
+                <span className="navbar-logo-text" style={{
                   fontFamily: 'Cormorant Garamond, serif',
                   fontSize: scrolled ? '1.15rem' : '1.4rem',
                   fontWeight: 500,
@@ -121,7 +123,7 @@ export default function Navbar() {
                 }}>
                   Soul Love & Earth
                 </span>
-                <span style={{
+                <span className="navbar-logo-tagline" style={{
                   fontFamily: 'Jost, sans-serif',
                   fontSize: '0.6rem',
                   fontWeight: 600,
@@ -139,7 +141,7 @@ export default function Navbar() {
           </div>
 
           {/* Center Navigation links */}
-          <div className="hidden-mobile" style={{ display: 'flex', justifyContent: 'center', marginRight: '2.5rem' }}>
+          <div className="hidden-mobile navbar-desktop-links" style={{ display: 'flex', justifyContent: 'center', marginRight: '2.5rem' }}>
             <ul style={{ display: 'flex', gap: '1.2rem', listStyle: 'none', margin: 0, padding: 0 }}>
               {navLinks.map(link => (
                 <li key={link.label} style={{ position: 'relative' }}>
@@ -186,11 +188,12 @@ export default function Navbar() {
           </div>
 
           {/* Right Icons Section */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1.25rem' }}>
+          <div className="navbar-icons" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1.25rem' }}>
 
             {/* Language Toggle */}
             <button
               onClick={toggleLang}
+              className="navbar-lang-toggle hidden-mobile"
               title={lang === 'en' ? 'Switch to Arabic' : 'Switch to English'}
               style={{
                 background: isScrolled ? 'none' : 'rgba(255, 255, 255, 0.08)', 
@@ -215,7 +218,19 @@ export default function Navbar() {
               {lang === 'en' ? 'عربي' : 'EN'}
             </button>
 
-            {/* Login / Register — desktop only */}
+            {/* User Icon — Mobile Only (New) */}
+            <Link
+              to="/login"
+              className="show-mobile"
+              aria-label="Account"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', display: 'none', alignItems: 'center' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#d4a843'}
+              onMouseLeave={e => e.currentTarget.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
+            >
+              <User size={20} strokeWidth={1.5} />
+            </Link>
+
+            {/* login-register-desktop */}
             <div className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
               <Link
                 to="/login"
@@ -283,7 +298,7 @@ export default function Navbar() {
           {/* Dropdown Search Widget */}
           {searchOpen && (
             <div 
-              className="search-dropdown"
+              className="search-dropdown navbar-search-dropdown"
               style={{
                 position: 'absolute',
                 top: 'calc(100% + 15px)',
@@ -409,7 +424,7 @@ export default function Navbar() {
       <CartDrawer />
 
       {/* Mobile Menu Drawer */}
-      <div style={{
+      <div className="navbar-mobile-drawer" style={{
         position: 'fixed',
         top: 0,
         left: 0,
@@ -460,6 +475,42 @@ export default function Navbar() {
             </Link>
           </div>
         ))}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem', marginTop: '1rem' }}>
+          <Link
+            to="/login"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              fontFamily: 'Jost, sans-serif',
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: '#3d9089',
+              textDecoration: 'none'
+            }}
+          >
+            {t?.nav?.login}
+          </Link>
+          <Link
+            to="/register"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              fontFamily: 'Jost, sans-serif',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              padding: '0.8rem 2.5rem',
+              backgroundColor: '#3d9089',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '2px'
+            }}
+          >
+            {t?.nav?.register}
+          </Link>
+        </div>
+
         <span style={{
           fontFamily: 'Jost, sans-serif',
           fontSize: '0.65rem',

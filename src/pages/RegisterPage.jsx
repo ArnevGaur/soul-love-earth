@@ -200,7 +200,7 @@ export default function RegisterPage() {
       <main style={{ minHeight: '100vh', paddingTop: '100px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
 
 
-        <div style={{ 
+        <div className="register-wrapper" style={{ 
           flex: 1, 
           display: 'flex', 
           alignItems: 'center', 
@@ -212,7 +212,7 @@ export default function RegisterPage() {
           <div style={{ width: '100%', maxWidth: '520px' }}>
 
             {/* Card with Branding inside */}
-            <div style={{ 
+            <div className="register-card" style={{ 
               backgroundColor: 'rgba(255, 255, 255, 0.5)', 
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
@@ -262,7 +262,7 @@ export default function RegisterPage() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
 
                 {/* Name row */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="register-name-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
                     <label style={labelStyle}>{a.firstName}<span style={{ color: '#dc2626', marginLeft: '3px' }}>*</span></label>
                     <div style={{ position: 'relative' }}>

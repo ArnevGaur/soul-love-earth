@@ -137,7 +137,7 @@ export default function FilterPane({
       />
 
       {/* Pane Container */}
-      <div style={{
+      <div className="filter-pane" style={{
         position: 'fixed',
         top: 0,
         right: 0,

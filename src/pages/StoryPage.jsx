@@ -68,7 +68,7 @@ export default function StoryPage() {
       <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh' }}>
         
         {/* Hero Section */}
-        <section style={{
+        <section className="story-page-hero" style={{
           position: 'relative',
           minHeight: '60vh',
           display: 'flex',
@@ -175,7 +175,7 @@ export default function StoryPage() {
         </section>
 
         {/* Our Logo Story */}
-        <section style={{ padding: '8rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <section className="story-page-logo-section" style={{ padding: '8rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
             <div style={{
               display: 'flex',
@@ -218,7 +218,7 @@ export default function StoryPage() {
             </p>
           </div>
 
-          <div style={{
+          <div className="story-page-logo-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '2rem',
@@ -304,7 +304,7 @@ export default function StoryPage() {
         </section>
 
         {/* Narrative Quote */}
-        <section style={{
+        <section className="story-page-quote-section" style={{
           position: 'relative',
           backgroundColor: '#1a3a36',
           padding: '8rem 2rem',
@@ -347,7 +347,7 @@ export default function StoryPage() {
         </section>
 
         {/* What We Do */}
-        <section style={{ padding: '8rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <section className="story-page-mission-section" style={{ padding: '8rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
             <div style={{
               display: 'flex',
@@ -390,7 +390,7 @@ export default function StoryPage() {
             </p>
           </div>
 
-          <div style={{
+          <div className="story-page-mission-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '2rem',
@@ -476,7 +476,7 @@ export default function StoryPage() {
         </section>
 
         {/* Commitment Section */}
-        <section style={{
+        <section className="story-page-commitment" style={{
           backgroundColor: '#ffffff',
           padding: '6rem 2rem',
           textAlign: 'center'
@@ -513,7 +513,7 @@ export default function StoryPage() {
         </section>
 
         {/* Call to Action */}
-        <section style={{
+        <section className="story-page-cta" style={{
           padding: '6rem 2rem',
           textAlign: 'center',
           background: 'linear-gradient(180deg, #faf8f3 0%, #f5f3ee 100%)'

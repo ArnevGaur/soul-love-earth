@@ -107,7 +107,7 @@ export default function HospitalityPage() {
       <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px', direction: t?.dir }}>
 
         {/* Page Header */}
-        <div style={{
+        <div className="hospitality-header" style={{
           backgroundColor: '#1a2e2c',
           padding: '3.5rem 2rem',
           textAlign: 'center',
@@ -140,10 +140,10 @@ export default function HospitalityPage() {
           </h1>
         </div>
 
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2.5rem 2rem' }}>
+        <div className="hospitality-content" style={{ maxWidth: '1280px', margin: '0 auto', padding: '2.5rem 2rem' }}>
 
           {/* Toolbar */}
-          <div style={{
+          <div className="hospitality-toolbar" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '1rem',
@@ -248,7 +248,7 @@ export default function HospitalityPage() {
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+          <div className="hospitality-layout" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
 
             {/* Sidebar — Categories */}
             <aside style={{
@@ -367,7 +367,7 @@ export default function HospitalityPage() {
                   }}>
                     {s.results.replace('{n}', products.length)}
                   </p>
-                  <div style={{
+                  <div className="hospitality-products-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
                     gap: '1.5rem',
