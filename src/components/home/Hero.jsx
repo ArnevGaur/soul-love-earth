@@ -31,9 +31,11 @@ export default function Hero() {
         backgroundImage: 'url(/hero-bg.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center 85%',
-        transform: 'scale(1.04)',
-        transition: 'transform 8s ease-out',
-        ...(loaded && { transform: 'scale(1)' }),
+        // Only scale on desktop
+        ...(window.innerWidth > 768 && {
+          transform: loaded ? 'scale(1)' : 'scale(1.04)',
+          transition: 'transform 8s ease-out'
+        }),
       }} />
 
       {/* Gradient overlay */}

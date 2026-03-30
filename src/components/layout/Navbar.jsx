@@ -423,20 +423,6 @@ export default function Navbar() {
 
       <CartDrawer />
 
-      {/* Background image with overlay */}
-      <div className="hero-bg-image" style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: 'url(/hero-bg.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 85%',
-        // Only scale on desktop
-        ...(window.innerWidth > 768 && {
-          transform: loaded ? 'scale(1)' : 'scale(1.04)',
-          transition: 'transform 8s ease-out'
-        }),
-      }} />
-
       {/* Mobile Menu Drawer */}
       <div className="navbar-mobile-drawer" style={{
         position: 'fixed',
