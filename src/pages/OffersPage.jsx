@@ -79,7 +79,7 @@ export default function OffersPage() {
       }}>
         
         {/* Hero Section */}
-        <section style={{
+        <section className="offers-hero" style={{
           position: 'relative',
           minHeight: '55vh',
           display: 'flex',
@@ -203,7 +203,7 @@ export default function OffersPage() {
         </section>
 
         {/* Offers Grid */}
-        <section style={{ 
+        <section className="offers-content" style={{ 
           padding: '6rem 2rem',
           maxWidth: '1400px',
           margin: '0 auto',
@@ -222,7 +222,7 @@ export default function OffersPage() {
             transition: 'height 1.2s ease 0.5s'
           }} />
 
-          <div style={{
+          <div className="offers-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
             gap: '2.5rem',

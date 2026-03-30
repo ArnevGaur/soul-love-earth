@@ -618,7 +618,7 @@ export default function CheckoutPage() {
       `}</style>
 
       <main style={{ background: 'linear-gradient(180deg, #fcfaf5 0%, #f5f0e6 100%)', minHeight: '100vh', paddingTop: '100px', paddingBottom: '5rem' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <div className="checkout-page-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
 
           {/* Page Header */}
           <div className="checkout-header-wrap" style={{ marginBottom: '2rem', borderBottom: '1px solid rgba(44,44,44,0.1)' }}>

@@ -28,7 +28,7 @@ export default function CartDrawer() {
       />
 
       {/* Drawer — slides in from right (LTR) or left (RTL) */}
-      <div style={{
+      <div className="cart-drawer" style={{
         position: 'fixed', top: 0, [isRtl ? 'left' : 'right']: 0, bottom: 0,
         width: '100%', maxWidth: '400px',
         backgroundColor: '#faf8f3',

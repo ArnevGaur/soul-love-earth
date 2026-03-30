@@ -7,7 +7,7 @@ export default function Story() {
   const h = t.home
 
   return (
-    <section style={{
+    <section className="story-section" style={{
       backgroundColor: '#1a2e2c',
       overflow: 'hidden',
     }}>
@@ -22,7 +22,7 @@ export default function Story() {
       >
 
         {/* Left — Image */}
-        <div style={{
+        <div className="story-image-wrapper" style={{
           position: 'relative',
           overflow: 'hidden',
           height: '100%',
@@ -76,7 +76,7 @@ export default function Story() {
         </div>
 
         {/* Right — Content (Now Horizontal for Band Layout) */}
-        <div style={{
+        <div className="story-content" style={{
           padding: '2rem 3rem',
           display: 'flex',
           flexDirection: 'row',
@@ -86,7 +86,7 @@ export default function Story() {
         }}>
 
           {/* Text Left Column */}
-          <div style={{ flex: '1 1 auto', maxWidth: '600px' }}>
+          <div className="story-text-column" style={{ flex: '1 1 auto', maxWidth: '600px' }}>
             {/* Label */}
             <span style={{
               fontFamily: 'Jost, sans-serif',
@@ -142,7 +142,7 @@ export default function Story() {
           </div>
 
           {/* Stats Right Column */}
-          <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <div className="story-stats-column" style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
 
           {/* Stats row */}
           <div style={{
@@ -176,6 +176,7 @@ export default function Story() {
 
           {/* CTA */}
           <Link
+            className="story-cta-btn"
             to="/story"
             style={{
               display: 'inline-flex',

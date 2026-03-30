@@ -8,7 +8,7 @@ export default function ValueProps() {
   const h = t.home
 
   return (
-    <section style={{
+    <section className="value-props-section" style={{
       position: 'relative',
       backgroundImage: 'url(/public/contactleaves.jpg)',
       backgroundSize: 'cover',
@@ -93,7 +93,7 @@ export default function ValueProps() {
         </div>
 
         {/* Cards Grid */}
-        <div style={{
+        <div className="value-props-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '2rem',
