@@ -53,11 +53,11 @@ export default function Footer() {
   ]
 
   return (
-    <footer style={{ backgroundColor: '#0f1f1e', color: '#faf8f3', position: 'relative', zIndex: 10 }} dir={t.dir}>
+    <footer className="footer-container" style={{ backgroundColor: '#0f1f1e', color: '#faf8f3', position: 'relative', zIndex: 10 }} dir={t.dir}>
 
       {/* Newsletter Banner */}
-      <div style={{ backgroundColor: '#3d9089', padding: '3rem 2rem' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem', flexWrap: 'wrap' }}>
+      <div className="footer-newsletter-banner" style={{ backgroundColor: '#3d9089', padding: '3rem 2rem' }}>
+        <div className="footer-newsletter-content" style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem', flexWrap: 'wrap' }}>
           <div>
             <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.75rem', fontWeight: 400, color: 'white', marginBottom: '0.3rem' }}>{f.newsletter}</h3>
             <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.82rem', fontWeight: 300, color: 'rgba(255,255,255,0.8)' }}>{f.newsletterSub}</p>
@@ -67,10 +67,13 @@ export default function Footer() {
               {f.subscribed}
             </div>
           ) : (
-            <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '0', flexShrink: 0 }}>
+            <form className="footer-newsletter-form" onSubmit={handleSubscribe} style={{ display: 'flex', gap: '0', flexShrink: 0 }}>
               <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" required
+                className="footer-newsletter-input"
                 style={{ padding: '0.85rem 1.25rem', fontFamily: 'Jost, sans-serif', fontSize: '0.82rem', fontWeight: 300, border: 'none', outline: 'none', backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', width: '260px', backdropFilter: 'blur(4px)' }} />
-              <button type="submit" style={{ padding: '0.85rem 1.5rem', backgroundColor: '#d4a843', color: 'white', fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s', whiteSpace: 'nowrap' }}
+              <button type="submit" 
+                className="footer-newsletter-btn"
+                style={{ padding: '0.85rem 1.5rem', backgroundColor: '#d4a843', color: 'white', fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s', whiteSpace: 'nowrap' }}
                 onMouseEnter={e => e.currentTarget.style.backgroundColor = '#b8902e'}
                 onMouseLeave={e => e.currentTarget.style.backgroundColor = '#d4a843'}>
                 {f.subscribe}
@@ -141,7 +144,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div style={{ borderTop: '1px solid rgba(250,248,243,0.08)', padding: '1.25rem 2rem' }}>
+      <div className="footer-bottom" style={{ borderTop: '1px solid rgba(250,248,243,0.08)', padding: '1.25rem 2rem' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
           <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 300, color: 'rgba(250,248,243,0.35)' }}>
             {f.rights.replace('{year}', new Date().getFullYear())}

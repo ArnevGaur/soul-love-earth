@@ -53,11 +53,11 @@ export default function NewArrivals() {
   const next = () => setCurrent(c => Math.min(c + 1, maxIndex))
 
   return (
-    <section style={{ padding: '5rem 1.5rem', background: '#f9f9f7', position: 'relative' }}>
+    <section className="new-arrivals-section" style={{ padding: '5rem 1.5rem', background: '#f9f9f7', position: 'relative' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto' }} dir={dir}>
 
         {/* Header row */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '3rem' }}>
+        <div className="new-arrivals-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '3rem' }}>
           <span style={{
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.75rem',

@@ -202,7 +202,7 @@ export default function ShopPage() {
       <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh' }}>
 
         {/* Page Header */}
-        <div style={{
+        <div className="shop-header" style={{
           position: 'relative',
           backgroundImage: 'url(/public/contactleaves.jpg)',
           backgroundSize: 'cover',
@@ -253,10 +253,10 @@ export default function ShopPage() {
           </h1>
         </div>
 
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2.5rem 2rem' }}>
+        <div className="shop-content" style={{ maxWidth: '1280px', margin: '0 auto', padding: '2.5rem 2rem' }}>
 
           {/* Toolbar */}
-          <div style={{
+          <div className="shop-toolbar" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '1rem',
@@ -353,7 +353,7 @@ export default function ShopPage() {
 
 
             {/* Categories toggle (mobile) & Right Filter Toggle (always visible) */}
-            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+            <div className="shop-toolbar-buttons" style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
               <button
                 onClick={() => setFiltersOpen(!filtersOpen)}
                 style={{
@@ -399,7 +399,7 @@ export default function ShopPage() {
             </div>
 
             {/* Custom Sort Dropdown */}
-            <div style={{ position: 'relative', marginLeft: 'auto' }}>
+            <div className="shop-sort-wrapper" style={{ position: 'relative', marginLeft: 'auto' }}>
               <button
                 onClick={() => setSortOpen(!sortOpen)}
                 style={{
@@ -491,7 +491,7 @@ export default function ShopPage() {
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+          <div className="shop-layout" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
 
             {/* Sidebar — Categories */}
             <aside style={{
@@ -655,7 +655,7 @@ export default function ShopPage() {
                   }}>
                     {s.results.replace('{n}', products.length)}
                   </p>
-                  <div style={{
+                  <div className="shop-products-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
                     gap: '1.5rem',

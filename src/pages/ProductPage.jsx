@@ -274,7 +274,7 @@ export default function ProductPage() {
 
         {/* Breadcrumb */}
         <div style={{ borderBottom: '1px solid rgba(33,78,65,0.08)', backgroundColor: '#fcfbf8' }}>
-          <div style={{ 
+          <div className="product-page-breadcrumb" style={{ 
             maxWidth: '1280px', margin:'0 auto', padding:'0.85rem 2rem', 
             display:'flex', alignItems:'center', gap:'0.75rem', 
             fontFamily:'Jost, sans-serif', fontSize:'0.7rem', fontWeight: 600,
@@ -298,7 +298,7 @@ export default function ProductPage() {
           </div>
         </div>
 
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '3rem 2rem' }}>
+        <div className="product-page-content" style={{ maxWidth: '1280px', margin: '0 auto', padding: '3rem 2rem' }}>
 
           {loading ? (
             <div className="product-grid">

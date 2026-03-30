@@ -23,8 +23,8 @@ export default function BagsCollection() {
   const current = lang === 'ar' ? content.ar : content.en
 
   return (
-    <section style={{ padding: '4rem 1.5rem', background: '#ffffff', overflow: 'hidden' }}>
-      <div style={{
+    <section className="bags-collection" style={{ padding: '4rem 1.5rem', background: '#ffffff', overflow: 'hidden' }}>
+      <div className="bags-collection-grid" style={{
         maxWidth: '1280px',
         margin: '0 auto',
         display: 'flex',
@@ -35,8 +35,8 @@ export default function BagsCollection() {
       }}>
         
         {/* Text Content */}
-        <div style={{ flex: '1 1 400px', textAlign: 'center', padding: '0 1rem' }}>
-          <h2 style={{
+        <div className="bags-collection-item" style={{ flex: '1 1 400px', textAlign: 'center', padding: '0 1rem' }}>
+          <h2 className="bags-collection-title" style={{
             fontFamily: 'Cormorant Garamond, serif',
             fontSize: 'clamp(2rem, 3.5vw, 2.8rem)',
             fontWeight: 400,
@@ -99,7 +99,7 @@ export default function BagsCollection() {
         </div>
 
         {/* Video Content */}
-        <div style={{ flex: '1 1 500px', display: 'flex', justifyContent: 'center' }}>
+        <div className="bags-collection-item" style={{ flex: '1 1 500px', display: 'flex', justifyContent: 'center' }}>
           <div style={{
             width: '100%',
             maxWidth: '540px',

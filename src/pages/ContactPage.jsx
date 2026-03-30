@@ -92,7 +92,7 @@ export default function ContactPage() {
       }}>
         
         {/* Hero Section */}
-        <section style={{
+        <section className="contact-hero" style={{
           position: 'relative',
           minHeight: '55vh',
           display: 'flex',
@@ -152,7 +152,7 @@ export default function ContactPage() {
           }} />
 
           {/* Content */}
-          <div style={{
+          <div className="contact-hero-content" style={{
             position: 'relative',
             zIndex: 3,
             textAlign: 'center',
@@ -236,14 +236,14 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Content */}
-        <section style={{ 
+        <section className="contact-content" style={{ 
           padding: '6rem 2rem',
           maxWidth: '1400px',
           margin: '0 auto',
           position: 'relative'
         }}>
 
-          <div style={{
+          <div className="contact-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: '3rem',
@@ -269,7 +269,7 @@ export default function ContactPage() {
                   }}
                 >
                   {/* Bright White Card */}
-                  <div style={{
+                  <div className="contact-info-card" style={{
                     backgroundColor: '#ffffff',
                     border: '1px solid rgba(61, 144, 137, 0.15)',
                     borderRadius: '20px',
@@ -342,7 +342,7 @@ export default function ContactPage() {
               }}
             >
               {/* Bright White Card */}
-              <div style={{
+              <div className="contact-form-card" style={{
                 backgroundColor: '#ffffff',
                 border: '1px solid rgba(61, 144, 137, 0.15)',
                 borderRadius: '20px',
@@ -430,7 +430,7 @@ export default function ContactPage() {
                   ) : (
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1 }} dir={t.dir}>
                       
-                      <div style={{ 
+                      <div className="contact-form-grid" style={{ 
                         display: 'grid', 
                         gridTemplateColumns: '1fr 1fr', 
                         gap: '1.5rem',
