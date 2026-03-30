@@ -8,7 +8,8 @@
 @media (max-width: 768px) {
 
   /* ── GLOBAL ──────────────────────────────────────────────────────────────── */
-  html, body {
+  html,
+  body {
     overflow-x: hidden !important;
     overscroll-behavior-x: none !important;
   }
@@ -122,7 +123,7 @@
     gap: 0.8rem !important;
   }
 
-  .hero-cta-wrapper > * {
+  .hero-cta-wrapper>* {
     width: 100% !important;
     justify-content: center !important;
     text-align: center !important;
@@ -152,7 +153,7 @@
     gap: 1rem !important;
   }
 
-  .categories-grid > div {
+  .categories-grid>div {
     min-height: 200px !important;
   }
 
@@ -175,7 +176,8 @@
 
   /* Carousel Specifics */
   .new-arrivals-cards-wrapper {
-    padding: 0 10px !important; /* Massive reduction from 65px */
+    padding: 0 10px !important;
+    /* Massive reduction from 65px */
   }
 
   .new-arrivals-track {
@@ -192,7 +194,7 @@
     width: 36px !important;
     height: 36px !important;
     background: rgba(250, 248, 243, 0.9) !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   }
 
   .new-arrivals-section button[disabled] {
@@ -280,7 +282,7 @@
     gap: 1rem !important;
   }
 
-  .value-props-grid > div {
+  .value-props-grid>div {
     padding: 1.25rem !important;
   }
 
@@ -323,7 +325,7 @@
     min-width: 0 !important;
   }
 
-  .shop-toolbar form > div {
+  .shop-toolbar form>div {
     max-width: none !important;
   }
 
@@ -497,7 +499,7 @@
     gap: 1.5rem !important;
   }
 
-  .offers-grid > div > div {
+  .offers-grid>div>div {
     padding: 2rem !important;
   }
 
@@ -526,7 +528,7 @@
     gap: 1.5rem !important;
   }
 
-  .story-page-logo-grid > div > div {
+  .story-page-logo-grid>div>div {
     min-height: auto !important;
     padding: 2rem !important;
   }
@@ -548,7 +550,7 @@
     gap: 1.5rem !important;
   }
 
-  .story-page-mission-grid > div > div {
+  .story-page-mission-grid>div>div {
     min-height: auto !important;
     padding: 2rem !important;
   }
@@ -579,7 +581,7 @@
     min-width: 0 !important;
   }
 
-  .hospitality-toolbar form > div {
+  .hospitality-toolbar form>div {
     max-width: none !important;
   }
 
@@ -644,7 +646,7 @@
     bottom: 2rem !important;
     right: 1rem !important;
   }
-  
+
   .whatsapp-wrapper a {
     width: 48px !important;
     height: 48px !important;
