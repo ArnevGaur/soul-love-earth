@@ -173,14 +173,32 @@
     font-size: 1.8rem !important;
   }
 
-  .new-arrivals-nav {
-    gap: 0.5rem !important;
+  /* Carousel Specifics */
+  .new-arrivals-cards-wrapper {
+    padding: 0 10px !important; /* Massive reduction from 65px */
   }
 
-  .new-arrivals-nav button {
+  .new-arrivals-track {
+    gap: 1rem !important;
+    /* Optional: enable native swipe if needed, but the button logic is now responsive */
+  }
+
+  .new-arrivals-overflow-hidden {
+    padding: 5px 0 !important;
+  }
+
+  /* Arrows on mobile - smaller and repositioned */
+  .new-arrivals-section button[onClick] {
     width: 36px !important;
     height: 36px !important;
+    background: rgba(250, 248, 243, 0.9) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
   }
+
+  .new-arrivals-section button[disabled] {
+    opacity: 0 !important;
+  }
+}
 
   .new-arrivals-card {
     min-width: 260px !important;
