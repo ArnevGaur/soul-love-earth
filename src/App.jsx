@@ -19,8 +19,7 @@ import WhatsAppButton from './components/ui/WhatsAppButton'
 import RouteProgress from './components/ui/RouteProgress'
 import { CartProvider } from './context/CartContext'
 import { LanguageProvider } from './context/LanguageContext'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
+import AuthPage from './pages/AuthPage'
 import OrdersPage from './pages/OrdersPage'
 import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
@@ -31,9 +30,14 @@ import './mobile.css'
 function AnimatedRoutes() {
   const location = useLocation()
   
+  // Prevent remounting the animated auth slider when switching between /login and /register
+  const routeKey = location.pathname === '/login' || location.pathname === '/register' 
+    ? 'auth-slider-route' 
+    : location.pathname;
+
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location} key={routeKey}>
         <Route path="/"     element={<PageTransition><HomePage /></PageTransition>} />
         <Route path="/shop" element={<PageTransition><ShopPage /></PageTransition>} />
         <Route path="/story" element={<PageTransition><StoryPage /></PageTransition>} />
@@ -49,8 +53,8 @@ function AnimatedRoutes() {
         <Route path="/terms" element={<PageTransition><TermsPage /></PageTransition>} />
         <Route path="/review-terms" element={<PageTransition><ReviewTermsPage /></PageTransition>} />
         <Route path="/order-placed" element={<PageTransition><OrderPlacedPage /></PageTransition>} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<AuthPage />} />
+        <Route path="/register" element={<AuthPage />} />
         <Route path="/orders" element={<PageTransition><OrdersPage /></PageTransition>} />
         <Route path="/hospitality" element={<PageTransition><HospitalityPage /></PageTransition>} />
       </Routes>
