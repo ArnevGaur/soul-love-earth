@@ -8,6 +8,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { Search, SlidersHorizontal, X, Filter, ChevronDown } from 'lucide-react'
 import FilterPane from '../components/shop/FilterPane'
 import { useRef } from 'react'
+import contactLeavesBg from '../assets/images/contactleaves.jpg'
 
 // Assumed Ramadan products for Gifts category
 const ramadanProducts = [
@@ -204,7 +205,7 @@ export default function ShopPage() {
         {/* Page Header */}
         <div className="shop-header" style={{
           position: 'relative',
-          backgroundImage: 'url(/contactleaves.jpg)',
+          backgroundImage: `url(${contactLeavesBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

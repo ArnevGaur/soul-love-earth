@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import contactLeavesBg from '../../assets/images/contactleaves.jpg'
 
 export default function AuthBackdrop() {
   const location = useLocation()
@@ -21,7 +22,7 @@ export default function AuthBackdrop() {
       pointerEvents: 'none' // Don't block clicks to elements behind if any
     }}>
       <img 
-        src="/contactleaves.jpg" 
+        src={contactLeavesBg} 
         alt="" 
         onLoad={() => setBgLoaded(true)}
         style={{

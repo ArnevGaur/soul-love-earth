@@ -3,6 +3,7 @@ import { MapPin, Phone, Mail, Clock, Send, Building2, Globe } from 'lucide-react
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import { useLanguage } from '../context/LanguageContext'
+import contactLeavesBg from '../assets/images/contactleaves.jpg'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -98,7 +99,7 @@ export default function ContactPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: 'url(/contactleaves.jpg)',
+          backgroundImage: `url(${contactLeavesBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

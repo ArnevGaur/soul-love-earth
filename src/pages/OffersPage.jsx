@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Clock, Gift, Truck } from 'lucide-react'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
+import contactLeavesBg from '../assets/images/contactleaves.jpg'
 
 const OFFERS = [
   {
@@ -85,7 +86,7 @@ export default function OffersPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: 'url(/contactleaves.jpg)',
+          backgroundImage: `url(${contactLeavesBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
