@@ -296,8 +296,13 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   transition: 0.3s;
+  cursor: pointer;
+  border: none;
 }
 
 .main-btn.solid-teal {
