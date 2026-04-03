@@ -98,7 +98,7 @@ export default function ContactPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundImage: 'url(/contactleaves.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

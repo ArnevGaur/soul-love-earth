@@ -10,7 +10,7 @@ export default function ValueProps() {
   return (
     <section className="value-props-section" style={{
       position: 'relative',
-      backgroundImage: 'url(/public/contactleaves.jpg)',
+      backgroundImage: 'url(/contactleaves.jpg)',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',

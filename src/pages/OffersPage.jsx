@@ -85,7 +85,7 @@ export default function OffersPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundImage: 'url(/contactleaves.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
