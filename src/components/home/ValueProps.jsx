@@ -1,5 +1,7 @@
+import { Leaf, Heart, Globe, Sparkles } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 import contactLeavesBg from '../../assets/images/contactleaves.jpg'
+
 
 const icons = [Leaf, Heart, Globe, Sparkles]
 
