@@ -21,7 +21,7 @@ export default function AuthBackdrop() {
       pointerEvents: 'none' // Don't block clicks to elements behind if any
     }}>
       <img 
-        src="/register-backdrop.jpg" 
+        src="/contactleaves.jpg" 
         alt="" 
         onLoad={() => setBgLoaded(true)}
         style={{

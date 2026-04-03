@@ -204,7 +204,7 @@ export default function ShopPage() {
         {/* Page Header */}
         <div className="shop-header" style={{
           position: 'relative',
-          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundImage: 'url(/contactleaves.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
