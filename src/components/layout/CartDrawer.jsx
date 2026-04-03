@@ -31,7 +31,9 @@ export default function CartDrawer() {
       <div className="cart-drawer" style={{
         position: 'fixed', top: 0, [isRtl ? 'left' : 'right']: 0, bottom: 0,
         width: '100%', maxWidth: '400px',
-        backgroundColor: '#faf8f3',
+        backgroundColor: 'rgba(250, 248, 243, 0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         zIndex: 1002,
         boxShadow: isRtl ? '20px 0 80px rgba(33,78,65,0.15)' : '-20px 0 80px rgba(33,78,65,0.15)',
         transform: cartDrawerOpen ? 'translateX(0)' : isRtl ? 'translateX(-100%)' : 'translateX(100%)',

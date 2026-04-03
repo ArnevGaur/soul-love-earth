@@ -144,7 +144,9 @@ export default function FilterPane({
         bottom: 0,
         width: '100%',
         maxWidth: '380px',
-        backgroundColor: '#faf8f3', // Off-white theme base
+        backgroundColor: 'rgba(250, 248, 243, 0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         zIndex: 1010,
         transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
         transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
