@@ -92,7 +92,7 @@
 }
 
 .overlay {
-  background: rgba(45, 106, 106, 0.5); /* Refined frosted teal translucency */
+  background: rgba(32, 75, 75, 0.6); /* Slightly darker frosted teal overlay */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
