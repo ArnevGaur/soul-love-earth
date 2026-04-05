@@ -148,7 +148,11 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
         style={{
           opacity: mounted ? 1 : 0,
           transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
+          transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+          background: 'rgba(255, 255, 255, 0.12)',
+          backdropFilter: 'blur(25px)',
+          WebkitBackdropFilter: 'blur(25px)',
+          isolation: 'isolate'
         }}
         dir={ltr ? 'ltr' : 'rtl'}
       >
@@ -285,8 +289,8 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
         </div>
 
         {/* Overlay container handling the sliding panels */}
-        <div className="overlay-container">
-          <div className="overlay">
+        <div className="overlay-container" style={{ backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', isolation: 'isolate' }}>
+          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.5)' }}>
             
             <div className="overlay-panel overlay-left">
               <h1 className="overlay-title">{lang === 'ar' ? '!مرحباً بعودتك' : 'Welcome Back!'}</h1>
