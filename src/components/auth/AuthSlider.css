@@ -10,7 +10,7 @@
 }
 
 .auth-container {
-  background: rgba(255, 255, 255, 0.12); /* Balanced frosted white tint */
+  background: rgba(255, 255, 255, 0.2); /* Enhanced frosted white tint (slightly more opaque) */
   backdrop-filter: blur(25px); 
   -webkit-backdrop-filter: blur(25px);
   isolation: isolate;
@@ -99,7 +99,7 @@
 }
 
 .overlay {
-  background: rgba(45, 106, 106, 0.5); /* Refined frosted teal translucency */
+  background: rgba(45, 106, 106, 0.58); /* Darkened frosted teal translucency */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;

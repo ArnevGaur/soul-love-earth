@@ -149,7 +149,7 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
           opacity: mounted ? 1 : 0,
           transform: mounted ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-          background: 'rgba(255, 255, 255, 0.12)',
+          background: 'rgba(255, 255, 255, 0.2)',
           backdropFilter: 'blur(25px)',
           WebkitBackdropFilter: 'blur(25px)',
           isolation: 'isolate',
@@ -298,7 +298,7 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
           boxShadow: '0 0 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.45), inset 0 0 12px rgba(255, 255, 255, 0.15)',
           border: 'none'
         }}>
-          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.5)' }}>
+          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.58)' }}>
             
             <div className="overlay-panel overlay-left">
               <h1 className="overlay-title">{lang === 'ar' ? '!مرحباً بعودتك' : 'Welcome Back!'}</h1>
