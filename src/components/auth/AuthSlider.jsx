@@ -290,7 +290,7 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
 
         {/* Overlay container handling the sliding panels */}
         <div className="overlay-container" style={{ backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', isolation: 'isolate' }}>
-          <div className="overlay" style={{ background: 'rgba(32, 75, 75, 0.6)' }}>
+          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.5)' }}>
             
             <div className="overlay-panel overlay-left">
               <h1 className="overlay-title">{lang === 'ar' ? '!مرحباً بعودتك' : 'Welcome Back!'}</h1>
