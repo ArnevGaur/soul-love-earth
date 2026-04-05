@@ -153,7 +153,7 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
           backdropFilter: 'blur(25px)',
           WebkitBackdropFilter: 'blur(25px)',
           isolation: 'isolate',
-          border: 'none'
+          border: '1px solid rgba(255, 255, 255, 0.4)'
         }}
         dir={ltr ? 'ltr' : 'rtl'}
       >
@@ -294,7 +294,8 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
           backdropFilter: 'blur(25px)', 
           WebkitBackdropFilter: 'blur(25px)', 
           isolation: 'isolate',
-          boxShadow: '0 0 60px rgba(0,0,0,0.5)'
+          boxShadow: '0 0 60px rgba(0,0,0,0.5)',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
         }}>
           <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.5)' }}>
             
