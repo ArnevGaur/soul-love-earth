@@ -152,7 +152,8 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
           background: 'rgba(255, 255, 255, 0.12)',
           backdropFilter: 'blur(25px)',
           WebkitBackdropFilter: 'blur(25px)',
-          isolation: 'isolate'
+          isolation: 'isolate',
+          border: 'none'
         }}
         dir={ltr ? 'ltr' : 'rtl'}
       >
@@ -289,7 +290,12 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
         </div>
 
         {/* Overlay container handling the sliding panels */}
-        <div className="overlay-container" style={{ backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', isolation: 'isolate' }}>
+        <div className="overlay-container" style={{ 
+          backdropFilter: 'blur(25px)', 
+          WebkitBackdropFilter: 'blur(25px)', 
+          isolation: 'isolate',
+          boxShadow: '0 0 40px rgba(0,0,0,0.25)'
+        }}>
           <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.5)' }}>
             
             <div className="overlay-panel overlay-left">
