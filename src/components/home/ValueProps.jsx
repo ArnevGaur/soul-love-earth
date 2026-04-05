@@ -1,5 +1,7 @@
 import { Leaf, Heart, Globe, Sparkles } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
+import contactLeavesBg from '../../assets/images/contactleaves.jpg'
+
 
 const icons = [Leaf, Heart, Globe, Sparkles]
 
@@ -10,7 +12,7 @@ export default function ValueProps() {
   return (
     <section className="value-props-section" style={{
       position: 'relative',
-      backgroundImage: 'url(/public/contactleaves.jpg)',
+      backgroundImage: `url(${contactLeavesBg})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',

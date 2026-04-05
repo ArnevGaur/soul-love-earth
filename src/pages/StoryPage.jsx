@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import { Heart, Globe, Leaf, Palette, ArrowRight } from 'lucide-react'
+import contactLeavesBg from '../assets/images/contactleaves.jpg'
 
 export default function StoryPage() {
   const [mounted, setMounted] = useState(false)
@@ -74,7 +75,7 @@ export default function StoryPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: 'url(/public/contactleaves.jpg)',
+          backgroundImage: `url(${contactLeavesBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
