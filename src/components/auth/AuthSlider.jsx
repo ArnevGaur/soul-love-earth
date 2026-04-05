@@ -298,7 +298,7 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
           boxShadow: '0 0 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.45), inset 0 0 12px rgba(255, 255, 255, 0.15)',
           border: 'none'
         }}>
-          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.58)' }}>
+          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.65)' }}>
             
             <div className="overlay-panel overlay-left">
               <h1 className="overlay-title">{lang === 'ar' ? '!مرحباً بعودتك' : 'Welcome Back!'}</h1>

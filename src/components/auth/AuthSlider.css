@@ -99,7 +99,7 @@
 }
 
 .overlay {
-  background: rgba(45, 106, 106, 0.58); /* Darkened frosted teal translucency */
+  background: rgba(45, 106, 106, 0.65); /* Darkened frosted teal translucency */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
