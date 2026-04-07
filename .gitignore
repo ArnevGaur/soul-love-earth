@@ -24,4 +24,9 @@ dist-ssr
 *.sw?
 .env
 
+# PDF and Temporary Scripts
+website_structure.pdf
+generate_structure_pdf.py
+generate_pdf.js
+temp_structure.md
 test.py
