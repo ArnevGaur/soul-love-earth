@@ -35,6 +35,7 @@ function mapShopifyProduct(node) {
     images: images,
     description: node.description || '',
     tags: node.tags || [],
+    productType: node.productType || null,
     rating: 4,
     reviews: [],
     related: []
@@ -72,6 +73,7 @@ export async function fetchProducts({
               title
               description
               tags
+              productType
               priceRange {
                 minVariantPrice {
                   amount
@@ -124,7 +126,7 @@ export async function fetchProducts({
     
     // Client-side filtering
     if (tag) {
-      results = results.filter(p => p.tags.includes(tag));
+      results = results.filter(p => p.productType === tag);
     }
     
     if (search) {
@@ -164,6 +166,7 @@ export async function fetchProducts({
           title
           description
           tags
+          productType
           priceRange {
             minVariantPrice {
               amount
@@ -354,7 +357,7 @@ export async function fetchCategoryWithSubcategories(handle) {
       products(first: 250) {
         edges {
           node {
-            tags
+            productType
           }
         }
       }
@@ -367,17 +370,18 @@ export async function fetchCategoryWithSubcategories(handle) {
   }
   
   const coll = data.collectionByHandle;
-  const tagsSet = new Set();
+  const categorySet = new Set();
   
   coll.products.edges.forEach(edge => {
-    if (edge.node.tags) {
-      edge.node.tags.forEach(tag => tagsSet.add(tag));
+    const catName = edge.node.productType;
+    if (catName) {
+      categorySet.add(catName);
     }
   });
   
-  const subcategories = Array.from(tagsSet).sort().map(tag => ({
-    category_id: `${handle}___${tag}`,
-    name: tag
+  const subcategories = Array.from(categorySet).sort().map(name => ({
+    category_id: `${handle}___${name}`,
+    name: name
   }));
   
   return {
@@ -392,6 +396,7 @@ export async function fetchCategories() {
   const fullCategories = await Promise.all(
     collections.map(c => fetchCategoryWithSubcategories(c.handle))
   );
+  console.log('fetchCategories Verification:', fullCategories);
   return fullCategories;
 }
 
