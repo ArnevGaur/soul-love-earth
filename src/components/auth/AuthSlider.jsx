@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
+import { useCustomer } from '../../context/CustomerContext'
 import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, Check, Facebook, Instagram, Linkedin, Youtube } from 'lucide-react'
 import './AuthSlider.css'
 
 export default function AuthSlider({ initialMode = 'signIn' }) {
   const { t, lang } = useLanguage()
+  const { login, register } = useCustomer()
   const navigate = useNavigate()
   const location = useLocation()
   const a = t.auth
@@ -96,9 +98,14 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     }
 
     setLoginLoading(true)
-    await new Promise(r => setTimeout(r, 1200))
-    setLoginLoading(false)
-    navigate('/')
+    try {
+      await login({ email: loginEmail, password: loginPassword })
+      navigate('/')
+    } catch (err) {
+      setLoginError(err.message)
+    } finally {
+      setLoginLoading(false)
+    }
   }
 
   const handleRegisterSubmit = async (e) => {
@@ -136,9 +143,20 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     }
     
     setRegLoading(true)
-    await new Promise(r => setTimeout(r, 1400))
-    setRegLoading(false)
-    navigate('/')
+    try {
+      await register({
+        firstName: regForm.firstName,
+        lastName: regForm.lastName,
+        email: regForm.email,
+        phone: regForm.phone,
+        password: regForm.password
+      })
+      navigate('/')
+    } catch (err) {
+      setRegError(err.message)
+    } finally {
+      setRegLoading(false)
+    }
   }
 
   return (
