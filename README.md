@@ -103,6 +103,10 @@ src/
 
 ## ✅ Recent Updates
 
+- [x] **Checkout & Order Flow**: Enhanced `CheckoutPage` with comprehensive form validation (card details, phone, email) and added an `OrderPlacedPage`.
+- [x] **Authentication UI**: Upgraded Auth components with enhanced glassmorphism effects, dynamic backdrops, and real-time password validation.
+- [x] **UI/UX Polish**: Refined main button alignments, improved `ContactPage` styling, integrated Lucide icons, and ensured mobile responsiveness across all core pages.
+- [x] **Deployment Ready**: Added Vercel routing configuration and built-safe inline styles for seamless production deployment.
 - [x] **Page Title Update**: Synchronized browser tab name to "Soul Love & Earth".
 - [x] **Full Arabic Localization**: Implemented comprehensive RTL support across all core pages.
 - [x] **Navigation Refinement**: Cleaned up the navigation bar for a more minimalistic aesthetic.
