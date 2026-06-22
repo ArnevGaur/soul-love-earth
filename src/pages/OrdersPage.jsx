@@ -1,23 +1,32 @@
 import { useState, useEffect } from 'react'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
-import { fetchOrders } from '../services/opencart'
+import { fetchOrders } from '../services/shopify'
 import { useLanguage } from '../context/LanguageContext'
+import { useCustomer } from '../context/CustomerContext'
+import { useNavigate } from 'react-router-dom'
 import { Package, Truck, CheckCircle, Clock, ChevronRight, ChevronDown } from 'lucide-react'
 
 export default function OrdersPage() {
   const { t, lang } = useLanguage()
+  const { accessToken, authLoading } = useCustomer()
+  const navigate = useNavigate()
   const o = t.orders
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const [expandedOrder, setExpandedOrder] = useState(null)
 
   useEffect(() => {
-    fetchOrders().then(data => {
-      setOrders(data)
+    if (authLoading) return
+    if (!accessToken) {
+      navigate('/login')
+      return
+    }
+    fetchOrders(accessToken).then(data => {
+      setOrders(data || [])
       setLoading(false)
     })
-  }, [])
+  }, [accessToken, authLoading, navigate])
 
   const getStatusIcon = (status) => {
     switch (status) {

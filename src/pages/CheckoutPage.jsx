@@ -496,7 +496,7 @@ function FormField({ label, id, type = 'text', placeholder, required, autoComple
 }
 
 export default function CheckoutPage() {
-  const { cartItems, cartTotal, clearCart } = useCart()
+  const { cartItems, cartTotal, clearCart, checkoutUrl } = useCart()
   const navigate = useNavigate()
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -512,49 +512,17 @@ export default function CheckoutPage() {
   const handleCheckout = (e) => {
     e.preventDefault()
     if (cartItems.length === 0) return
-    const formData = new FormData(e.currentTarget)
-    const firstName = String(formData.get('fname') || '').trim()
-    const lastName = String(formData.get('lname') || '').trim()
-    const customerName = `${firstName} ${lastName}`.trim() || 'Valued Customer'
-
-    if (selectedPayment === 'card') {
-      if (cardDigits.length !== CARD_DIGITS_MAX) {
-        setCardNumberError(`Card number must be ${CARD_DIGITS_MAX} digits.`)
-        return
-      }
-      if (!isValidExpiryDigits(expiryDigits)) {
-        setExpiryError('Expiry must be in MM/YY format.')
-        return
-      }
-      if (cvvDigits.length !== CVV_DIGITS_MAX) {
-        setCvvError(`CVV must be ${CVV_DIGITS_MAX} digits.`)
-        return
-      }
-      setCardNumberError('')
-      setExpiryError('')
-      setCvvError('')
-    }
     setIsProcessing(true)
-    setTimeout(() => {
-      if (selectedPayment === 'card') {
-        const itemCount = cartItems.reduce((sum, item) => sum + (item?.quantity || 0), 0)
-        clearCart()
-        navigate('/order-placed', {
-          state: {
-            customerName,
-            total: finalTotal,
-            itemCount,
-            placedAt: Date.now(),
-          },
-        })
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-        return
-      }
-      setIsProcessing(false)
-      setIsSuccess(true)
-      clearCart()
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }, 2000)
+
+    // Redirect to Shopify Hosted Checkout
+    if (checkoutUrl) {
+      window.location.href = checkoutUrl
+      return
+    }
+
+    // Fallback error behavior if cart isn't synced
+    setIsProcessing(false)
+    alert("Checkout URL is missing. Please try adding items to your cart again.")
   }
 
   if (isSuccess) {
