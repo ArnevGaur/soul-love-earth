@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
+import { useCustomer } from '../../context/CustomerContext'
 import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, Check, Facebook, Instagram, Linkedin, Youtube } from 'lucide-react'
 import './AuthSlider.css'
 
 export default function AuthSlider({ initialMode = 'signIn' }) {
   const { t, lang } = useLanguage()
+  const { login, register } = useCustomer()
   const navigate = useNavigate()
   const location = useLocation()
   const a = t.auth
@@ -96,9 +98,14 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     }
 
     setLoginLoading(true)
-    await new Promise(r => setTimeout(r, 1200))
-    setLoginLoading(false)
-    navigate('/')
+    try {
+      await login({ email: loginEmail, password: loginPassword })
+      navigate('/')
+    } catch (err) {
+      setLoginError(err.message)
+    } finally {
+      setLoginLoading(false)
+    }
   }
 
   const handleRegisterSubmit = async (e) => {
@@ -136,9 +143,20 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     }
     
     setRegLoading(true)
-    await new Promise(r => setTimeout(r, 1400))
-    setRegLoading(false)
-    navigate('/')
+    try {
+      await register({
+        firstName: regForm.firstName,
+        lastName: regForm.lastName,
+        email: regForm.email,
+        phone: regForm.phone,
+        password: regForm.password
+      })
+      navigate('/')
+    } catch (err) {
+      setRegError(err.message)
+    } finally {
+      setRegLoading(false)
+    }
   }
 
   return (
@@ -149,10 +167,12 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
           opacity: mounted ? 1 : 0,
           transform: mounted ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-          background: 'rgba(255, 255, 255, 0.12)',
+          background: 'rgba(255, 255, 255, 0.2)',
           backdropFilter: 'blur(25px)',
           WebkitBackdropFilter: 'blur(25px)',
-          isolation: 'isolate'
+          isolation: 'isolate',
+          border: 'none',
+          boxShadow: '0 15px 50px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.45), inset 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 25px rgba(255, 255, 255, 0.05)'
         }}
         dir={ltr ? 'ltr' : 'rtl'}
       >
@@ -289,8 +309,14 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
         </div>
 
         {/* Overlay container handling the sliding panels */}
-        <div className="overlay-container" style={{ backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', isolation: 'isolate' }}>
-          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.5)' }}>
+        <div className="overlay-container" style={{ 
+          backdropFilter: 'blur(25px)', 
+          WebkitBackdropFilter: 'blur(25px)', 
+          isolation: 'isolate',
+          boxShadow: '0 0 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.45), inset 0 0 12px rgba(255, 255, 255, 0.15)',
+          border: 'none'
+        }}>
+          <div className="overlay" style={{ background: 'rgba(45, 106, 106, 0.65)' }}>
             
             <div className="overlay-panel overlay-left">
               <h1 className="overlay-title">{lang === 'ar' ? '!مرحباً بعودتك' : 'Welcome Back!'}</h1>

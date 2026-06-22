@@ -19,6 +19,7 @@ import WhatsAppButton from './components/ui/WhatsAppButton'
 import RouteProgress from './components/ui/RouteProgress'
 import { CartProvider } from './context/CartContext'
 import { LanguageProvider } from './context/LanguageContext'
+import { CustomerProvider } from './context/CustomerContext'
 import AuthPage from './pages/AuthPage'
 import OrdersPage from './pages/OrdersPage'
 import HospitalityPage from './pages/HospitalityPage'
@@ -65,14 +66,16 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <LanguageProvider>
-      <CartProvider>
-      <BrowserRouter>
-        <AuthBackdrop />
-        <AnimatedRoutes />
-        <RouteProgress />
-        <WhatsAppButton />
-      </BrowserRouter>
-    </CartProvider>
+      <CustomerProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <AuthBackdrop />
+            <AnimatedRoutes />
+            <RouteProgress />
+            <WhatsAppButton />
+          </BrowserRouter>
+        </CartProvider>
+      </CustomerProvider>
     </LanguageProvider>
   )
 }
