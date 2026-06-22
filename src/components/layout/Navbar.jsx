@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Menu, X, ShoppingBag, Search, User, Loader2 } from 'lucide-react'
-import { fetchProducts } from '../../services/opencart'
+import { fetchProducts } from '../../services/shopify'
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 import CartDrawer from './CartDrawer'

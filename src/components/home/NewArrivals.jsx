@@ -321,7 +321,7 @@ function ProductCard({ product }) {
         e.currentTarget.style.boxShadow = '0 24px 48px rgba(61,144,137,0.1)'
         e.currentTarget.style.borderColor = 'rgba(61,144,137,0.15)'
         e.currentTarget.querySelector('.prod-img').style.transform = 'scale(1.08)'
-        e.currentTarget.querySelector('.overlay').style.backgroundColor = 'rgba(20,42,40,0.08)'
+        e.currentTarget.querySelector('.na-overlay').style.backgroundColor = 'rgba(20,42,40,0.08)'
         e.currentTarget.querySelector('.btn-bg').style.transform = isRtl ? 'translateX(0)' : 'translateX(0)'
         e.currentTarget.querySelector('.btn-text').style.color = '#ffffff'
         e.currentTarget.querySelector('.btn-icon').style.color = '#ffffff'
@@ -332,7 +332,7 @@ function ProductCard({ product }) {
         e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.03)'
         e.currentTarget.style.borderColor = 'rgba(61,144,137,0.06)'
         e.currentTarget.querySelector('.prod-img').style.transform = 'scale(1)'
-        e.currentTarget.querySelector('.overlay').style.backgroundColor = 'transparent'
+        e.currentTarget.querySelector('.na-overlay').style.backgroundColor = 'transparent'
         e.currentTarget.querySelector('.btn-bg').style.transform = isRtl ? 'translateX(101%)' : 'translateX(-101%)'
         e.currentTarget.querySelector('.btn-text').style.color = '#3d9089'
         e.currentTarget.querySelector('.btn-icon').style.color = '#3d9089'
@@ -372,7 +372,7 @@ function ProductCard({ product }) {
             transition: 'transform 1s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         />
-        <div className="overlay" style={{
+        <div className="na-overlay" style={{
           position: 'absolute',
           inset: 0,
           transition: 'background-color 0.5s ease',

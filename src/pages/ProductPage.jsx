@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { fetchProduct } from '../services/opencart'
+import { fetchProduct } from '../services/shopify'
 import { useCart } from '../context/CartContext'
 import { useLanguage } from '../context/LanguageContext'
 import Navbar from '../components/layout/Navbar'
