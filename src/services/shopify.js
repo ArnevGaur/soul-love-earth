@@ -24,16 +24,24 @@ function mapShopifyProduct(node) {
 
   const variantId = node.variants?.edges?.[0]?.node?.id || '';
   
-  let subcats = [];
-  const metaStr = node.metafield?.value;
-  if (metaStr) {
+  const parseListMetafield = (metaStr) => {
+    if (!metaStr) return [];
     try {
-      subcats = JSON.parse(metaStr);
-      if (!Array.isArray(subcats)) subcats = [subcats];
+      let parsed = JSON.parse(metaStr);
+      if (!Array.isArray(parsed)) parsed = [parsed];
+      return parsed;
     } catch (e) {
-      subcats = metaStr.split(',').map(s => s.trim());
+      return metaStr.split(',').map(s => s.trim());
     }
-  }
+  };
+
+  const category_mapping = {
+    'kitchenware': parseListMetafield(node.kitchenwareSub?.value),
+    'fashion': parseListMetafield(node.fashionSub?.value),
+    'gifts': parseListMetafield(node.giftsSub?.value),
+    'hospitality': parseListMetafield(node.hospitalitySub?.value),
+    'home-decor': parseListMetafield(node.homeDecorSub?.value)
+  };
 
   return {
     product_id: productId,
@@ -46,7 +54,7 @@ function mapShopifyProduct(node) {
     images: images,
     description: node.description || '',
     tags: node.tags || [],
-    subcategories: subcats,
+    category_mapping: category_mapping,
     rating: 4,
     reviews: [],
     related: []
@@ -88,9 +96,11 @@ export async function fetchProducts({
               title
               description
               tags
-              metafield(namespace: "custom", key: "subcategories") {
-                value
-              }
+              kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+              fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+              giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+              hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+              homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
               priceRange {
                 minVariantPrice {
                   amount
@@ -159,7 +169,10 @@ export async function fetchProducts({
     
     // Client-side filtering
     if (tag) {
-      results = results.filter(p => p.subcategories.includes(tag));
+      results = results.filter(p => {
+        const subcatsForHandle = p.category_mapping[handle] || [];
+        return subcatsForHandle.includes(tag);
+      });
     }
     
     if (search) {
@@ -203,9 +216,11 @@ export async function fetchProducts({
           title
           description
           tags
-          metafield(namespace: "custom", key: "subcategories") {
-            value
-          }
+          kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+          fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+          giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+          hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+          homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
           priceRange {
             minVariantPrice {
               amount
@@ -314,6 +329,11 @@ export async function fetchProduct(id) {
       title
       description
       tags
+      kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+      fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+      giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+      hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+      homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
       priceRange {
         minVariantPrice {
           amount
@@ -417,9 +437,11 @@ export async function fetchCategoryWithSubcategories(handle) {
         }
         edges {
           node {
-            metafield(namespace: "custom", key: "subcategories") {
-              value
-            }
+            kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+            fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+            giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+            hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+            homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
           }
         }
       }
@@ -452,18 +474,30 @@ export async function fetchCategoryWithSubcategories(handle) {
   
   const categorySet = new Set();
   
-  allEdges.forEach(edge => {
-    const metaStr = edge.node.metafield?.value;
-    if (metaStr) {
-      try {
-        let parsed = JSON.parse(metaStr);
-        if (!Array.isArray(parsed)) parsed = [parsed];
-        parsed.forEach(c => categorySet.add(c));
-      } catch (e) {
-        metaStr.split(',').forEach(c => categorySet.add(c.trim()));
+  const handleToMetafieldAlias = {
+    'kitchenware': 'kitchenwareSub',
+    'fashion': 'fashionSub',
+    'gifts': 'giftsSub',
+    'hospitality': 'hospitalitySub',
+    'home-decor': 'homeDecorSub'
+  };
+  
+  const aliasToUse = handleToMetafieldAlias[handle];
+  
+  if (aliasToUse) {
+    allEdges.forEach(edge => {
+      const metaStr = edge.node[aliasToUse]?.value;
+      if (metaStr) {
+        try {
+          let parsed = JSON.parse(metaStr);
+          if (!Array.isArray(parsed)) parsed = [parsed];
+          parsed.forEach(c => categorySet.add(c));
+        } catch (e) {
+          metaStr.split(',').forEach(c => categorySet.add(c.trim()));
+        }
       }
-    }
-  });
+    });
+  }
   
   const subcategories = Array.from(categorySet).sort().map(name => ({
     category_id: `${handle}___${name}`,
