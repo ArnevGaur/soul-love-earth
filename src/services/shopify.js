@@ -23,6 +23,17 @@ function mapShopifyProduct(node) {
   }
 
   const variantId = node.variants?.edges?.[0]?.node?.id || '';
+  
+  let subcats = [];
+  const metaStr = node.metafield?.value;
+  if (metaStr) {
+    try {
+      subcats = JSON.parse(metaStr);
+      if (!Array.isArray(subcats)) subcats = [subcats];
+    } catch (e) {
+      subcats = metaStr.split(',').map(s => s.trim());
+    }
+  }
 
   return {
     product_id: productId,
@@ -35,7 +46,7 @@ function mapShopifyProduct(node) {
     images: images,
     description: node.description || '',
     tags: node.tags || [],
-    productType: node.productType || null,
+    subcategories: subcats,
     rating: 4,
     reviews: [],
     related: []
@@ -73,7 +84,9 @@ export async function fetchProducts({
               title
               description
               tags
-              productType
+              metafield(namespace: "custom", key: "subcategories") {
+                value
+              }
               priceRange {
                 minVariantPrice {
                   amount
@@ -126,7 +139,7 @@ export async function fetchProducts({
     
     // Client-side filtering
     if (tag) {
-      results = results.filter(p => p.productType === tag);
+      results = results.filter(p => p.subcategories.includes(tag));
     }
     
     if (search) {
@@ -166,7 +179,9 @@ export async function fetchProducts({
           title
           description
           tags
-          productType
+          metafield(namespace: "custom", key: "subcategories") {
+            value
+          }
           priceRange {
             minVariantPrice {
               amount
@@ -357,7 +372,9 @@ export async function fetchCategoryWithSubcategories(handle) {
       products(first: 250) {
         edges {
           node {
-            productType
+            metafield(namespace: "custom", key: "subcategories") {
+              value
+            }
           }
         }
       }
@@ -373,9 +390,15 @@ export async function fetchCategoryWithSubcategories(handle) {
   const categorySet = new Set();
   
   coll.products.edges.forEach(edge => {
-    const catName = edge.node.productType;
-    if (catName) {
-      categorySet.add(catName);
+    const metaStr = edge.node.metafield?.value;
+    if (metaStr) {
+      try {
+        let parsed = JSON.parse(metaStr);
+        if (!Array.isArray(parsed)) parsed = [parsed];
+        parsed.forEach(c => categorySet.add(c));
+      } catch (e) {
+        metaStr.split(',').forEach(c => categorySet.add(c.trim()));
+      }
     }
   });
   
