@@ -5,7 +5,7 @@ import Footer from '../components/layout/Footer'
 import ProductCard from '../components/ui/ProductCard'
 import { fetchProducts, fetchCategories } from '../services/shopify'
 import { useLanguage } from '../context/LanguageContext'
-import { Search, SlidersHorizontal, X, Filter, ChevronDown } from 'lucide-react'
+import { Search, SlidersHorizontal, X, Filter, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import FilterPane from '../components/shop/FilterPane'
 import { useRef } from 'react'
 import contactLeavesBg from '../assets/images/contactleaves.jpg'
@@ -94,6 +94,10 @@ export default function ShopPage() {
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false)
 
+  // Pagination states
+  const PRODUCTS_PER_PAGE = 18
+  const [currentPage, setCurrentPage] = useState(1)
+
   // Search suggestion state
   const [suggestions, setSuggestions]     = useState([])
   const [showSuggest, setShowSuggest]     = useState(false)
@@ -158,6 +162,7 @@ export default function ShopPage() {
       }
       
       setProducts(fetchedProducts)
+      setCurrentPage(1)
     } catch (err) {
       setError('Could not load products. Please try again.')
       setProducts([])
@@ -196,6 +201,9 @@ export default function ShopPage() {
     }, 200)
     return () => clearTimeout(timer)
   }, [searchInput])
+
+  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE)
+  const currentProducts = products.slice((currentPage - 1) * PRODUCTS_PER_PAGE, currentPage * PRODUCTS_PER_PAGE)
 
   return (
     <>
@@ -661,10 +669,59 @@ export default function ShopPage() {
                     gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
                     gap: '1.5rem',
                   }}>
-                    {products.map(product => (
+                    {currentProducts.map(product => (
                       <ProductCard key={product.product_id} product={product} />
                     ))}
                   </div>
+
+                  {/* Pagination Controls */}
+                  {totalPages > 1 && (
+                    <div style={{
+                      display: 'flex', justifyContent: 'center', alignItems: 'center',
+                      gap: '1.5rem', marginTop: '4rem', paddingBottom: '2rem'
+                    }}>
+                      <button
+                        onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 300, behavior: 'smooth' }); }}
+                        disabled={currentPage === 1}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          width: '40px', height: '40px', borderRadius: '50%',
+                          backgroundColor: currentPage === 1 ? 'transparent' : '#ffffff',
+                          border: currentPage === 1 ? '1px solid rgba(33,78,65,0.2)' : '1px solid #d4a843',
+                          color: currentPage === 1 ? 'rgba(33,78,65,0.4)' : '#214e41',
+                          cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.3s ease',
+                          boxShadow: currentPage === 1 ? 'none' : '0 4px 12px rgba(33,78,65,0.05)'
+                        }}
+                      >
+                        <ChevronLeft size={18} strokeWidth={2} />
+                      </button>
+
+                      <span style={{
+                        fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 500,
+                        color: '#214e41', letterSpacing: '0.05em'
+                      }}>
+                        Page {currentPage} of {totalPages}
+                      </span>
+
+                      <button
+                        onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 300, behavior: 'smooth' }); }}
+                        disabled={currentPage === totalPages}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          width: '40px', height: '40px', borderRadius: '50%',
+                          backgroundColor: currentPage === totalPages ? 'transparent' : '#ffffff',
+                          border: currentPage === totalPages ? '1px solid rgba(33,78,65,0.2)' : '1px solid #d4a843',
+                          color: currentPage === totalPages ? 'rgba(33,78,65,0.4)' : '#214e41',
+                          cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.3s ease',
+                          boxShadow: currentPage === totalPages ? 'none' : '0 4px 12px rgba(33,78,65,0.05)'
+                        }}
+                      >
+                        <ChevronRight size={18} strokeWidth={2} />
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
