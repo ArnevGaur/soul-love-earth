@@ -1,10 +1,10 @@
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
+import { X, Trash2, Plus, Minus, ShoppingBag, Heart } from 'lucide-react'
 
 export default function CartDrawer() {
-  const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal } = useCart()
+  const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal, wishlistItems, toggleWishlist, addToCart } = useCart()
   const { t, lang } = useLanguage()
   const c = t?.cart || {}
   const navigate = useNavigate()
@@ -182,6 +182,94 @@ export default function CartDrawer() {
               )
             })}
             </ul>
+          )}
+
+          {/* Wishlist Section */}
+          {wishlistItems && wishlistItems.length > 0 && (
+            <div style={{ marginTop: '3rem' }}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                borderBottom: '1px solid rgba(33,78,65,0.08)',
+                paddingBottom: '0.75rem', marginBottom: '1.5rem'
+              }}>
+                <Heart size={16} fill="#d4a843" stroke="#d4a843" />
+                <h3 style={{ 
+                  fontFamily: 'Cormorant Garamond, serif', fontSize: '1.2rem', 
+                  fontWeight: 600, color: '#214e41', margin: 0 
+                }}>
+                  Your Wishlist
+                </h3>
+              </div>
+              
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {wishlistItems.map(item => {
+                  if (!item) return null
+                  return (
+                    <li key={item.product_id} style={{ display: 'flex', gap: '1.25rem', opacity: 0.9 }}>
+                      <div style={{ flexShrink: 0, position: 'relative' }}>
+                        <img 
+                          src={item.thumb} 
+                          alt={item.name} 
+                          style={{ 
+                            width: '60px', height: '75px', objectFit: 'cover', 
+                            backgroundColor: '#f5f5f5', borderRadius: '10px',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                          }} 
+                        />
+                        <button 
+                          onClick={() => toggleWishlist(item)}
+                          style={{
+                            position: 'absolute', top: '-6px', right: '-6px',
+                            background: 'white', border: '1px solid #eee', color: '#cc3300',
+                            width: '20px', height: '20px', borderRadius: '50%',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                          }}
+                        >
+                          <X size={10} strokeWidth={3} />
+                        </button>
+                      </div>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <h4 style={{ 
+                          fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 500,
+                          color: '#214e41', margin: '0 0 0.3rem 0',
+                          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px'
+                        }}>{item.name}</h4>
+                        <div style={{ 
+                          fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', fontWeight: 600,
+                          color: '#2c635a', marginBottom: '0.5rem' 
+                        }}>
+                          {item.special ? item.special : item.price}
+                        </div>
+                        <button
+                          onClick={() => {
+                            addToCart(item)
+                            toggleWishlist(item) // remove from wishlist when adding to cart
+                          }}
+                          style={{
+                            padding: '0.4rem 0.8rem', backgroundColor: 'transparent',
+                            color: '#2c635a', border: '1px solid #2c635a',
+                            fontFamily: 'Jost, sans-serif', fontSize: '0.7rem', fontWeight: 600,
+                            letterSpacing: '0.05em', textTransform: 'uppercase', cursor: 'pointer',
+                            borderRadius: '20px', transition: 'all 0.2s ease', alignSelf: 'flex-start'
+                          }}
+                          onMouseEnter={e => {
+                            e.currentTarget.style.backgroundColor = '#2c635a'
+                            e.currentTarget.style.color = 'white'
+                          }}
+                          onMouseLeave={e => {
+                            e.currentTarget.style.backgroundColor = 'transparent'
+                            e.currentTarget.style.color = '#2c635a'
+                          }}
+                        >
+                          Move to Cart
+                        </button>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
           )}
         </div>
 

@@ -13,6 +13,15 @@ export function CartProvider({ children }) {
       return []
     }
   })
+  const [wishlistItems, setWishlistItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem('sle_wishlist')
+      const parsed = saved ? JSON.parse(saved) : []
+      return Array.isArray(parsed) ? parsed.filter(item => item && item.product_id) : []
+    } catch (e) {
+      return []
+    }
+  })
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false)
   const [checkoutUrl, setCheckoutUrl] = useState(() => localStorage.getItem('sle_checkout_url') || '')
   
@@ -50,6 +59,10 @@ export function CartProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('sle_cart', JSON.stringify(cartItems))
   }, [cartItems])
+
+  useEffect(() => {
+    localStorage.setItem('sle_wishlist', JSON.stringify(wishlistItems))
+  }, [wishlistItems])
 
   useEffect(() => {
     localStorage.setItem('sle_cart_lines', JSON.stringify(lineIds))
@@ -136,6 +149,16 @@ export function CartProvider({ children }) {
     })
   }
 
+  const toggleWishlist = (product) => {
+    setWishlistItems(prev => {
+      const exists = prev.some(item => item.product_id === product.product_id)
+      if (exists) {
+        return prev.filter(item => item.product_id !== product.product_id)
+      }
+      return [...prev, product]
+    })
+  }
+
   const cartCount = cartItems.reduce((acc, item) => acc + (item?.quantity || 0), 0)
   
   const cartTotal = cartItems.reduce((acc, item) => {
@@ -148,6 +171,7 @@ export function CartProvider({ children }) {
   return (
     <CartContext.Provider value={{
       cartItems, addToCart, removeFromCart, updateQuantity, clearCart,
+      wishlistItems, toggleWishlist,
       cartCount, cartTotal,
       cartDrawerOpen, setCartDrawerOpen,
       checkoutUrl
