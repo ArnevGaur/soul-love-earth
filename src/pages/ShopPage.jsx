@@ -182,8 +182,10 @@ export default function ShopPage() {
 
   const handleCategory = (id) => {
     setCategoryId(id)
+    setSearch('')
+    setSearchInput('')
     setSortIdx(0)
-    setSearchParams({ q: search, cat: id })
+    setSearchParams(id ? { cat: id } : {})
     setFiltersOpen(false)
   }
 
