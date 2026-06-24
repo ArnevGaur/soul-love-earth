@@ -176,8 +176,15 @@ export async function fetchProducts({
     }
     
     if (search) {
-      const s = search.toLowerCase();
-      results = results.filter(p => p.name.toLowerCase().includes(s));
+      const terms = search.toLowerCase().split(/\s+/).filter(Boolean);
+      results = results.filter(p => {
+        const title = p.name.toLowerCase();
+        const desc = (p.description || '').toLowerCase();
+        const tags = (p.tags || []).join(' ').toLowerCase();
+        return terms.every(term => 
+          title.includes(term) || desc.includes(term) || tags.includes(term)
+        );
+      });
     }
     
     if (filters) {
@@ -262,7 +269,11 @@ export async function fetchProducts({
 
   let shopifyQuery = [];
   if (search) {
-    shopifyQuery.push(`title:${search}*`);
+    const terms = search.trim().split(/\s+/).filter(Boolean);
+    if (terms.length > 0) {
+      const formattedSearch = terms.map(t => `${t}*`).join(' AND ');
+      shopifyQuery.push(`(${formattedSearch})`);
+    }
   }
 
   if (filters) {
