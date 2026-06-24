@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   const domain = process.env.VITE_SHOPIFY_STORE_DOMAIN;
-  const token = process.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+  const token = process.env.VITE_SHOPIFY_STOREFRONT_TOKEN;
 
   let productTitle = 'Soul Love & Earth';
   let productDescription = 'Shop beautiful, sustainable products at Soul Love & Earth.';
