@@ -11,6 +11,11 @@ export default async function handler(req, res) {
   let productDescription = 'Shop beautiful, sustainable products at Soul Love & Earth.';
   let productImage = '';
 
+  let debugInfo = '';
+  if (!domain || !token) {
+    debugInfo = 'Missing env vars';
+  }
+
   if (id && domain && token) {
     try {
       const response = await fetch(`https://${domain}/api/2024-01/graphql.json`, {
@@ -42,6 +47,10 @@ export default async function handler(req, res) {
       });
 
       const json = await response.json();
+      if (json.errors) {
+        debugInfo = `GraphQL Errors: ${JSON.stringify(json.errors)}`;
+      }
+
       const data = json.data;
       
       if (data && data.product) {
@@ -50,9 +59,12 @@ export default async function handler(req, res) {
         if (data.product.images?.edges?.length > 0) {
           productImage = data.product.images.edges[0].node.url;
         }
+      } else if (data && !data.product) {
+        debugInfo = `Product not found for ID: ${id}`;
       }
     } catch (error) {
       console.error('Error fetching product for OG tags:', error);
+      debugInfo = `Fetch Error: ${error.message}`;
     }
   }
 
@@ -80,6 +92,7 @@ export default async function handler(req, res) {
 
   // Inject Open Graph tags into the HTML head
   const metaTags = `
+    <!-- DEBUG: ${debugInfo} -->
     <title>${safeTitle} | Soul Love & Earth</title>
     <meta property="og:title" content="${safeTitle}" />
     <meta property="og:description" content="${safeDescription}" />
@@ -100,8 +113,8 @@ export default async function handler(req, res) {
     html = html.replace('</head>', `${metaTags}</head>`);
   }
 
-  // Add Cache-Control so the previews load super fast on WhatsApp side
-  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate=43200');
+  // Add Cache-Control (short duration for testing)
+  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
   res.setHeader('Content-Type', 'text/html');
   res.status(200).send(html);
 }
