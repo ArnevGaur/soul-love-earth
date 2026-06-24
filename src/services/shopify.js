@@ -23,6 +23,25 @@ function mapShopifyProduct(node) {
   }
 
   const variantId = node.variants?.edges?.[0]?.node?.id || '';
+  
+  const parseListMetafield = (metaStr) => {
+    if (!metaStr) return [];
+    try {
+      let parsed = JSON.parse(metaStr);
+      if (!Array.isArray(parsed)) parsed = [parsed];
+      return parsed;
+    } catch (e) {
+      return metaStr.split(',').map(s => s.trim());
+    }
+  };
+
+  const category_mapping = {
+    'kitchenware': parseListMetafield(node.kitchenwareSub?.value),
+    'fashion': parseListMetafield(node.fashionSub?.value),
+    'gifts': parseListMetafield(node.giftsSub?.value),
+    'hospitality': parseListMetafield(node.hospitalitySub?.value),
+    'home-decor': parseListMetafield(node.homeDecorSub?.value)
+  };
 
   return {
     product_id: productId,
@@ -35,7 +54,7 @@ function mapShopifyProduct(node) {
     images: images,
     description: node.description || '',
     tags: node.tags || [],
-    productType: node.productType || null,
+    category_mapping: category_mapping,
     rating: 4,
     reviews: [],
     related: []
@@ -64,16 +83,24 @@ export async function fetchProducts({
 
   // 1) Collection-based fetch (if a handle is provided)
   if (handle) {
-    const queryStr = `query collectionProducts($handle: String!, $first: Int!) {
+    const queryStr = `query collectionProducts($handle: String!, $first: Int!, $after: String) {
       collectionByHandle(handle: $handle) {
-        products(first: $first) {
+        products(first: $first, after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
           edges {
             node {
               id
               title
               description
               tags
-              productType
+              kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+              fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+              giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+              hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+              homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
               priceRange {
                 minVariantPrice {
                   amount
@@ -114,19 +141,38 @@ export async function fetchProducts({
       }
     }`;
     
-    const variables = { handle, first: 250 };
-    const { data, errors } = await client.request(queryStr, { variables });
-    
-    if (errors || !data?.collectionByHandle) {
-      console.error('Shopify fetchProducts collection error', errors);
-      return [];
+    let allEdges = [];
+    let hasNextPage = true;
+    let cursor = null;
+    let pageNum = 1;
+
+    while (hasNextPage) {
+      const variables = { handle, first: 250, after: cursor };
+      const { data, errors } = await client.request(queryStr, { variables });
+      
+      if (errors || !data?.collectionByHandle) {
+        console.error('Shopify fetchProducts collection error', errors);
+        break;
+      }
+      
+      const edges = data.collectionByHandle.products.edges;
+      allEdges.push(...edges);
+      console.log(`Fetched page ${pageNum} (Collection: ${handle}): ${edges.length} products`);
+      
+      hasNextPage = data.collectionByHandle.products.pageInfo.hasNextPage;
+      cursor = data.collectionByHandle.products.pageInfo.endCursor;
+      pageNum++;
     }
     
-    let results = data.collectionByHandle.products.edges.map(e => mapShopifyProduct(e.node));
+    console.log(`Total fetched (Collection: ${handle}): ${allEdges.length} products`);
+    let results = allEdges.map(e => mapShopifyProduct(e.node));
     
     // Client-side filtering
     if (tag) {
-      results = results.filter(p => p.productType === tag);
+      results = results.filter(p => {
+        const subcatsForHandle = p.category_mapping[handle] || [];
+        return subcatsForHandle.includes(tag);
+      });
     }
     
     if (search) {
@@ -158,15 +204,23 @@ export async function fetchProducts({
   }
   
   // 2) Generic fetch (no collection handle provided)
-  let queryStr = `query getProducts($first: Int!, $query: String, $sortKey: ProductSortKeys, $reverse: Boolean) {
-    products(first: $first, query: $query, sortKey: $sortKey, reverse: $reverse) {
+  let queryStr = `query getProducts($first: Int!, $query: String, $sortKey: ProductSortKeys, $reverse: Boolean, $after: String) {
+    products(first: $first, query: $query, sortKey: $sortKey, reverse: $reverse, after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       edges {
         node {
           id
           title
           description
           tags
-          productType
+          kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+          fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+          giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+          hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+          homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
           priceRange {
             minVariantPrice {
               amount
@@ -235,20 +289,37 @@ export async function fetchProducts({
     reverse = order === 'DESC';
   }
 
-  const variables = {
-    first: limit,
-    query: shopifyQuery.length > 0 ? shopifyQuery.join(' AND ') : null,
-    sortKey: sortKey,
-    reverse: reverse
-  };
+  let allEdges = [];
+  let hasNextPage = true;
+  let cursor = null;
+  let pageNum = 1;
 
-  const { data, errors } = await client.request(queryStr, { variables });
-  if (errors) {
-    console.error('Shopify fetchProducts errors', errors);
-    return [];
+  while (hasNextPage) {
+    const variables = {
+      first: 250,
+      query: shopifyQuery.length > 0 ? shopifyQuery.join(' AND ') : null,
+      sortKey: sortKey,
+      reverse: reverse,
+      after: cursor
+    };
+
+    const { data, errors } = await client.request(queryStr, { variables });
+    if (errors) {
+      console.error('Shopify fetchProducts errors', errors);
+      break;
+    }
+
+    const edges = data.products.edges;
+    allEdges.push(...edges);
+    console.log(`Fetched page ${pageNum} (Generic): ${edges.length} products`);
+
+    hasNextPage = data.products.pageInfo.hasNextPage;
+    cursor = data.products.pageInfo.endCursor;
+    pageNum++;
   }
 
-  return data.products.edges.map(edge => mapShopifyProduct(edge.node));
+  console.log(`Total fetched (Generic): ${allEdges.length} products`);
+  return allEdges.map(edge => mapShopifyProduct(edge.node));
 }
 
 export async function fetchProduct(id) {
@@ -258,6 +329,11 @@ export async function fetchProduct(id) {
       title
       description
       tags
+      kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+      fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+      giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+      hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+      homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
       priceRange {
         minVariantPrice {
           amount
@@ -349,35 +425,79 @@ export async function fetchCollections() {
 }
 
 export async function fetchCategoryWithSubcategories(handle) {
-  const queryStr = `query collectionByHandle($handle: String!) {
+  const queryStr = `query collectionByHandle($handle: String!, $after: String) {
     collectionByHandle(handle: $handle) {
       id
       title
       handle
-      products(first: 250) {
+      products(first: 250, after: $after) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
-            productType
+            kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
+            fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
+            giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
+            hospitalitySub: metafield(namespace: "custom", key: "hospitality_subcategories") { value }
+            homeDecorSub: metafield(namespace: "custom", key: "home_decor_subcategories") { value }
           }
         }
       }
     }
   }`;
   
-  const { data, errors } = await client.request(queryStr, { variables: { handle } });
-  if (errors || !data?.collectionByHandle) {
-    return { category_id: handle, name: handle, subcategories: [] };
+  let allEdges = [];
+  let hasNextPage = true;
+  let cursor = null;
+  let collTitle = handle;
+  let pageNum = 1;
+  
+  while (hasNextPage) {
+    const { data, errors } = await client.request(queryStr, { variables: { handle, after: cursor } });
+    if (errors || !data?.collectionByHandle) {
+      break;
+    }
+    
+    collTitle = data.collectionByHandle.title;
+    const edges = data.collectionByHandle.products.edges;
+    allEdges.push(...edges);
+    console.log(`Fetched page ${pageNum} (Subcategories: ${handle}): ${edges.length} products`);
+    
+    hasNextPage = data.collectionByHandle.products.pageInfo.hasNextPage;
+    cursor = data.collectionByHandle.products.pageInfo.endCursor;
+    pageNum++;
   }
   
-  const coll = data.collectionByHandle;
+  console.log(`Total fetched (Subcategories: ${handle}): ${allEdges.length} products`);
+  
   const categorySet = new Set();
   
-  coll.products.edges.forEach(edge => {
-    const catName = edge.node.productType;
-    if (catName) {
-      categorySet.add(catName);
-    }
-  });
+  const handleToMetafieldAlias = {
+    'kitchenware': 'kitchenwareSub',
+    'fashion': 'fashionSub',
+    'gifts': 'giftsSub',
+    'hospitality': 'hospitalitySub',
+    'home-decor': 'homeDecorSub'
+  };
+  
+  const aliasToUse = handleToMetafieldAlias[handle];
+  
+  if (aliasToUse) {
+    allEdges.forEach(edge => {
+      const metaStr = edge.node[aliasToUse]?.value;
+      if (metaStr) {
+        try {
+          let parsed = JSON.parse(metaStr);
+          if (!Array.isArray(parsed)) parsed = [parsed];
+          parsed.forEach(c => categorySet.add(c));
+        } catch (e) {
+          metaStr.split(',').forEach(c => categorySet.add(c.trim()));
+        }
+      }
+    });
+  }
   
   const subcategories = Array.from(categorySet).sort().map(name => ({
     category_id: `${handle}___${name}`,
@@ -385,8 +505,8 @@ export async function fetchCategoryWithSubcategories(handle) {
   }));
   
   return {
-    category_id: coll.handle,
-    name: coll.title,
+    category_id: handle,
+    name: collTitle,
     subcategories
   };
 }
