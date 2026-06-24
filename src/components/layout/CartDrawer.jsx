@@ -2,6 +2,7 @@ import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { X, Trash2, Plus, Minus, ShoppingBag, Heart } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function CartDrawer() {
   const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal, wishlistItems, toggleWishlist, addToCart } = useCart()
@@ -93,11 +94,8 @@ export default function CartDrawer() {
               <button 
                 onClick={() => {
                   setCartDrawerOpen(false)
-                  if (location.pathname === '/') {
-                    document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
-                  } else {
-                    navigate('/#categories')
-                  }
+                  navigate('/shop')
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
                 }}
                 style={{
                   padding: '0.8rem 2rem', backgroundColor: '#214e41', color: 'white', border: 'none',
@@ -110,11 +108,20 @@ export default function CartDrawer() {
               >{c.continueShopping}</button>
             </div>
           ) : (
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column' }}>
+              <AnimatePresence initial={false}>
                {cartItems.map(item => {
                 if (!item) return null
                 return (
-                <li key={item.product_id} style={{ display: 'flex', gap: '1.25rem' }}>
+                <motion.li 
+                  layout
+                  key={item.product_id} 
+                  initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                  animate={{ opacity: 1, height: 'auto', marginBottom: '1.5rem' }}
+                  exit={{ opacity: 0, height: 0, marginBottom: 0, overflow: 'hidden' }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  style={{ display: 'flex', gap: '1.25rem' }}
+                >
                   <div style={{ flexShrink: 0 }}>
                     <img 
                       src={item.thumb} 
@@ -132,18 +139,37 @@ export default function CartDrawer() {
                         fontFamily: 'Jost, sans-serif', fontSize: '0.95rem', fontWeight: 600,
                         color: '#214e41', margin: '0 0 0.4rem 0' 
                       }}>{item.name}</h4>
-                      <button 
-                        onClick={() => {
-                          const isLast = cartItems.length === 1
-                          removeFromCart(item.product_id)
-                          if (isLast && location.pathname === '/checkout') navigate(-1)
-                        }} 
-                        style={{ background: 'none', border: 'none', color: '#cc3300', cursor: 'pointer', padding: '4px', opacity: 0.6 }}
-                        onMouseEnter={e => e.currentTarget.style.opacity = 1}
-                        onMouseLeave={e => e.currentTarget.style.opacity = 0.6}
-                      >
-                        <Trash2 size={14} />
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.25rem' }}>
+                        <button 
+                          title="Move to Wishlist"
+                          onClick={() => {
+                            const isLast = cartItems.length === 1
+                            removeFromCart(item.product_id)
+                            if (!wishlistItems?.some(w => w.product_id === item.product_id)) {
+                              toggleWishlist(item)
+                            }
+                            if (isLast && location.pathname === '/checkout') navigate(-1)
+                          }} 
+                          style={{ background: 'none', border: 'none', color: '#2c635a', cursor: 'pointer', padding: '4px', opacity: 0.6, transition: 'all 0.2s ease' }}
+                          onMouseEnter={e => { e.currentTarget.style.opacity = 1; e.currentTarget.style.transform = 'scale(1.1)'; }}
+                          onMouseLeave={e => { e.currentTarget.style.opacity = 0.6; e.currentTarget.style.transform = 'scale(1)'; }}
+                        >
+                          <Heart size={14} />
+                        </button>
+                        <button 
+                          title="Remove from Cart"
+                          onClick={() => {
+                            const isLast = cartItems.length === 1
+                            removeFromCart(item.product_id)
+                            if (isLast && location.pathname === '/checkout') navigate(-1)
+                          }} 
+                          style={{ background: 'none', border: 'none', color: '#cc3300', cursor: 'pointer', padding: '4px', opacity: 0.6, transition: 'all 0.2s ease' }}
+                          onMouseEnter={e => { e.currentTarget.style.opacity = 1; e.currentTarget.style.transform = 'scale(1.1)'; }}
+                          onMouseLeave={e => { e.currentTarget.style.opacity = 0.6; e.currentTarget.style.transform = 'scale(1)'; }}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </div>
                     <div style={{ 
                       fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 600,
@@ -178,9 +204,10 @@ export default function CartDrawer() {
                       </div>
                     </div>
                   </div>
-                </li>
+                </motion.li>
               )
             })}
+              </AnimatePresence>
             </ul>
           )}
 
@@ -201,11 +228,20 @@ export default function CartDrawer() {
                 </h3>
               </div>
               
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column' }}>
+                <AnimatePresence initial={false}>
                 {wishlistItems.map(item => {
                   if (!item) return null
                   return (
-                    <li key={item.product_id} style={{ display: 'flex', gap: '1.25rem', opacity: 0.9 }}>
+                    <motion.li 
+                      layout
+                      key={item.product_id} 
+                      initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                      animate={{ opacity: 0.9, height: 'auto', marginBottom: '1.5rem' }}
+                      exit={{ opacity: 0, height: 0, marginBottom: 0, overflow: 'hidden' }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      style={{ display: 'flex', gap: '1.25rem' }}
+                    >
                       <div style={{ flexShrink: 0, position: 'relative' }}>
                         <img 
                           src={item.thumb} 
@@ -265,9 +301,10 @@ export default function CartDrawer() {
                           Move to Cart
                         </button>
                       </div>
-                    </li>
+                    </motion.li>
                   )
                 })}
+                </AnimatePresence>
               </ul>
             </div>
           )}

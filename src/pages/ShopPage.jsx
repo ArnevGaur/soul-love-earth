@@ -693,6 +693,18 @@ export default function ShopPage() {
                           transition: 'all 0.3s ease',
                           boxShadow: currentPage === 1 ? 'none' : '0 4px 12px rgba(33,78,65,0.05)'
                         }}
+                        onMouseEnter={e => {
+                          if (currentPage !== 1) {
+                            e.currentTarget.style.backgroundColor = '#d4a843'
+                            e.currentTarget.style.color = '#ffffff'
+                          }
+                        }}
+                        onMouseLeave={e => {
+                          if (currentPage !== 1) {
+                            e.currentTarget.style.backgroundColor = '#ffffff'
+                            e.currentTarget.style.color = '#214e41'
+                          }
+                        }}
                       >
                         <ChevronLeft size={18} strokeWidth={2} />
                       </button>
@@ -716,6 +728,18 @@ export default function ShopPage() {
                           cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                           transition: 'all 0.3s ease',
                           boxShadow: currentPage === totalPages ? 'none' : '0 4px 12px rgba(33,78,65,0.05)'
+                        }}
+                        onMouseEnter={e => {
+                          if (currentPage !== totalPages) {
+                            e.currentTarget.style.backgroundColor = '#d4a843'
+                            e.currentTarget.style.color = '#ffffff'
+                          }
+                        }}
+                        onMouseLeave={e => {
+                          if (currentPage !== totalPages) {
+                            e.currentTarget.style.backgroundColor = '#ffffff'
+                            e.currentTarget.style.color = '#214e41'
+                          }
                         }}
                       >
                         <ChevronRight size={18} strokeWidth={2} />
