@@ -1,10 +1,10 @@
-# 🌿 Soul Love & Earth — E-Commerce Frontend
+# Soul Love & Earth — E-Commerce Frontend
 
 A premium, bilingual e-commerce platform built for the **Soul Love & Earth** conscious living brand. Designed with a luxury aesthetic featuring Apple-like page transitions, fluid responsive grids, and advanced glassmorphism.
 
 ---
 
-## ✨ Brand Identity & Design System
+## Brand Identity & Design System
 
 The platform follows a strict design language to ensure a premium, high-end feel:
 
@@ -24,27 +24,27 @@ The platform follows a strict design language to ensure a premium, high-end feel
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-### 🌍 Full Bilingual Support (Context API)
+### Full Bilingual Support (Context API)
 - **Automatic RTL/LTR Switch**: Complete English (LTR) and Arabic (RTL) localization.
 - **Dynamic Typography**: Font weights and sizes adjust automatically based on the selected language.
 - **Zero-Crash Architecture**: Hardened translation system with safe fallbacks.
 
-### 🛍️ Comprehensive Storefront
+### Comprehensive Storefront
 - **Shop Page**: Dynamic filtering by category, real-time search, and price/name sorting.
 - **Product Details**: High-performance image carousels with fluid transitions and zoom effects.
 - **Smart Cart**: Global cart drawer with real-time price parsing and data sanitization.
 - **Hospitality & Offers**: Dedicated sections for B2B hospitality products and limited-time collections.
 
-### 🔐 User Experience & Auth
+### User Experience & Auth
 - **Seamless Authentication**: Built-in Login and Registration flows with form validation.
 - **Order Tracking**: My Orders section to track current and past purchases.
 - **Checkout Flow**: Secure, streamlined checkout process with order summary and payment integration.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 src/
@@ -72,7 +72,7 @@ src/
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Core**: React 19 + Vite 8
 - **Styling**: Vanilla CSS + Tailwind CSS (v4) for utility-first flexibility.
@@ -83,7 +83,7 @@ src/
 
 ---
 
-## 🏁 Getting Started
+## Getting Started
 
 1. **Clone the repository**
 2. **Install dependencies**:
@@ -101,8 +101,11 @@ src/
 
 ---
 
-## ✅ Recent Updates
+## Recent Updates
 
+- [x] **Product Pagination**: Implemented server-side pagination for all product fetches and added a local UI pagination component to the shop page.
+- [x] **Advanced Filtering Logic**: Refactored subcategory filtering to use category-specific mapping and metafield-based parsing, providing more flexible and dynamic product filtering.
+- [x] **Brand Assets Update**: Replaced site logo and favicon with updated high-quality brand assets.
 - [x] **Checkout & Order Flow**: Enhanced `CheckoutPage` with comprehensive form validation (card details, phone, email) and added an `OrderPlacedPage`.
 - [x] **Authentication UI**: Upgraded Auth components with enhanced glassmorphism effects, dynamic backdrops, and real-time password validation.
 - [x] **UI/UX Polish**: Refined main button alignments, improved `ContactPage` styling, integrated Lucide icons, and ensured mobile responsiveness across all core pages.
@@ -110,4 +113,3 @@ src/
 - [x] **Page Title Update**: Synchronized browser tab name to "Soul Love & Earth".
 - [x] **Full Arabic Localization**: Implemented comprehensive RTL support across all core pages.
 - [x] **Navigation Refinement**: Cleaned up the navigation bar for a more minimalistic aesthetic.
-- [x] **Premium Favicon**: Integrated the brand logo as the official site favicon.
