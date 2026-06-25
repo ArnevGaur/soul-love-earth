@@ -1,4 +1,4 @@
-# Soul Love & Earth — E-Commerce Websie
+# Soul Love & Earth — E-Commerce Website
 
 A premium, bilingual e-commerce platform built for the **Soul Love & Earth** conscious living brand. Designed with a luxury aesthetic featuring Apple-like page transitions, fluid responsive grids, and advanced glassmorphism.
 
