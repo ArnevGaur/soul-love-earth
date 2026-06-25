@@ -1,7 +1,20 @@
-import { createStorefrontApiClient } from '@shopify/storefront-api-client';
+export const client = {
+  request: async (query, { variables } = {}) => {
+    const res = await fetch('/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query, variables }),
+    });
 
-export const client = createStorefrontApiClient({
-    storeDomain: import.meta.env.VITE_SHOPIFY_STORE_DOMAIN,
-    apiVersion: '2025-10',
-    publicAccessToken: import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN,
-});
+    if (!res.ok) {
+      if (res.status === 429) {
+        throw new Error('Too many attempts. Please try again later.');
+      }
+      throw new Error(`API error: ${res.status}`);
+    }
+
+    return await res.json();
+  }
+};

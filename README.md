@@ -1,4 +1,4 @@
-# Soul Love & Earth — E-Commerce Frontend
+# Soul Love & Earth — E-Commerce Websie
 
 A premium, bilingual e-commerce platform built for the **Soul Love & Earth** conscious living brand. Designed with a luxury aesthetic featuring Apple-like page transitions, fluid responsive grids, and advanced glassmorphism.
 
@@ -64,7 +64,7 @@ src/
 │   ├── CheckoutPage.jsx       # Final checkout process
 │   └── ...                    # Legal, Auth, and Support pages
 ├── services/
-│   └── opencart.js     # API service layer (OpenCart integration)
+│   └── shopify.js      # Main Shopify API wrapper
 ├── App.jsx             # Main Router and Theme Provider
 ├── index.css           # Global CSS variables and design tokens
 └── main.jsx            # React entry point

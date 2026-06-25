@@ -5,24 +5,17 @@ const CustomerContext = createContext()
 
 export function CustomerProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null)
-  const [accessToken, setAccessToken] = useState(() => localStorage.getItem('sle_customer_token') || null)
   const [authLoading, setAuthLoading] = useState(true)
 
-  // Hydrate session on mount or when token changes
+  // Hydrate session on mount
   useEffect(() => {
     async function loadCustomer() {
-      if (!accessToken) {
-        setCurrentUser(null)
-        setAuthLoading(false)
-        return
-      }
       try {
-        const customer = await getCustomer(accessToken)
+        const customer = await getCustomer()
         if (customer) {
           setCurrentUser(customer)
         } else {
-          // Token invalid or expired
-          handleLogout()
+          setCurrentUser(null)
         }
       } catch (err) {
         if (import.meta.env.DEV) console.error('Failed to hydrate customer session:', err)
@@ -32,13 +25,13 @@ export function CustomerProvider({ children }) {
       }
     }
     loadCustomer()
-  }, [accessToken])
+  }, [])
 
   const handleLogin = async ({ email, password }) => {
-    const token = await loginCustomer({ email, password })
-    localStorage.setItem('sle_customer_token', token)
-    setAccessToken(token)
-    // The useEffect will automatically fetch the user
+    await loginCustomer({ email, password })
+    // Fetch user after successful login
+    const customer = await getCustomer()
+    setCurrentUser(customer)
   }
 
   const handleRegister = async (userData) => {
@@ -48,18 +41,13 @@ export function CustomerProvider({ children }) {
   }
 
   const handleLogout = async () => {
-    if (accessToken) {
-      await logoutCustomer(accessToken)
-    }
-    localStorage.removeItem('sle_customer_token')
-    setAccessToken(null)
+    await logoutCustomer()
     setCurrentUser(null)
   }
 
   return (
     <CustomerContext.Provider value={{
       currentUser,
-      accessToken,
       authLoading,
       login: handleLogin,
       register: handleRegister,

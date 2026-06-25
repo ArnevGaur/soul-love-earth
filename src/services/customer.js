@@ -68,7 +68,7 @@ export async function loginCustomer({ email, password }) {
   return data.customerAccessTokenCreate.customerAccessToken.accessToken;
 }
 
-export async function logoutCustomer(customerAccessToken) {
+export async function logoutCustomer() {
   const query = `
     mutation customerAccessTokenDelete($customerAccessToken: String!) {
       customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
@@ -81,7 +81,7 @@ export async function logoutCustomer(customerAccessToken) {
       }
     }
   `;
-  const variables = { customerAccessToken };
+  const variables = { customerAccessToken: 'SERVER_INJECT' };
   
   try {
     await client.request(query, { variables });
@@ -115,7 +115,7 @@ export async function recoverPassword(email) {
   return true;
 }
 
-export async function getCustomer(customerAccessToken) {
+export async function getCustomer() {
   const query = `
     query getCustomer($customerAccessToken: String!) {
       customer(customerAccessToken: $customerAccessToken) {
@@ -147,7 +147,7 @@ export async function getCustomer(customerAccessToken) {
       }
     }
   `;
-  const variables = { customerAccessToken };
+  const variables = { customerAccessToken: 'SERVER_INJECT' };
 
   const { data, errors } = await client.request(query, { variables });
 
@@ -158,7 +158,7 @@ export async function getCustomer(customerAccessToken) {
   return data.customer;
 }
 
-export async function updateCustomer(customerAccessToken, customerData) {
+export async function updateCustomer(customerData) {
   const query = `
     mutation customerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
       customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
@@ -178,7 +178,7 @@ export async function updateCustomer(customerAccessToken, customerData) {
     }
   `;
   const variables = {
-    customerAccessToken,
+    customerAccessToken: 'SERVER_INJECT',
     customer: customerData
   };
 
@@ -193,7 +193,7 @@ export async function updateCustomer(customerAccessToken, customerData) {
 }
 
 // Addresses
-export async function createCustomerAddress(customerAccessToken, address) {
+export async function createCustomerAddress(address) {
   const query = `
     mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
       customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
@@ -208,7 +208,7 @@ export async function createCustomerAddress(customerAccessToken, address) {
       }
     }
   `;
-  const variables = { customerAccessToken, address };
+  const variables = { customerAccessToken: 'SERVER_INJECT', address };
   const { data, errors } = await client.request(query, { variables });
   if (errors || data?.customerAddressCreate?.customerUserErrors?.length > 0) {
     throw new Error(data?.customerAddressCreate?.customerUserErrors?.[0]?.message || 'Failed to create address');
@@ -216,7 +216,7 @@ export async function createCustomerAddress(customerAccessToken, address) {
   return data.customerAddressCreate.customerAddress;
 }
 
-export async function updateCustomerAddress(customerAccessToken, id, address) {
+export async function updateCustomerAddress(id, address) {
   const query = `
     mutation customerAddressUpdate($customerAccessToken: String!, $id: ID!, $address: MailingAddressInput!) {
       customerAddressUpdate(customerAccessToken: $customerAccessToken, id: $id, address: $address) {
@@ -231,7 +231,7 @@ export async function updateCustomerAddress(customerAccessToken, id, address) {
       }
     }
   `;
-  const variables = { customerAccessToken, id, address };
+  const variables = { customerAccessToken: 'SERVER_INJECT', id, address };
   const { data, errors } = await client.request(query, { variables });
   if (errors || data?.customerAddressUpdate?.customerUserErrors?.length > 0) {
     throw new Error(data?.customerAddressUpdate?.customerUserErrors?.[0]?.message || 'Failed to update address');
@@ -239,7 +239,7 @@ export async function updateCustomerAddress(customerAccessToken, id, address) {
   return data.customerAddressUpdate.customerAddress;
 }
 
-export async function deleteCustomerAddress(customerAccessToken, id) {
+export async function deleteCustomerAddress(id) {
   const query = `
     mutation customerAddressDelete($customerAccessToken: String!, $id: ID!) {
       customerAddressDelete(customerAccessToken: $customerAccessToken, id: $id) {
@@ -252,7 +252,7 @@ export async function deleteCustomerAddress(customerAccessToken, id) {
       }
     }
   `;
-  const variables = { customerAccessToken, id };
+  const variables = { customerAccessToken: 'SERVER_INJECT', id };
   const { data, errors } = await client.request(query, { variables });
   if (errors || data?.customerAddressDelete?.customerUserErrors?.length > 0) {
     throw new Error(data?.customerAddressDelete?.customerUserErrors?.[0]?.message || 'Failed to delete address');
@@ -260,7 +260,7 @@ export async function deleteCustomerAddress(customerAccessToken, id) {
   return true;
 }
 
-export async function defaultCustomerAddress(customerAccessToken, addressId) {
+export async function defaultCustomerAddress(addressId) {
   const query = `
     mutation customerDefaultAddressUpdate($customerAccessToken: String!, $addressId: ID!) {
       customerDefaultAddressUpdate(customerAccessToken: $customerAccessToken, addressId: $addressId) {
@@ -275,7 +275,7 @@ export async function defaultCustomerAddress(customerAccessToken, addressId) {
       }
     }
   `;
-  const variables = { customerAccessToken, addressId };
+  const variables = { customerAccessToken: 'SERVER_INJECT', addressId };
   const { data, errors } = await client.request(query, { variables });
   if (errors || data?.customerDefaultAddressUpdate?.customerUserErrors?.length > 0) {
     throw new Error(data?.customerDefaultAddressUpdate?.customerUserErrors?.[0]?.message || 'Failed to set default address');

@@ -2,7 +2,7 @@ import { client } from '../lib/shopify';
 
 
 
-// Helper to format Shopify product into OpenCart format
+// Helper to format Shopify product for the UI
 function mapShopifyProduct(node) {
   const images = node.images?.edges?.map(e => e.node.url) || [];
   const priceAmount = node.priceRange?.minVariantPrice?.amount || '0';
@@ -520,8 +520,7 @@ export async function fetchCategories() {
   return fullCategories;
 }
 
-export async function fetchCustomerOrders(customerAccessToken) {
-  if (!customerAccessToken) return [];
+export async function fetchCustomerOrders() {
   
   const queryStr = `query getCustomerOrders($customerAccessToken: String!) {
     customer(customerAccessToken: $customerAccessToken) {
@@ -556,7 +555,7 @@ export async function fetchCustomerOrders(customerAccessToken) {
     }
   }`;
   
-  const { data, errors } = await client.request(queryStr, { variables: { customerAccessToken } });
+  const { data, errors } = await client.request(queryStr, { variables: { customerAccessToken: 'SERVER_INJECT' } });
   if (errors || !data?.customer) {
     if (import.meta.env.DEV) console.error('Shopify fetchCustomerOrders error', errors);
     return [];
@@ -581,6 +580,6 @@ export async function fetchCustomerOrders(customerAccessToken) {
 }
 
 // Preserve existing export for UI compatibility
-export async function fetchOrders(customerAccessToken) {
-  return await fetchCustomerOrders(customerAccessToken);
+export async function fetchOrders() {
+  return await fetchCustomerOrders();
 }

@@ -28,21 +28,32 @@ export default function ContactPage() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // TODO SECURITY (MED-05): This is a FAKE submission — no data is sent to any server.
-    // Users see a success message but their message is silently discarded.
-    // Replace with a real backend call (e.g., Vercel serverless function → SendGrid/Resend)
-    // or a form backend service (Formspree, etc.).
-    setTimeout(() => {
-      setIsSubmitting(false)
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+      
       setSubmitted(true)
       setFormData({ name: '', email: '', subject: '', message: '' })
       
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000)
-    }, 1500)
+    } catch (error) {
+      console.error(error);
+      alert(t.lang === 'ar' ? 'فشل إرسال الرسالة. حاول مرة أخرى.' : 'Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const contactInfo = [
