@@ -44,29 +44,6 @@ const StripeLogo = ({ h = 24, greyed }) => (
 )
 // ─────────────────────────────────────────────────────────────────────────────
 
-const paymentMethods = [
-  {
-    id: 'card',
-    label: 'Credit / Debit Card',
-    icon: <CreditCard size={18} strokeWidth={1.5} />,
-    logos: (greyed) => <><VisaLogo greyed={greyed} /> <MastercardLogo greyed={greyed} /> <AmexLogo greyed={greyed} /></>
-  },
-  {
-    id: 'paypal',
-    label: 'PayPal',
-    icon: <Smartphone size={18} strokeWidth={1.5} />,
-    logos: (greyed) => <PayPalLogo greyed={greyed} />
-  },
-  {
-    id: 'stripe',
-    label: 'Stripe',
-    icon: <Building2 size={18} strokeWidth={1.5} />,
-    logos: (greyed) => <StripeLogo greyed={greyed} />
-  },
-]
-
-// SECURITY: All card input components (CardNumberField, CvvField, ExpiryField,
-// CardholderField) have been removed to eliminate PCI-DSS scope.
 // Payment details are collected securely on Shopify's hosted checkout page.
 
 function PhoneField() {
@@ -267,7 +244,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate()
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [selectedPayment, setSelectedPayment] = useState('card')
+
 
   const handleCheckout = (e) => {
     e.preventDefault()
@@ -407,7 +384,7 @@ export default function CheckoutPage() {
               <div className="checkout-form-card" style={{ ...cardStyle, marginTop: '1.5rem' }}>
                 <SectionHeader number="2" title="Shipping Address" />
                 <div className="checkout-two-col" style={{ marginBottom: '1.25rem' }}>
-                  <div className="checkout-field"><FormField id="country" label="Country / Region" placeholder="United Arab Emirates" required autoComplete="country-name" /></div>
+                  <div className="checkout-field"><FormField id="country" label="Country / Region" placeholder="India" required autoComplete="country-name" /></div>
                   <div className="checkout-field"><FormField id="city" label="City" placeholder="Mumbai" required autoComplete="address-level2" /></div>
                 </div>
                 <div style={{ marginBottom: '1.25rem' }}>
@@ -419,71 +396,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Step 3: Payment Method — Handled securely on Shopify's PCI-compliant checkout */}
-              <div className="checkout-form-card" style={{ ...cardStyle, marginTop: '1.5rem' }}>
-                <SectionHeader number="3" title="Payment Method" />
 
-                {/* Method selector tabs */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.75rem' }}>
-                  {paymentMethods.map(method => (
-                    <button
-                      key={method.id}
-                      type="button"
-                      onClick={() => setSelectedPayment(method.id)}
-                      className="payment-option"
-                      style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        padding: '1rem 1.25rem',
-                        border: selectedPayment === method.id ? '1.5px solid #7e6b3b' : '1px solid rgba(44,44,44,0.15)',
-                        borderRadius: '12px',
-                        backgroundColor: selectedPayment === method.id ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.95)',
-                        cursor: 'pointer', width: '100%',
-                        boxShadow: selectedPayment === method.id ? '0 0 0 2px rgba(212,168,67,0.12)' : 'none',
-                        transition: 'all 0.2s',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{
-                          width: '20px', height: '20px', borderRadius: '50%',
-                          border: `2px solid ${selectedPayment === method.id ? '#7e6b3b' : '#ccc'}`,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                        }}>
-                          {selectedPayment === method.id && <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#7e6b3b' }} />}
-                        </div>
-                        <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-charcoal)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          {method.icon} {method.label}
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                        {method.logos(selectedPayment !== method.id)}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                {/* SECURITY: Card details are collected on Shopify's PCI-compliant hosted checkout page */}
-                <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
-                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'rgba(61,144,137,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto' }}>
-                    <Lock size={24} color={BRAND_TEAL} />
-                  </div>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: '#555', lineHeight: 1.7, maxWidth: '400px', margin: '0 auto' }}>
-                    {selectedPayment === 'paypal'
-                      ? 'You will be redirected to PayPal to complete your payment securely.'
-                      : selectedPayment === 'stripe'
-                      ? 'You will be securely redirected to Stripe to complete your payment.'
-                      : 'Your card details will be entered securely on our PCI-compliant checkout page. No payment information is collected here.'}
-                  </p>
-                </div>
-
-                {/* All payment logos row */}
-                <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-                  <VisaLogo greyed />
-                  <MastercardLogo greyed />
-                  <AmexLogo greyed />
-                  <PayPalLogo greyed />
-                  <StripeLogo greyed />
-                </div>
-              </div>
 
               {/* Place Order Button */}
               <button
@@ -507,7 +420,7 @@ export default function CheckoutPage() {
               >
                 {isProcessing
                   ? <><span style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid white', borderTopColor: 'transparent', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} /> Processing…</>
-                  : <><Lock size={14} /> Pay ₹{(finalTotal || 0).toFixed(2)}</>
+                  : <><Lock size={14} /> Proceed to Secure Payment</>
                 }
               </button>
               <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
