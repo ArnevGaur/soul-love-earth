@@ -25,7 +25,7 @@ export function CustomerProvider({ children }) {
           handleLogout()
         }
       } catch (err) {
-        console.error('Failed to hydrate customer session:', err)
+        if (import.meta.env.DEV) console.error('Failed to hydrate customer session:', err)
         handleLogout()
       } finally {
         setAuthLoading(false)

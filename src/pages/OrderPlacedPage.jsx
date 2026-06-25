@@ -34,7 +34,8 @@ export default function OrderPlacedPage() {
   const total = Number(state?.total || 0)
   const itemCount = Number(state?.itemCount || 0)
   const placedAt = Number(state?.placedAt || Date.now())
-  const orderRef = `SLE-${String(placedAt).slice(-6)}`
+  // SECURITY: Use actual order number from Shopify or a non-guessable random ID
+  const orderRef = state?.orderNumber || `SLE-${crypto.randomUUID().slice(0, 8).toUpperCase()}`
   const arrivalWindow = formatDeliveryRange(placedAt)
 
   return (

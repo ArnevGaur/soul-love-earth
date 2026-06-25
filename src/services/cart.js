@@ -5,6 +5,16 @@ const CART_QUERY = `
     cart(id: $cartId) {
       id
       checkoutUrl
+      cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+      }
       lines(first: 100) {
         edges {
           node {
@@ -42,7 +52,7 @@ export async function createCart() {
   `;
   const { data, errors } = await client.request(query);
   if (errors || data?.cartCreate?.userErrors?.length) {
-    console.error('Error creating cart', errors || data?.cartCreate?.userErrors);
+    if (import.meta.env.DEV) console.error('Error creating cart', errors || data?.cartCreate?.userErrors);
     return null;
   }
   return data.cartCreate.cart;
@@ -84,7 +94,7 @@ export async function addToCart(cartId, variantId, quantity = 1) {
   };
   const { data, errors } = await client.request(query, { variables });
   if (errors || data?.cartLinesAdd?.userErrors?.length) {
-    console.error('Error adding to cart', errors || data?.cartLinesAdd?.userErrors);
+    if (import.meta.env.DEV) console.error('Error adding to cart', errors || data?.cartLinesAdd?.userErrors);
   }
   return data?.cartLinesAdd?.cart;
 }
@@ -110,7 +120,7 @@ export async function updateCart(cartId, lineId, quantity) {
   };
   const { data, errors } = await client.request(query, { variables });
   if (errors || data?.cartLinesUpdate?.userErrors?.length) {
-    console.error('Error updating cart', errors || data?.cartLinesUpdate?.userErrors);
+    if (import.meta.env.DEV) console.error('Error updating cart', errors || data?.cartLinesUpdate?.userErrors);
   }
   return data?.cartLinesUpdate?.cart;
 }
@@ -136,7 +146,7 @@ export async function removeFromCart(cartId, lineId) {
   };
   const { data, errors } = await client.request(query, { variables });
   if (errors || data?.cartLinesRemove?.userErrors?.length) {
-    console.error('Error removing from cart', errors || data?.cartLinesRemove?.userErrors);
+    if (import.meta.env.DEV) console.error('Error removing from cart', errors || data?.cartLinesRemove?.userErrors);
   }
   return data?.cartLinesRemove?.cart;
 }

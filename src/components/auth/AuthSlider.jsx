@@ -32,6 +32,14 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
   const [loginFieldErrors, setLoginFieldErrors] = useState({})
   const [regFieldErrors, setRegFieldErrors] = useState({})
 
+  // SECURITY: Client-side rate limiting to slow brute-force attacks
+  const [loginAttempts, setLoginAttempts] = useState(0)
+  const [loginLockUntil, setLoginLockUntil] = useState(0)
+  const [regAttempts, setRegAttempts] = useState(0)
+  const [regLockUntil, setRegLockUntil] = useState(0)
+  const MAX_ATTEMPTS = 5
+  const LOCKOUT_MS = 30000 // 30 seconds
+
   const validateEmail = (email) => /\S+@\S+\.\S+/.test(email)
   const validatePhone = (phone) => phone.replace(/\D/g, '').length === 12 // 971 + 9 digits
 
@@ -79,6 +87,13 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     e.preventDefault()
     setLoginError('')
     setLoginFieldErrors({})
+
+    // Rate limiting check
+    if (Date.now() < loginLockUntil) {
+      const secsLeft = Math.ceil((loginLockUntil - Date.now()) / 1000)
+      setLoginError(lang === 'ar' ? `محاولات كثيرة. حاول مرة أخرى بعد ${secsLeft} ثانية.` : `Too many attempts. Try again in ${secsLeft} seconds.`)
+      return
+    }
     
     let errors = {}
     if (!loginEmail.trim()) {
@@ -100,9 +115,18 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     setLoginLoading(true)
     try {
       await login({ email: loginEmail, password: loginPassword })
+      setLoginAttempts(0) // Reset on success
       navigate('/')
     } catch (err) {
-      setLoginError(err.message)
+      const newAttempts = loginAttempts + 1
+      setLoginAttempts(newAttempts)
+      if (newAttempts >= MAX_ATTEMPTS) {
+        setLoginLockUntil(Date.now() + LOCKOUT_MS)
+        setLoginAttempts(0)
+        setLoginError(lang === 'ar' ? 'محاولات كثيرة. حاول مرة أخرى بعد 30 ثانية.' : 'Too many failed attempts. Please wait 30 seconds.')
+      } else {
+        setLoginError(err.message)
+      }
     } finally {
       setLoginLoading(false)
     }
@@ -112,6 +136,13 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     e.preventDefault()
     setRegError('')
     setRegFieldErrors({})
+
+    // Rate limiting check
+    if (Date.now() < regLockUntil) {
+      const secsLeft = Math.ceil((regLockUntil - Date.now()) / 1000)
+      setRegError(lang === 'ar' ? `محاولات كثيرة. حاول مرة أخرى بعد ${secsLeft} ثانية.` : `Too many attempts. Try again in ${secsLeft} seconds.`)
+      return
+    }
 
     let errors = {}
     if (!regForm.firstName.trim()) errors.firstName = lang === 'ar' ? 'مطلوب' : 'Required'
@@ -151,9 +182,18 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
         phone: regForm.phone,
         password: regForm.password
       })
+      setRegAttempts(0) // Reset on success
       navigate('/')
     } catch (err) {
-      setRegError(err.message)
+      const newAttempts = regAttempts + 1
+      setRegAttempts(newAttempts)
+      if (newAttempts >= MAX_ATTEMPTS) {
+        setRegLockUntil(Date.now() + LOCKOUT_MS)
+        setRegAttempts(0)
+        setRegError(lang === 'ar' ? 'محاولات كثيرة. حاول مرة أخرى بعد 30 ثانية.' : 'Too many failed attempts. Please wait 30 seconds.')
+      } else {
+        setRegError(err.message)
+      }
     } finally {
       setRegLoading(false)
     }

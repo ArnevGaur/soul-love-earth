@@ -31,7 +31,10 @@ export default function ContactPage() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Simulate API call
+    // TODO SECURITY (MED-05): This is a FAKE submission — no data is sent to any server.
+    // Users see a success message but their message is silently discarded.
+    // Replace with a real backend call (e.g., Vercel serverless function → SendGrid/Resend)
+    // or a form backend service (Formspree, etc.).
     setTimeout(() => {
       setIsSubmitting(false)
       setSubmitted(true)

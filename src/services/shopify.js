@@ -151,20 +151,20 @@ export async function fetchProducts({
       const { data, errors } = await client.request(queryStr, { variables });
       
       if (errors || !data?.collectionByHandle) {
-        console.error('Shopify fetchProducts collection error', errors);
+        if (import.meta.env.DEV) console.error('Shopify fetchProducts collection error', errors);
         break;
       }
       
       const edges = data.collectionByHandle.products.edges;
       allEdges.push(...edges);
-      console.log(`Fetched page ${pageNum} (Collection: ${handle}): ${edges.length} products`);
+      if (import.meta.env.DEV) console.log(`Fetched page ${pageNum} (Collection: ${handle}): ${edges.length} products`);
       
       hasNextPage = data.collectionByHandle.products.pageInfo.hasNextPage;
       cursor = data.collectionByHandle.products.pageInfo.endCursor;
       pageNum++;
     }
     
-    console.log(`Total fetched (Collection: ${handle}): ${allEdges.length} products`);
+    if (import.meta.env.DEV) console.log(`Total fetched (Collection: ${handle}): ${allEdges.length} products`);
     let results = allEdges.map(e => mapShopifyProduct(e.node));
     
     // Client-side filtering
@@ -305,20 +305,20 @@ export async function fetchProducts({
 
     const { data, errors } = await client.request(queryStr, { variables });
     if (errors) {
-      console.error('Shopify fetchProducts errors', errors);
+      if (import.meta.env.DEV) console.error('Shopify fetchProducts errors', errors);
       break;
     }
 
     const edges = data.products.edges;
     allEdges.push(...edges);
-    console.log(`Fetched page ${pageNum} (Generic): ${edges.length} products`);
+    if (import.meta.env.DEV) console.log(`Fetched page ${pageNum} (Generic): ${edges.length} products`);
 
     hasNextPage = data.products.pageInfo.hasNextPage;
     cursor = data.products.pageInfo.endCursor;
     pageNum++;
   }
 
-  console.log(`Total fetched (Generic): ${allEdges.length} products`);
+  if (import.meta.env.DEV) console.log(`Total fetched (Generic): ${allEdges.length} products`);
   return allEdges.map(edge => mapShopifyProduct(edge.node));
 }
 
@@ -376,7 +376,7 @@ export async function fetchProduct(id) {
   const { data, errors } = await client.request(queryStr, { variables: { id: gid } });
   
   if (errors || !data?.product) {
-    console.error('Shopify fetchProduct error', errors);
+    if (import.meta.env.DEV) console.error('Shopify fetchProduct error', errors);
     return null;
   }
 
@@ -412,7 +412,7 @@ export async function fetchCollections() {
   }`;
   const { data, errors } = await client.request(queryStr);
   if (errors || !data?.collections) {
-    console.error('Shopify fetchCollections error', errors);
+    if (import.meta.env.DEV) console.error('Shopify fetchCollections error', errors);
     return [];
   }
   return data.collections.edges.map(e => ({
@@ -463,14 +463,14 @@ export async function fetchCategoryWithSubcategories(handle) {
     collTitle = data.collectionByHandle.title;
     const edges = data.collectionByHandle.products.edges;
     allEdges.push(...edges);
-    console.log(`Fetched page ${pageNum} (Subcategories: ${handle}): ${edges.length} products`);
+    if (import.meta.env.DEV) console.log(`Fetched page ${pageNum} (Subcategories: ${handle}): ${edges.length} products`);
     
     hasNextPage = data.collectionByHandle.products.pageInfo.hasNextPage;
     cursor = data.collectionByHandle.products.pageInfo.endCursor;
     pageNum++;
   }
   
-  console.log(`Total fetched (Subcategories: ${handle}): ${allEdges.length} products`);
+  if (import.meta.env.DEV) console.log(`Total fetched (Subcategories: ${handle}): ${allEdges.length} products`);
   
   const categorySet = new Set();
   
@@ -516,7 +516,7 @@ export async function fetchCategories() {
   const fullCategories = await Promise.all(
     collections.map(c => fetchCategoryWithSubcategories(c.handle))
   );
-  console.log('fetchCategories Verification:', fullCategories);
+  if (import.meta.env.DEV) console.log('fetchCategories Verification:', fullCategories);
   return fullCategories;
 }
 
@@ -558,7 +558,7 @@ export async function fetchCustomerOrders(customerAccessToken) {
   
   const { data, errors } = await client.request(queryStr, { variables: { customerAccessToken } });
   if (errors || !data?.customer) {
-    console.error('Shopify fetchCustomerOrders error', errors);
+    if (import.meta.env.DEV) console.error('Shopify fetchCustomerOrders error', errors);
     return [];
   }
   

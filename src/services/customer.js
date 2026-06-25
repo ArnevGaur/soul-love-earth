@@ -86,7 +86,7 @@ export async function logoutCustomer(customerAccessToken) {
   try {
     await client.request(query, { variables });
   } catch (e) {
-    console.error('Error logging out on server', e);
+    if (import.meta.env.DEV) console.error('Error logging out on server', e);
   }
   return true;
 }

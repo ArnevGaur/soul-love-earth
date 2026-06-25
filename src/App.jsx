@@ -25,6 +25,7 @@ import OrdersPage from './pages/OrdersPage'
 import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
 import AuthBackdrop from './components/layout/AuthBackdrop'
+import ProtectedRoute from './components/auth/ProtectedRoute'
 import './index.css'
 import './mobile.css'
 
@@ -53,10 +54,10 @@ function AnimatedRoutes() {
         <Route path="/report-scam" element={<PageTransition><ReportScamPage /></PageTransition>} />
         <Route path="/terms" element={<PageTransition><TermsPage /></PageTransition>} />
         <Route path="/review-terms" element={<PageTransition><ReviewTermsPage /></PageTransition>} />
-        <Route path="/order-placed" element={<PageTransition><OrderPlacedPage /></PageTransition>} />
+        <Route path="/order-placed" element={<ProtectedRoute><PageTransition><OrderPlacedPage /></PageTransition></ProtectedRoute>} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/register" element={<AuthPage />} />
-        <Route path="/orders" element={<PageTransition><OrdersPage /></PageTransition>} />
+        <Route path="/orders" element={<ProtectedRoute><PageTransition><OrdersPage /></PageTransition></ProtectedRoute>} />
         <Route path="/hospitality" element={<PageTransition><HospitalityPage /></PageTransition>} />
       </Routes>
     </AnimatePresence>

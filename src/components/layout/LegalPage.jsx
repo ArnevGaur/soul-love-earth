@@ -2,6 +2,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import { Link } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
+import DOMPurify from 'dompurify'
 
 export default function LegalPage({ title, subtitle, sections }) {
   return (
@@ -42,20 +43,20 @@ export default function LegalPage({ title, subtitle, sections }) {
               {section.body.map((block, j) => {
                 if (block.type === 'p') return (
                   <p key={j} style={{ fontFamily: 'var(--font-body)', fontSize: '0.97rem', color: '#555', lineHeight: 1.85, marginBottom: '1.1rem' }}
-                    dangerouslySetInnerHTML={{ __html: block.text }} />
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.text) }} />
                 )
                 if (block.type === 'ul') return (
                   <ul key={j} style={{ margin: '0.5rem 0 1.1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                     {block.items.map((item, k) => (
                       <li key={k} style={{ fontFamily: 'var(--font-body)', fontSize: '0.97rem', color: '#555', lineHeight: 1.75 }}
-                        dangerouslySetInnerHTML={{ __html: item }} />
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item) }} />
                     ))}
                   </ul>
                 )
                 if (block.type === 'highlight') return (
                   <div key={j} style={{ backgroundColor: 'rgba(61,144,137,0.07)', border: '1px solid rgba(61,144,137,0.2)', borderLeft: '4px solid var(--color-teal-500)', borderRadius: '4px', padding: '1.25rem 1.5rem', marginBottom: '1.5rem' }}>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-teal-700)', lineHeight: 1.75, margin: 0 }}
-                      dangerouslySetInnerHTML={{ __html: block.text }} />
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.text) }} />
                   </div>
                 )
                 return null

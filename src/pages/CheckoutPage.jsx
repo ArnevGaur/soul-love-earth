@@ -65,241 +65,9 @@ const paymentMethods = [
   },
 ]
 
-const CARD_DIGITS_MAX = 16
-const CVV_DIGITS_MAX = 3
-const EXPIRY_DIGITS_MAX = 4
-
-function formatCardDisplay(digits) {
-  const d = String(digits).replace(/\D/g, '').slice(0, CARD_DIGITS_MAX)
-  return d.replace(/(\d{4})(?=\d)/g, '$1 ').trim()
-}
-
-function CardNumberField({ cardDigits, setCardDigits, error, setError }) {
-  const [focused, setFocused] = useState(false)
-  const displayValue = formatCardDisplay(cardDigits)
-
-  const handleChange = (e) => {
-    const next = e.target.value.replace(/\D/g, '').slice(0, CARD_DIGITS_MAX)
-    setCardDigits(next)
-    if (error && next.length === CARD_DIGITS_MAX) setError('')
-  }
-
-  const handleBlur = () => {
-    setFocused(false)
-    if (cardDigits.length > 0 && cardDigits.length < CARD_DIGITS_MAX) {
-      setError(`Card number must be ${CARD_DIGITS_MAX} digits.`)
-    } else if (cardDigits.length === CARD_DIGITS_MAX) {
-      setError('')
-    }
-  }
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-      <label htmlFor="cardnumber" style={{
-        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
-        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
-      }}>
-        Card Number<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
-      </label>
-      <input
-        id="cardnumber"
-        type="text"
-        inputMode="numeric"
-        autoComplete="cc-number"
-        placeholder="1234  5678  9012  3456"
-        value={displayValue}
-        onChange={handleChange}
-        onFocus={() => setFocused(true)}
-        onBlur={handleBlur}
-        aria-invalid={!!error}
-        aria-describedby={error ? 'cardnumber-error' : undefined}
-        style={{
-          width: '100%', padding: '0.85rem 1rem',
-          border: `1.5px solid ${error ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
-          borderRadius: '6px',
-          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
-          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
-          boxShadow: focused && !error ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
-          boxSizing: 'border-box',
-        }}
-      />
-      {error && (
-        <p id="cardnumber-error" role="alert" style={{
-          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
-        }}>
-          {error}
-        </p>
-      )}
-    </div>
-  )
-}
-
-function CvvField({ cvvDigits, setCvvDigits, error, setError }) {
-  const [focused, setFocused] = useState(false)
-
-  const handleChange = (e) => {
-    const next = e.target.value.replace(/\D/g, '').slice(0, CVV_DIGITS_MAX)
-    setCvvDigits(next)
-    if (error && next.length === CVV_DIGITS_MAX) setError('')
-  }
-
-  const handleBlur = () => {
-    setFocused(false)
-    if (cvvDigits.length > 0 && cvvDigits.length < CVV_DIGITS_MAX) {
-      setError(`CVV must be ${CVV_DIGITS_MAX} digits.`)
-    } else if (cvvDigits.length === CVV_DIGITS_MAX) {
-      setError('')
-    }
-  }
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-      <label htmlFor="cvv" style={{
-        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
-        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
-      }}>
-        CVV / Security Code<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
-      </label>
-      <input
-        id="cvv"
-        type="text"
-        inputMode="numeric"
-        autoComplete="cc-csc"
-        placeholder="123"
-        value={cvvDigits}
-        onChange={handleChange}
-        onFocus={() => setFocused(true)}
-        onBlur={handleBlur}
-        aria-invalid={!!error}
-        aria-describedby={error ? 'cvv-error' : undefined}
-        style={{
-          width: '100%', padding: '0.85rem 1rem',
-          border: `1.5px solid ${error ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
-          borderRadius: '6px',
-          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
-          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
-          boxShadow: focused && !error ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
-          boxSizing: 'border-box',
-        }}
-      />
-      {error && (
-        <p id="cvv-error" role="alert" style={{
-          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
-        }}>
-          {error}
-        </p>
-      )}
-    </div>
-  )
-}
-
-function formatExpiryDisplay(digits) {
-  const d = String(digits).replace(/\D/g, '').slice(0, EXPIRY_DIGITS_MAX)
-  if (d.length <= 2) return d
-  return `${d.slice(0, 2)}/${d.slice(2)}`
-}
-
-function isValidExpiryDigits(digits) {
-  if (digits.length !== EXPIRY_DIGITS_MAX) return false
-  const month = Number(digits.slice(0, 2))
-  return month >= 1 && month <= 12
-}
-
-function ExpiryField({ expiryDigits, setExpiryDigits, error, setError }) {
-  const [focused, setFocused] = useState(false)
-  const displayValue = formatExpiryDisplay(expiryDigits)
-
-  const handleChange = (e) => {
-    const next = e.target.value.replace(/\D/g, '').slice(0, EXPIRY_DIGITS_MAX)
-    setExpiryDigits(next)
-    if (error && isValidExpiryDigits(next)) setError('')
-  }
-
-  const handleBlur = () => {
-    setFocused(false)
-    if (expiryDigits.length > 0 && !isValidExpiryDigits(expiryDigits)) {
-      setError('Expiry must be in MM/YY format.')
-    } else if (isValidExpiryDigits(expiryDigits)) {
-      setError('')
-    }
-  }
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-      <label htmlFor="expiry" style={{
-        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
-        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
-      }}>
-        Expiry Date<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
-      </label>
-      <input
-        id="expiry"
-        type="text"
-        inputMode="numeric"
-        autoComplete="cc-exp"
-        placeholder="MM/YY"
-        value={displayValue}
-        onChange={handleChange}
-        onFocus={() => setFocused(true)}
-        onBlur={handleBlur}
-        aria-invalid={!!error}
-        aria-describedby={error ? 'expiry-error' : undefined}
-        style={{
-          width: '100%', padding: '0.85rem 1rem',
-          border: `1.5px solid ${error ? '#dc2626' : focused ? MID_DARK_GREEN : '#ddd'}`,
-          borderRadius: '6px',
-          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
-          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
-          boxShadow: focused && !error ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
-          boxSizing: 'border-box',
-        }}
-      />
-      {error && (
-        <p id="expiry-error" role="alert" style={{
-          margin: 0, fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#dc2626', fontWeight: 500,
-        }}>
-          {error}
-        </p>
-      )}
-    </div>
-  )
-}
-
-function CardholderField({ cardholderName, setCardholderName }) {
-  const [focused, setFocused] = useState(false)
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-      <label htmlFor="cardholder" style={{
-        fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 600,
-        letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555',
-      }}>
-        Name on Card<span style={{ color: REQUIRED_ASTERISK_RED, marginLeft: '3px' }}>*</span>
-      </label>
-      <input
-        id="cardholder"
-        type="text"
-        required
-        autoComplete="cc-name"
-        placeholder="AS IT APPEARS ON CARD"
-        value={cardholderName}
-        onChange={(e) => setCardholderName(e.target.value.toUpperCase())}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          width: '100%', padding: '0.85rem 1rem',
-          border: `1.5px solid ${focused ? MID_DARK_GREEN : '#ddd'}`,
-          borderRadius: '6px',
-          fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-charcoal)',
-          outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s', backgroundColor: 'white',
-          boxShadow: focused ? '0 0 0 3px rgba(39, 94, 90, 0.12)' : 'none',
-          boxSizing: 'border-box',
-          textTransform: 'uppercase',
-        }}
-      />
-    </div>
-  )
-}
+// SECURITY: All card input components (CardNumberField, CvvField, ExpiryField,
+// CardholderField) have been removed to eliminate PCI-DSS scope.
+// Payment details are collected securely on Shopify's hosted checkout page.
 
 function PhoneField() {
   const [focused, setFocused] = useState(false)
@@ -501,13 +269,6 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [selectedPayment, setSelectedPayment] = useState('card')
-  const [cardDigits, setCardDigits] = useState('')
-  const [cardNumberError, setCardNumberError] = useState('')
-  const [cardholderName, setCardholderName] = useState('')
-  const [expiryDigits, setExpiryDigits] = useState('')
-  const [expiryError, setExpiryError] = useState('')
-  const [cvvDigits, setCvvDigits] = useState('')
-  const [cvvError, setCvvError] = useState('')
 
   const handleCheckout = (e) => {
     e.preventDefault()
@@ -659,7 +420,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Step 3: Payment Method */}
+              {/* Step 3: Payment Method — Handled securely on Shopify's PCI-compliant checkout */}
               <div className="checkout-form-card" style={{ ...cardStyle, marginTop: '1.5rem' }}>
                 <SectionHeader number="3" title="Payment Method" />
 
@@ -669,14 +430,7 @@ export default function CheckoutPage() {
                     <button
                       key={method.id}
                       type="button"
-                      onClick={() => {
-                        setSelectedPayment(method.id)
-                        if (method.id !== 'card') {
-                          setCardNumberError('')
-                          setExpiryError('')
-                          setCvvError('')
-                        }
-                      }}
+                      onClick={() => setSelectedPayment(method.id)}
                       className="payment-option"
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -708,52 +462,19 @@ export default function CheckoutPage() {
                   ))}
                 </div>
 
-                {/* Card detail fields (shown only when card is selected) */}
-                {selectedPayment === 'card' && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.5rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
-                    <div className="checkout-field">
-                      <CardNumberField
-                        cardDigits={cardDigits}
-                        setCardDigits={setCardDigits}
-                        error={cardNumberError}
-                        setError={setCardNumberError}
-                      />
-                    </div>
-                    <div className="checkout-two-col">
-                      <div className="checkout-field">
-                        <ExpiryField
-                          expiryDigits={expiryDigits}
-                          setExpiryDigits={setExpiryDigits}
-                          error={expiryError}
-                          setError={setExpiryError}
-                        />
-                      </div>
-                      <div className="checkout-field">
-                        <CvvField
-                          cvvDigits={cvvDigits}
-                          setCvvDigits={setCvvDigits}
-                          error={cvvError}
-                          setError={setCvvError}
-                        />
-                      </div>
-                    </div>
-                    <div className="checkout-field">
-                      <CardholderField cardholderName={cardholderName} setCardholderName={setCardholderName} />
-                    </div>
+                {/* SECURITY: Card details are collected on Shopify's PCI-compliant hosted checkout page */}
+                <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
+                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'rgba(61,144,137,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto' }}>
+                    <Lock size={24} color={BRAND_TEAL} />
                   </div>
-                )}
-                {selectedPayment === 'paypal' && (
-                  <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
-                    <div style={{ marginBottom: '1rem' }}><PayPalLogo h={44} /></div>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#777' }}>You will be redirected to PayPal to complete your payment securely.</p>
-                  </div>
-                )}
-                {selectedPayment === 'stripe' && (
-                  <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fdfaf2', borderRadius: '12px', border: '1px dashed rgba(126,107,59,0.35)' }}>
-                    <div style={{ marginBottom: '1rem' }}><StripeLogo h={36} /></div>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: '#777' }}>You will be securely redirected to the Stripe payment portal to complete your order.</p>
-                  </div>
-                )}
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: '#555', lineHeight: 1.7, maxWidth: '400px', margin: '0 auto' }}>
+                    {selectedPayment === 'paypal'
+                      ? 'You will be redirected to PayPal to complete your payment securely.'
+                      : selectedPayment === 'stripe'
+                      ? 'You will be securely redirected to Stripe to complete your payment.'
+                      : 'Your card details will be entered securely on our PCI-compliant checkout page. No payment information is collected here.'}
+                  </p>
+                </div>
 
                 {/* All payment logos row */}
                 <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
