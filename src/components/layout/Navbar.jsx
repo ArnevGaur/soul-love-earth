@@ -4,6 +4,7 @@ import { Menu, X, ShoppingBag, Search, User, Loader2 } from 'lucide-react'
 import { fetchProducts } from '../../services/shopify'
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
+import { useCustomer } from '../../context/CustomerContext'
 import CartDrawer from './CartDrawer'
 
 export default function Navbar() {
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const { cartCount, setCartDrawerOpen } = useCart()
+  const { currentUser, logout } = useCustomer()
   const { lang, t, toggleLang } = useLanguage()
   const navigate = useNavigate()
   const location = useLocation()
@@ -220,7 +222,7 @@ export default function Navbar() {
 
             {/* User Icon — Mobile Only (New) */}
             <Link
-              to="/login"
+              to={currentUser ? "/orders" : "/login"}
               className="show-mobile"
               aria-label="Account"
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', display: 'none', alignItems: 'center' }}
@@ -232,19 +234,37 @@ export default function Navbar() {
 
             {/* login-register-desktop */}
             <div className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-              <Link
-                to="/login"
-                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: isScrolled ? '#0f1f1e' : '#ffffff', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.target.style.color = '#d4a843'}
-                onMouseLeave={e => e.target.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
-              >{t?.nav?.login}</Link>
-
-              <Link
-                to="/register"
-                style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.45rem 1rem', backgroundColor: isScrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)', border: isScrolled ? 'none' : '1px solid rgba(255,255,255,0.4)', color: 'white', textDecoration: 'none', borderRadius: '4px', transition: 'all 0.3s ease', backdropFilter: isScrolled ? 'none' : 'blur(4px)' }}
-                onMouseEnter={e => e.target.style.backgroundColor = isScrolled ? '#2d7070' : 'rgba(255, 255, 255, 0.35)'}
-                onMouseLeave={e => e.target.style.backgroundColor = isScrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)'}
-              >{t?.nav?.register}</Link>
+              {currentUser ? (
+                <>
+                  <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: isScrolled ? '#0f1f1e' : '#ffffff' }}>
+                    {lang === 'ar' ? 'مرحباً،' : 'Hi,'} {currentUser.firstName}
+                  </span>
+                  <button
+                    onClick={() => { logout(); navigate('/'); }}
+                    style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0 0.5rem', background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', transition: 'color 0.2s' }}
+                    onMouseEnter={e => e.target.style.color = '#d4a843'}
+                    onMouseLeave={e => e.target.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
+                  >
+                    {lang === 'ar' ? 'تسجيل خروج' : 'LOGOUT'}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: isScrolled ? '#0f1f1e' : '#ffffff', textDecoration: 'none', transition: 'color 0.2s' }}
+                    onMouseEnter={e => e.target.style.color = '#d4a843'}
+                    onMouseLeave={e => e.target.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
+                  >{t?.nav?.login}</Link>
+    
+                  <Link
+                    to="/register"
+                    style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.45rem 1rem', backgroundColor: isScrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)', border: isScrolled ? 'none' : '1px solid rgba(255,255,255,0.4)', color: 'white', textDecoration: 'none', borderRadius: '4px', transition: 'all 0.3s ease', backdropFilter: isScrolled ? 'none' : 'blur(4px)' }}
+                    onMouseEnter={e => e.target.style.backgroundColor = isScrolled ? '#2d7070' : 'rgba(255, 255, 255, 0.35)'}
+                    onMouseLeave={e => e.target.style.backgroundColor = isScrolled ? '#3d9089' : 'rgba(255, 255, 255, 0.2)'}
+                  >{t?.nav?.register}</Link>
+                </>
+              )}
             </div>
 
             {/* Search */}
@@ -478,39 +498,67 @@ export default function Navbar() {
           </div>
         ))}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem', marginTop: '1rem' }}>
-          <Link
-            to="/login"
-            onClick={() => setMenuOpen(false)}
-            style={{
-              fontFamily: 'Jost, sans-serif',
-              fontSize: '0.9rem',
-              fontWeight: 500,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: '#3d9089',
-              textDecoration: 'none'
-            }}
-          >
-            {t?.nav?.login}
-          </Link>
-          <Link
-            to="/register"
-            onClick={() => setMenuOpen(false)}
-            style={{
-              fontFamily: 'Jost, sans-serif',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              padding: '0.8rem 2.5rem',
-              backgroundColor: '#3d9089',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '2px'
-            }}
-          >
-            {t?.nav?.register}
-          </Link>
+          {currentUser ? (
+            <>
+              <span style={{
+                fontFamily: 'Jost, sans-serif',
+                fontSize: '0.9rem',
+                fontWeight: 500,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: '#0f1f1e'
+              }}>
+                {lang === 'ar' ? 'مرحباً،' : 'Hi,'} {currentUser.firstName}
+              </span>
+              <button
+                onClick={() => { logout(); setMenuOpen(false); navigate('/'); }}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#3d9089',
+                }}
+              >
+                {lang === 'ar' ? 'تسجيل خروج' : 'LOGOUT'}
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#3d9089',
+                  textDecoration: 'none'
+                }}
+              >
+                {t?.nav?.login}
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#3d9089',
+                  textDecoration: 'none'
+                }}
+              >
+                {t?.nav?.register}
+              </Link>
+            </>
+          )}
         </div>
 
         <span style={{
