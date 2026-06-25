@@ -71,46 +71,45 @@ const paymentMethods = [
 
 function PhoneField() {
   const [focused, setFocused] = useState(false)
-  const [phoneValue, setPhoneValue] = useState('+971 ')
+  const [phoneValue, setPhoneValue] = useState('+91 ')
   const [phoneError, setPhoneError] = useState('')
 
   const formatPhoneNumber = (digits) => {
-    if (digits.length <= 2) return digits
-    if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`
-    return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`
+    if (digits.length <= 5) return digits
+    return `${digits.slice(0, 5)} ${digits.slice(5)}`
   }
 
   const handleChange = (e) => {
     let value = e.target.value
     
-    // Always start with +971
-    if (!value.startsWith('+971 ')) {
-      value = '+971 ' + value.replace(/^\+971\s*/, '')
+    // Always start with +91
+    if (!value.startsWith('+91 ')) {
+      value = '+91 ' + value.replace(/^\+91\s*/, '')
     }
     
-    // Extract only digits after +971
-    const digitsAfterCountry = value.replace(/^\+971\s*/, '').replace(/\D/g, '')
+    // Extract only digits after +91
+    const digitsAfterCountry = value.replace(/^\+91\s*/, '').replace(/\D/g, '')
     
-    // Limit to 9 digits after country code
-    const limitedDigits = digitsAfterCountry.slice(0, 9)
+    // Limit to 10 digits after country code
+    const limitedDigits = digitsAfterCountry.slice(0, 10)
     
     // Format the phone number with spacing
     if (limitedDigits.length > 0) {
-      value = '+971 ' + formatPhoneNumber(limitedDigits)
+      value = '+91 ' + formatPhoneNumber(limitedDigits)
     } else {
-      value = '+971 '
+      value = '+91 '
     }
     
     setPhoneValue(value)
     
     // Validation
-    if (limitedDigits.length > 0 && limitedDigits.length < 9) {
-      setPhoneError('UAE mobile numbers must have 9 digits after +971.')
-    } else if (limitedDigits.length === 9) {
-      // Check if it starts with valid UAE mobile prefix (5, 3, or 6)
+    if (limitedDigits.length > 0 && limitedDigits.length < 10) {
+      setPhoneError('Indian mobile numbers must have 10 digits after +91.')
+    } else if (limitedDigits.length === 10) {
+      // Check if it starts with valid Indian mobile prefix
       const firstDigit = limitedDigits.charAt(0)
-      if (!['5', '3', '6'].includes(firstDigit)) {
-        setPhoneError('UAE mobile numbers must start with 5, 3, or 6 after +971.')
+      if (!['6', '7', '8', '9'].includes(firstDigit)) {
+        setPhoneError('Indian mobile numbers must start with 6, 7, 8, or 9.')
       } else {
         setPhoneError('')
       }
@@ -119,7 +118,7 @@ function PhoneField() {
     }
   }
 
-  const isValidPhone = phoneValue.replace(/^\+971\s*/, '').replace(/\D/g, '').length === 9 && !phoneError
+  const isValidPhone = phoneValue.replace(/^\+91\s*/, '').replace(/\D/g, '').length === 10 && !phoneError
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -136,7 +135,7 @@ function PhoneField() {
           type="tel"
           required
           autoComplete="tel"
-          placeholder="+971 50 000 0000"
+          placeholder="+91 90000 00000"
           value={phoneValue}
           onChange={handleChange}
           onFocus={() => setFocused(true)}

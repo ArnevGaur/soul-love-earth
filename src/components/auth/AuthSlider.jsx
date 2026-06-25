@@ -24,7 +24,7 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
   const [loginError, setLoginError] = useState('')
 
   // Register form state
-  const [regForm, setRegForm] = useState({ firstName: '', lastName: '', email: '', phone: '+971 ', password: '', confirmPassword: '' })
+  const [regForm, setRegForm] = useState({ firstName: '', lastName: '', email: '', phone: '+91 ', password: '', confirmPassword: '' })
   const [regShowPwd, setRegShowPwd] = useState(false)
   const [regLoading, setRegLoading] = useState(false)
   const [regError, setRegError] = useState('')
@@ -41,7 +41,7 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
   const LOCKOUT_MS = 30000 // 30 seconds
 
   const validateEmail = (email) => /\S+@\S+\.\S+/.test(email)
-  const validatePhone = (phone) => phone.replace(/\D/g, '').length === 12 // 971 + 9 digits
+  const validatePhone = (phone) => phone.replace(/\D/g, '').length === 12 // 91 + 10 digits
 
   useEffect(() => {
     // Initial mount animation trigger
@@ -68,19 +68,18 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
     }
   }
 
-  // Common Phone Handler (Same as previously)
+  // Common Phone Handler
   const handlePhoneChange = (e) => {
     let value = e.target.value
-    if (!value.startsWith('+971 ')) {
-      value = '+971 ' + value.replace(/^\+971\s*/, '')
+    if (!value.startsWith('+91 ')) {
+      value = '+91 ' + value.replace(/^\+91\s*/, '')
     }
-    const digits = value.replace(/^\+971\s*/, '').replace(/\D/g, '').slice(0, 9)
+    const digits = value.replace(/^\+91\s*/, '').replace(/\D/g, '').slice(0, 10)
     const formatPhoneNumber = (d) => {
-      if (d.length <= 2) return d
-      if (d.length <= 5) return `${d.slice(0, 2)} ${d.slice(2)}`
-      return `${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`
+      if (d.length <= 5) return d
+      return `${d.slice(0, 5)} ${d.slice(5)}`
     }
-    setRegForm(f => ({ ...f, phone: digits.length > 0 ? '+971 ' + formatPhoneNumber(digits) : '+971 ' }))
+    setRegForm(f => ({ ...f, phone: digits.length > 0 ? '+91 ' + formatPhoneNumber(digits) : '+91 ' }))
   }
 
   const handleLoginSubmit = async (e) => {
@@ -308,11 +307,11 @@ export default function AuthSlider({ initialMode = 'signIn' }) {
             </div>
 
             <div className="input-group">
-              {regForm.phone === '+971 ' && <span style={{ position: 'absolute', top: '12px', [ltr ? 'left' : 'right']: '80px', color: '#c21807', fontSize: '0.9rem', zIndex: 2, pointerEvents: 'none' }}>*</span>}
+              {regForm.phone === '+91 ' && <span style={{ position: 'absolute', top: '12px', [ltr ? 'left' : 'right']: '80px', color: '#c21807', fontSize: '0.9rem', zIndex: 2, pointerEvents: 'none' }}>*</span>}
               <Phone size={15} className="input-icon" />
-              <input type="tel" placeholder="+971" value={regForm.phone} onChange={handlePhoneChange} style={{ borderColor: (regFieldErrors.phone || (regForm.phone !== '+971 ' && regForm.phone.length > 5 && !validatePhone(regForm.phone))) ? '#c21807' : (regForm.phone !== '+971 ' && validatePhone(regForm.phone) ? '#22c55e' : '') }} required />
-              {(regFieldErrors.phone || (regForm.phone !== '+971 ' && regForm.phone.length > 5 && !validatePhone(regForm.phone))) && <div style={{ color: '#c21807', fontSize: '0.75rem', marginTop: '4px', textAlign: ltr ? 'left' : 'right', fontWeight: 600 }}>{regFieldErrors.phone || (lang === 'ar' ? 'رقم غير صالح' : 'Invalid phone number')}</div>}
-              {regForm.phone !== '+971 ' && validatePhone(regForm.phone) && <Check size={18} color="#22c55e" style={{ position: 'absolute', top: '21px', transform: 'translateY(-50%)', [ltr ? 'right' : 'left']: '12px', pointerEvents: 'none' }} />}
+              <input type="tel" placeholder="+91" value={regForm.phone} onChange={handlePhoneChange} style={{ borderColor: (regFieldErrors.phone || (regForm.phone !== '+91 ' && regForm.phone.length > 5 && !validatePhone(regForm.phone))) ? '#c21807' : (regForm.phone !== '+91 ' && validatePhone(regForm.phone) ? '#22c55e' : '') }} required />
+              {(regFieldErrors.phone || (regForm.phone !== '+91 ' && regForm.phone.length > 5 && !validatePhone(regForm.phone))) && <div style={{ color: '#c21807', fontSize: '0.75rem', marginTop: '4px', textAlign: ltr ? 'left' : 'right', fontWeight: 600 }}>{regFieldErrors.phone || (lang === 'ar' ? 'رقم غير صالح' : 'Invalid phone number')}</div>}
+              {regForm.phone !== '+91 ' && validatePhone(regForm.phone) && <Check size={18} color="#22c55e" style={{ position: 'absolute', top: '21px', transform: 'translateY(-50%)', [ltr ? 'right' : 'left']: '12px', pointerEvents: 'none' }} />}
             </div>
             
             <div className="input-group">
