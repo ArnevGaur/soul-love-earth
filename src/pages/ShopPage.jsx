@@ -96,7 +96,7 @@ export default function ShopPage() {
 
   // Pagination states
   const PRODUCTS_PER_PAGE = 18
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1)
 
   // Search suggestion state
   const [suggestions, setSuggestions]     = useState([])
@@ -107,9 +107,11 @@ export default function ShopPage() {
   useEffect(() => {
     const q = searchParams.get('q') || ''
     const cat = searchParams.get('cat') || ''
+    const p = Number(searchParams.get('page')) || 1
     setSearch(q)
     setSearchInput(q)
     setCategoryId(cat)
+    setCurrentPage(p)
   }, [searchParams])
 
   // Load categories once and inject Ramadan subcategory under Gifts
@@ -162,7 +164,7 @@ export default function ShopPage() {
       }
       
       setProducts(fetchedProducts)
-      setCurrentPage(1)
+      // Do not force currentPage to 1 here, let searchParams dictate it.
     } catch (err) {
       setError('Could not load products. Please try again.')
       setProducts([])
@@ -190,7 +192,21 @@ export default function ShopPage() {
     setFiltersOpen(false)
   }
 
-  const handleSort = (e) => setSortIdx(Number(e.target.value))
+  const handleSort = (e) => {
+    setSortIdx(Number(e.target.value))
+    // Reset to page 1 on sort change
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete('page')
+    setSearchParams(newParams)
+  }
+
+  const handlePageChange = (newPage) => {
+    const newParams = new URLSearchParams(searchParams)
+    if (newPage === 1) newParams.delete('page')
+    else newParams.set('page', newPage)
+    setSearchParams(newParams)
+    window.scrollTo({ top: 300, behavior: 'smooth' })
+  }
 
   // Live suggestions as user types
   useEffect(() => {
@@ -685,7 +701,7 @@ export default function ShopPage() {
                       gap: '1.5rem', marginTop: '4rem', paddingBottom: '2rem'
                     }}>
                       <button
-                        onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 300, behavior: 'smooth' }); }}
+                        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
                         style={{
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -721,7 +737,7 @@ export default function ShopPage() {
                       </span>
 
                       <button
-                        onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 300, behavior: 'smooth' }); }}
+                        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                         disabled={currentPage === totalPages}
                         style={{
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
