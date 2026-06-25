@@ -176,8 +176,11 @@ export async function fetchProducts({
     }
     
     if (search) {
-      const s = search.toLowerCase();
-      results = results.filter(p => p.name.toLowerCase().includes(s));
+      const searchTerms = search.toLowerCase().split(/\s+/).filter(Boolean);
+      results = results.filter(p => {
+        const name = p.name.toLowerCase();
+        return searchTerms.some(term => name.includes(term));
+      });
     }
     
     if (filters) {
@@ -262,7 +265,9 @@ export async function fetchProducts({
 
   let shopifyQuery = [];
   if (search) {
-    shopifyQuery.push(`title:${search}*`);
+    const searchTerms = search.split(/\s+/).filter(Boolean);
+    const orQuery = searchTerms.map(term => `${term}*`).join(' OR ');
+    shopifyQuery.push(`(${orQuery})`);
   }
 
   if (filters) {
