@@ -4,52 +4,40 @@ import { useLanguage } from '../../context/LanguageContext'
 import { useCart } from '../../context/CartContext'
 import { ArrowRight, ShoppingBag, Eye, Check } from 'lucide-react'
 
-const products = [
-  {
-    id: '50',
-    name: 'Ramadan Blessings Gift Box',
-    price: 'AED 180.00',
-    badge: 'New',
-    image: '/images/Products/ramadan-1.jpg?v=2',
-  },
-  {
-    id: '51',
-    name: 'Ramadan Lantern Gift Box',
-    price: 'AED 169.00',
-    badge: 'New',
-    image: '/images/Products/ramadan-2.jpg?v=2',
-  },
-  {
-    id: '52',
-    name: 'Ramadan Serenity Gift Box',
-    price: 'AED 175.00',
-    badge: 'New',
-    image: '/images/Products/ramadan-3.jpg?v=2',
-  },
-  {
-    id: '53',
-    name: 'Ramadan Reflection Gift Box',
-    price: 'AED 199.00',
-    badge: 'New',
-    image: '/images/Products/ramadan-4.jpg?v=2',
-  },
-  {
-    id: '54',
-    name: 'Ramadan Blessings Gift Box by Soul Love & Earth',
-    price: 'AED 199.00',
-    badge: 'New',
-    image: '/images/Products/ramadan-5.jpg?v=2',
-  },
-]
+import { fetchProducts } from '../../services/shopify'
 
 export default function NewArrivals() {
   const [current, setCurrent] = useState(0)
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
   const { t, lang } = useLanguage()
   const dir = t?.dir || 'ltr'
   const isRtl = dir === 'rtl'
 
   // Responsive visible card count
   const [visibleCount, setVisibleCount] = useState(3)
+
+  useEffect(() => {
+    const loadNewArrivals = async () => {
+      try {
+        const data = await fetchProducts({ order: 'DESC' })
+        const list = Array.isArray(data) ? data : data.products || []
+        // Add the 'badge' property to the newest items
+        const newProducts = list.slice(0, 8).map(p => ({
+          ...p,
+          id: p.product_id,
+          image: p.thumb,
+          badge: 'New'
+        }))
+        setProducts(newProducts)
+      } catch (err) {
+        console.error('Failed to load new arrivals', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadNewArrivals()
+  }, [])
 
   useEffect(() => {
     const handleResize = () => {
@@ -65,6 +53,9 @@ export default function NewArrivals() {
   const maxIndex = Math.max(0, products.length - visibleCount)
   const prev = () => setCurrent(c => Math.max(c - 1, 0))
   const next = () => setCurrent(c => Math.min(c + 1, maxIndex))
+
+  if (loading || products.length === 0) return null
+
 
   return (
     <section className="new-arrivals-section" style={{ padding: '5rem 1.5rem', background: '#f9f9f7', position: 'relative' }}>

@@ -176,8 +176,9 @@ export default function ShopPage() {
   const handleSearch = (e) => {
     e.preventDefault()
     setSearch(searchInput)
+    setCategoryId('')
     setSortIdx(0)
-    setSearchParams({ q: searchInput, cat: categoryId })
+    setSearchParams({ q: searchInput })
   }
 
   const handleCategory = (id) => {
@@ -324,8 +325,9 @@ export default function ShopPage() {
                         onMouseDown={() => {
                           setSearchInput(p.name)
                           setSearch(p.name)
+                          setCategoryId('')
                           setSortIdx(0)
-                          setSearchParams({ q: p.name, cat: categoryId })
+                          setSearchParams({ q: p.name })
                           setShowSuggest(false)
                         }}
                         style={{
