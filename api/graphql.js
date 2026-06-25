@@ -1,5 +1,5 @@
 import { createStorefrontApiClient } from '@shopify/storefront-api-client';
-import * as cookie from 'cookie';
+import { parseCookie, stringifySetCookie } from 'cookie';
 
 const client = createStorefrontApiClient({
     storeDomain: process.env.VITE_SHOPIFY_STORE_DOMAIN,
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   const { query, variables } = req.body;
-  const cookies = cookie.parse(req.headers.cookie || '');
+  const cookies = parseCookie(req.headers.cookie || '');
   let token = cookies.sle_customer_token;
 
   // Rate limiting for auth mutations
@@ -59,7 +59,9 @@ export default async function handler(req, res) {
       const newToken = data.customerAccessTokenCreate.customerAccessToken.accessToken;
       const expires = data.customerAccessTokenCreate.customerAccessToken.expiresAt;
       
-      res.setHeader('Set-Cookie', cookie.serialize('sle_customer_token', newToken, {
+      res.setHeader('Set-Cookie', stringifySetCookie({
+        name: 'sle_customer_token',
+        value: newToken,
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
@@ -73,7 +75,9 @@ export default async function handler(req, res) {
 
     // Intercept logout
     if (data?.customerAccessTokenDelete?.deletedAccessToken) {
-      res.setHeader('Set-Cookie', cookie.serialize('sle_customer_token', '', {
+      res.setHeader('Set-Cookie', stringifySetCookie({
+        name: 'sle_customer_token',
+        value: '',
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',

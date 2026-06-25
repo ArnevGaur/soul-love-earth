@@ -32,3 +32,4 @@ temp_structure.md
 test.py
 .env.*
 .env.local
+.vercel

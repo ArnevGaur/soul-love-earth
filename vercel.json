@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://cdn.shopify.com https://*.myshopify.com data: blob:; connect-src 'self' https://soul-love-earth-4.myshopify.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://soul-love-earth-4.myshopify.com"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://cdn.shopify.com https://*.myshopify.com data: blob:; connect-src 'self' https://soul-love-earth-4.myshopify.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://soul-love-earth-4.myshopify.com"
         },
         {
           "key": "X-Frame-Options",
@@ -32,12 +32,6 @@
           "value": "on"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
