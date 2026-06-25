@@ -23,7 +23,7 @@ export default function NewArrivals() {
         const data = await fetchProducts({ order: 'DESC' })
         const list = Array.isArray(data) ? data : data.products || []
         // Add the 'badge' property to the newest items
-        const newProducts = list.slice(0, 8).map(p => ({
+        const newProducts = list.slice(0, 5).map(p => ({
           ...p,
           id: p.product_id,
           image: p.thumb,
