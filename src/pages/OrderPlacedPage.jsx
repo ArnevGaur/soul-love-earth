@@ -126,7 +126,7 @@ export default function OrderPlacedPage() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #eee', paddingTop: '0.7rem' }}>
                   <span>Total paid</span>
-                  <strong style={{ color: MID_DARK_GREEN }}>AED {total.toFixed(2)}</strong>
+                  <strong style={{ color: MID_DARK_GREEN }}>₹{total.toFixed(2)}</strong>
                 </div>
               </div>
 

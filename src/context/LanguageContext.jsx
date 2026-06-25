@@ -60,7 +60,7 @@ export const translations = {
         { title: 'Earth Friendly', desc: 'Every material is consciously chosen to minimize environmental impact and preserve nature.' },
         { title: 'Eco Packaging', desc: 'Zero plastic. Every order ships in 100% compostable, recycled packaging.' },
         { title: 'Preseving Nature', desc: 'Each piece is sustainably produced, ensuring our ecosystems thrive for generations.' },
-        { title: 'Free UAE Delivery', desc: 'Complimentary delivery on all orders within the UAE. No minimums required.' },
+        { title: 'Free Delivery in India', desc: 'Complimentary delivery on all orders within India. No minimums required.' },
       ],
       yearsOfCraft: '15+ Years of Impact',
       storyTitle: 'Sustainability that\nPreserves the Planet.',
@@ -77,25 +77,25 @@ export const translations = {
       testimonials: [
         {
           id: 1,
-          name: '- Shilpi, JLT , Dubai',
+          name: '- Shilpi, Bandra, Mumbai',
           text: '"Sustainability meets style with Soul, Love & Earth. Their eco-friendly products are a testament to their commitment to the planet."',
           image: '/images/shilpi.png',
         },
         {
           id: 2,
-          name: '- Lara, Damac Hills , Dubai',
+          name: '- Lara, Powai, Mumbai',
           text: '"I\'m so glad I found Soul, Love & Earth. Their organic herbs and beauty products makes me feel beautiful inside and out."',
           image: '/images/lara.png',
         },
         {
           id: 3,
-          name: '- Smita Raj Handa, Oud Metha- Bur Dubai',
+          name: '- Smita Raj Handa, Andheri West, Mumbai',
           text: '"I recently purchased Copper ware from \'Soul, Love & Earth,\' and I must say, I\'m absolutely delighted with it! The quality and sustainability of the product are exceptional. It\'s not only stylish but also environmentally friendly, which aligns perfectly with my values."',
           image: '/images/smita.png',
         },
         {
           id: 4,
-          name: '- Shamy, Dubai, UAE',
+          name: '- Shamy, Mumbai, India',
           text: '"Soul, Love & Earth\'s products are a reflection of their passion for the environment. I\'m proud to support such a cause."',
           image: '/images/shamy.png',
         }
@@ -135,7 +135,7 @@ export const translations = {
       country: 'Country', zipCode: 'ZIP / Postal Code',
       cardNumber: 'Card Number', expiry: 'Expiry (MM/YY)', cvv: 'CVV',
       nameOnCard: 'Name on Card', payBtn: 'Place Order',
-      processing: 'Processing…', freeshipping: 'Free Shipping (UAE)',
+      processing: 'Processing…', freeshipping: 'Free Shipping (India)',
       subtotal: 'Subtotal', total: 'Total',
       orderConfirmed: 'Order Confirmed!',
       orderConfirmedMsg: 'Thank you for your purchase. We\'ll send you a confirmation email shortly.',

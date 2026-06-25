@@ -62,7 +62,7 @@ export default function ContactPage() {
       title: 'Our Headquarters',
       details: [
         'Building A5, Office 121',
-        'Dubai South HQ, U.A.E.',
+        'Mumbai HQ, India',
         'PO Box 12345'
       ],
       color: 'teal'
@@ -71,8 +71,8 @@ export default function ContactPage() {
       icon: <Phone size={20} />,
       title: 'Call Us',
       details: [
-        'Retail: +971 56 750 7224',
-        'Hospitality: +971 58 852 5146'
+        'Retail: +91 90000 00000',
+        'Hospitality: +91 90000 00001'
       ],
       color: 'gold'
     },

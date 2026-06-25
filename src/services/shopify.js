@@ -6,7 +6,7 @@ import { client } from '../lib/shopify';
 function mapShopifyProduct(node) {
   const images = node.images?.edges?.map(e => e.node.url) || [];
   const priceAmount = node.priceRange?.minVariantPrice?.amount || '0';
-  const currencyCode = node.priceRange?.minVariantPrice?.currencyCode || 'AED';
+  const currencyCode = node.priceRange?.minVariantPrice?.currencyCode || 'INR';
   
   let special = null;
   const compareAt = node.compareAtPriceRange?.minVariantPrice?.amount;

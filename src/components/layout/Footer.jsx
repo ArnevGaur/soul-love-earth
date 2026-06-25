@@ -99,8 +99,8 @@ export default function Footer() {
             {[
               { icon: Mail,   text: 'hospitality@soullovenearth.com' },
               { icon: Mail,   text: 'customersupport@soullovenearth.com' },
-              { icon: Phone,  text: '+971 56 750 7224 | +971 58 852 5146' },
-              { icon: MapPin, text: isAr ? 'مبنى A5، مكتب 121، مقر دبي الجنوب' : 'Building A5, Office 121, Dubai South HQ, U.A.E.' },
+              { icon: Phone,  text: '+91 90000 00000 | +91 90000 00001' },
+              { icon: MapPin, text: isAr ? 'مبنى A5، مكتب 121، مقر مومباي، الهند' : 'Building A5, Office 121, Mumbai HQ, India' },
             ].map(({ icon: Icon, text }) => (
               <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <Icon size={13} strokeWidth={1.5} color="#d4a843" />

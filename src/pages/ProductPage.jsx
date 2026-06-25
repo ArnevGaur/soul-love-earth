@@ -88,7 +88,7 @@ const assumedProducts = {
     rating: 4.9,
     reviews: [
       { author: 'Nadia J.', rating: 5, date: 'March 2024', text: 'The journal and calligraphy set are exquisite. Highly recommend!' },
-      { author: 'Yusuf B.', rating: 5, date: 'February 2024', text: 'Worth every dirham. Premium quality throughout.' }
+      { author: 'Yusuf B.', rating: 5, date: 'February 2024', text: 'Worth every rupee. Premium quality throughout.' }
     ],
     tags: ['Premium', 'Spiritual', 'Journal'],
     related: [

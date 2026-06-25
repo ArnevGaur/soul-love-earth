@@ -4,7 +4,7 @@ export default function PricingDeliveryPage() {
   return (
     <LegalPage
       title="Pricing & Delivery Charges"
-      subtitle="Transparent pricing, free UAE delivery, and affordable international shipping — here's everything you need to know."
+      subtitle="Transparent pricing, free India delivery, and affordable international shipping — here's everything you need to know."
       sections={[
         {
           number: '1', heading: 'Pricing',
@@ -24,7 +24,7 @@ export default function PricingDeliveryPage() {
         {
           number: '3', heading: 'Delivery Charges',
           body: [
-            { type: 'highlight', text: '🎉 <strong>FREE Delivery across the UAE!</strong> It\'s our way of showing appreciation for your local support.' },
+            { type: 'highlight', text: '🎉 <strong>FREE Delivery across India!</strong> It\'s our way of showing appreciation for your local support.' },
             { type: 'p', text: 'For our international customers, we provide delivery at very nominal rates. Rest assured, we strive to keep these international shipping charges as affordable as possible, ensuring a seamless shopping experience no matter where you are in the world.' }
           ]
         },
@@ -42,7 +42,7 @@ export default function PricingDeliveryPage() {
         {
           heading: undefined,
           body: [
-            { type: 'p', text: 'We are committed to delivering exceptional products and outstanding service, whether you\'re right here in the UAE or shopping internationally. Should you have any questions or require further information, please write us at <a href="mailto:support@soullovenearth.com" style="color: var(--color-teal-600); text-decoration: none;">support@soullovenearth.com</a>.' },
+            { type: 'p', text: 'We are committed to delivering exceptional products and outstanding service, whether you\'re right here in India or shopping internationally. Should you have any questions or require further information, please write us at <a href="mailto:support@soullovenearth.com" style="color: var(--color-teal-600); text-decoration: none;">support@soullovenearth.com</a>.' },
             { type: 'p', text: 'Your satisfaction remains our top priority. — Soul Love and Earth, a unit of <strong>Marvel Deals LLC</strong> (copyright registered commercial trade license since 2017).' }
           ]
         }

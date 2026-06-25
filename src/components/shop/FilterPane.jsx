@@ -254,7 +254,7 @@ export default function FilterPane({
 
               {/* Price Inputs */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#214e41' }}>AED</span>
+                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#214e41' }}>₹</span>
                 <input 
                   type="text" 
                   value={filters.minPrice}
@@ -282,7 +282,7 @@ export default function FilterPane({
                 
                 <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#666', padding: '0 0.1rem' }}>to</span>
 
-                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#214e41' }}>AED</span>
+                <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#214e41' }}>₹</span>
                 <input 
                   type="text" 
                   value={filters.maxPrice}

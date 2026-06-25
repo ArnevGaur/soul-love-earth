@@ -199,7 +199,7 @@ export default function CartDrawer() {
               fontSize: '1rem', color: '#214e41' 
             }}>
               <span style={{ fontWeight: 400 }}>{c.subtotal}</span>
-              <span style={{ fontWeight: 700, color: '#2c635a' }}>AED {(cartTotal || 0).toFixed(2)}</span>
+              <span style={{ fontWeight: 700, color: '#2c635a' }}>₹{(cartTotal || 0).toFixed(2)}</span>
             </div>
             <p style={{ 
               fontFamily: 'Jost, sans-serif', fontSize: '0.72rem', 

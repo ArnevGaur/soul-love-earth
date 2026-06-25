@@ -17,7 +17,7 @@ export default function TermsPage() {
           number: '1', heading: 'Age and Eligibility',
           body: [
             { type: 'p', text: 'You must be of legal age — at least <strong>18 years or older</strong>. If you are below 18, you\'re welcome to explore our Online Store with the guidance and presence of a parent or guardian.' },
-            { type: 'p', text: 'Additionally, a valid email address and a delivery address in the UAE are prerequisites for engaging with us.' }
+            { type: 'p', text: 'Additionally, a valid email address and a delivery address in India are prerequisites for engaging with us.' }
           ]
         },
         {
