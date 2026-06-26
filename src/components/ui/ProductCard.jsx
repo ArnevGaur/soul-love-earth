@@ -51,7 +51,7 @@ export default function ProductCard({ product }) {
         }}
       >
         {/* Image */}
-        <div style={{ position: 'relative', overflow: 'hidden', flex: 1, backgroundColor: '#f0f9f7', transition: 'all 0.3s ease' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4', backgroundColor: '#f0f9f7', transition: 'all 0.3s ease' }}>
           <img
             className="pc-img"
             src={image}
