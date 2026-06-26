@@ -1,9 +1,10 @@
 export const client = {
   request: async (query, { variables } = {}) => {
-    const res = await fetch('/api/graphql', {
+    const res = await fetch(import.meta.env.VITE_SHOPIFY_STOREFRONT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN,
       },
       body: JSON.stringify({ query, variables }),
     });
