@@ -3,6 +3,7 @@ import path from 'path';
 
 export default async function handler(req, res) {
   const { id } = req.query;
+  const safeId = id ? String(id).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
 
   const domain = process.env.VITE_SHOPIFY_STORE_DOMAIN;
   const token = process.env.VITE_SHOPIFY_STOREFRONT_TOKEN;
@@ -97,7 +98,7 @@ export default async function handler(req, res) {
     <meta property="og:title" content="${safeTitle}" />
     <meta property="og:description" content="${safeDescription}" />
     <meta property="og:image" content="${productImage}" />
-    <meta property="og:url" content="https://soul-love-earth.vercel.app/product/${id}" />
+    <meta property="og:url" content="https://soul-love-earth.vercel.app/product/${safeId}" />
     <meta property="og:type" content="product" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${safeTitle}" />
