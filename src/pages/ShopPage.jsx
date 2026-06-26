@@ -187,7 +187,37 @@ export default function ShopPage() {
     setFiltersOpen(false)
   }
 
-  const handleSort = (e) => setSortIdx(Number(e.target.value))
+  const handleSort = (e) => {
+    setSortIdx(Number(e.target.value))
+    // Reset to page 1 on sort change
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete('page')
+    setSearchParams(newParams)
+  }
+
+  const handlePageChange = (newPage) => {
+    const newParams = new URLSearchParams(searchParams)
+    if (newPage === 1) newParams.delete('page')
+    else newParams.set('page', newPage)
+    setSearchParams(newParams)
+    window.scrollTo({ top: 300, behavior: 'smooth' })
+  }
+
+  // Live suggestions as user types
+  useEffect(() => {
+    if (!searchInput.trim()) { setSuggestions([]); return }
+    const timer = setTimeout(async () => {
+      try {
+        const data = await fetchProducts({ search: searchInput.trim() })
+        const list = Array.isArray(data) ? data : data.products || []
+        setSuggestions(list.slice(0, 6))
+      } catch { setSuggestions([]) }
+    }, 200)
+    return () => clearTimeout(timer)
+  }, [searchInput])
+
+  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE)
+  const currentProducts = products.slice((currentPage - 1) * PRODUCTS_PER_PAGE, currentPage * PRODUCTS_PER_PAGE)
 
   // Live suggestions as user types
   useEffect(() => {

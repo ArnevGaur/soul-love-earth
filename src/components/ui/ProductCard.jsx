@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ShoppingBag } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
@@ -41,10 +42,10 @@ export default function ProductCard({ product }) {
         }}
       >
         {/* Image */}
-        <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '1/1', backgroundColor: '#f0f9f7' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', flex: 1, backgroundColor: '#f0f9f7', transition: 'all 0.3s ease' }}>
           <img
             className="pc-img"
-            src={image}
+            src={currentImage}
             alt={product.name}
             style={{
               width: '100%', height: '100%', objectFit: 'cover',
@@ -56,7 +57,7 @@ export default function ProductCard({ product }) {
             }}
           />
 
-          {/* Add to cart overlay */}
+          {/* Wishlist Heart */}
           <button
             className="pc-btn"
             onClick={e => { 
@@ -78,9 +79,63 @@ export default function ProductCard({ product }) {
             onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
             onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2c635a'}
           >
-            <ShoppingBag size={13} strokeWidth={1.5} />
-            Add to Cart
+            <Heart size={16} strokeWidth={isWishlisted ? 0 : 2} fill={isWishlisted ? '#d4a843' : 'none'} />
           </button>
+
+          {/* Carousel Controls */}
+          {images.length > 1 && (
+            <div 
+              className="pc-carousel-controls"
+              style={{
+                position: 'absolute', top: '50%', left: 0, right: 0,
+                transform: 'translateY(-50%)',
+                display: 'flex', justifyContent: 'space-between',
+                padding: '0 0.5rem',
+                opacity: 0,
+                transition: 'opacity 0.3s ease',
+                zIndex: 10
+              }}
+            >
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setCurrentImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+                }}
+                style={{
+                  width: '28px', height: '28px', borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.85)',
+                  border: 'none', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#214e41', boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                  transition: 'background-color 0.2s, transform 0.2s'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.transform = 'scale(1.1)'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.85)'; e.currentTarget.style.transform = 'scale(1)'; }}
+              >
+                <ChevronLeft size={16} strokeWidth={2.5} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setCurrentImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+                }}
+                style={{
+                  width: '28px', height: '28px', borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.85)',
+                  border: 'none', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#214e41', boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                  transition: 'background-color 0.2s, transform 0.2s'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.transform = 'scale(1.1)'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.85)'; e.currentTarget.style.transform = 'scale(1)'; }}
+              >
+                <ChevronRight size={16} strokeWidth={2.5} />
+              </button>
+            </div>
+          )}
 
           {/* Sale badge */}
           {product.special && (
@@ -95,7 +150,12 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* Info */}
-        <div style={{ padding: '1rem' }}>
+        <div className="pc-info" style={{ 
+          padding: '1rem', 
+          backgroundColor: 'white', 
+          position: 'relative',
+          zIndex: 2,
+        }}>
           <h3 style={{
             fontFamily: 'Cormorant Garamond, serif',
             fontSize: '1.1rem', fontWeight: 500,
@@ -124,6 +184,42 @@ export default function ProductCard({ product }) {
                 fontWeight: 600, color: '#2c635a',
               }}>{product.price}</span>
             )}
+          </div>
+
+          {/* Add to cart expanding button */}
+          <div
+            className="pc-btn-container"
+            style={{
+              height: 0,
+              opacity: 0,
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              marginTop: 0
+            }}
+          >
+            <button
+              onClick={e => { 
+                e.preventDefault()
+                e.stopPropagation()
+                addToCart(product)
+              }}
+              style={{
+                width: '100%',
+                height: '38px',
+                padding: '0', borderRadius: '30px',
+                backgroundColor: '#2c635a', color: 'white',
+                fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
+                fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                transition: 'background-color 0.3s ease',
+              }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2c635a'}
+            >
+              <ShoppingBag size={13} strokeWidth={1.5} />
+              Add to Cart
+            </button>
           </div>
         </div>
 
