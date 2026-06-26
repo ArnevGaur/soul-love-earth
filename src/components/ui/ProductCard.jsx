@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ShoppingBag } from 'lucide-react'
+import { ShoppingBag, Heart } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
   const { t } = useLanguage()
+  const [isWishlisted, setIsWishlisted] = useState(false)
   const image = product.thumb
     ? product.thumb
     : 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
@@ -31,12 +32,22 @@ export default function ProductCard({ product }) {
           e.currentTarget.style.transform = 'translateY(-4px)'
           const img = e.currentTarget.querySelector('.pc-img')
           if (img) img.style.transform = 'scale(1.05)'
+          const btn = e.currentTarget.querySelector('.pc-btn')
+          if (btn) {
+            btn.style.opacity = '1'
+            btn.style.transform = 'translateY(0)'
+          }
         }}
         onMouseLeave={e => {
           e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.04)'
           e.currentTarget.style.transform = 'translateY(0)'
           const img = e.currentTarget.querySelector('.pc-img')
           if (img) img.style.transform = 'scale(1)'
+          const btn = e.currentTarget.querySelector('.pc-btn')
+          if (btn) {
+            btn.style.opacity = '0'
+            btn.style.transform = 'translateY(8px)'
+          }
         }}
       >
         {/* Image */}
@@ -54,6 +65,31 @@ export default function ProductCard({ product }) {
               e.target.src = 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
             }}
           />
+
+          {/* Wishlist Heart */}
+          <button
+            className="pc-btn"
+            onClick={e => { 
+              e.preventDefault()
+              e.stopPropagation()
+              setIsWishlisted(!isWishlisted)
+            }}
+            style={{
+              position: 'absolute', top: '1rem', right: '1rem',
+              width: '36px', height: '36px', borderRadius: '50%',
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              opacity: isWishlisted ? 1 : 0, 
+              transform: isWishlisted ? 'translateY(0)' : 'translateY(8px)',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+            }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <Heart size={18} strokeWidth={isWishlisted ? 0 : 2} fill={isWishlisted ? '#d4a843' : '#2c635a'} color={isWishlisted ? '#d4a843' : '#2c635a'} />
+          </button>
 
           {/* Sale badge */}
           {product.special && (
