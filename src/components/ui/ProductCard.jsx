@@ -51,7 +51,7 @@ export default function ProductCard({ product }) {
         }}
       >
         {/* Image */}
-        <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4', backgroundColor: '#f0f9f7', transition: 'all 0.3s ease' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '1/1', backgroundColor: '#f0f9f7', transition: 'all 0.3s ease' }}>
           <img
             className="pc-img"
             src={image}
@@ -68,7 +68,7 @@ export default function ProductCard({ product }) {
 
           {/* Wishlist Heart */}
           <button
-            className="pc-btn"
+            className="pc-wishlist-btn"
             onClick={e => { 
               e.preventDefault()
               e.stopPropagation()
@@ -77,18 +77,17 @@ export default function ProductCard({ product }) {
             style={{
               position: 'absolute', top: '1rem', right: '1rem',
               width: '36px', height: '36px', borderRadius: '50%',
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
               border: 'none', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              opacity: isWishlisted ? 1 : 0, 
-              transform: isWishlisted ? 'translateY(0)' : 'translateY(8px)',
-              transition: 'all 0.3s ease',
+              opacity: 1, 
+              transition: 'all 0.2s ease',
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}
             onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
           >
-            <Heart size={18} strokeWidth={isWishlisted ? 0 : 2} fill={isWishlisted ? '#d4a843' : '#2c635a'} color={isWishlisted ? '#d4a843' : '#2c635a'} />
+            <Heart size={18} strokeWidth={isWishlisted ? 0 : 1.5} fill={isWishlisted ? '#d4a843' : 'none'} color={isWishlisted ? '#d4a843' : '#666'} />
           </button>
 
           {/* Sale badge */}
