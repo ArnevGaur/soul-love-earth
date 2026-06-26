@@ -29,23 +29,21 @@ export default function ProductCard({ product }) {
         onMouseEnter={e => {
           e.currentTarget.style.boxShadow = '0 12px 36px rgba(33,78,65,0.08)'
           e.currentTarget.style.transform = 'translateY(-4px)'
-          e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1.05)'
-          e.currentTarget.querySelector('.pc-btn').style.opacity = '1'
-          e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(0)'
+          const img = e.currentTarget.querySelector('.pc-img')
+          if (img) img.style.transform = 'scale(1.05)'
         }}
         onMouseLeave={e => {
           e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.04)'
           e.currentTarget.style.transform = 'translateY(0)'
-          e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1)'
-          e.currentTarget.querySelector('.pc-btn').style.opacity = '0'
-          e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(8px)'
+          const img = e.currentTarget.querySelector('.pc-img')
+          if (img) img.style.transform = 'scale(1)'
         }}
       >
         {/* Image */}
         <div style={{ position: 'relative', overflow: 'hidden', flex: 1, backgroundColor: '#f0f9f7', transition: 'all 0.3s ease' }}>
           <img
             className="pc-img"
-            src={currentImage}
+            src={image}
             alt={product.name}
             style={{
               width: '100%', height: '100%', objectFit: 'cover',
@@ -56,86 +54,6 @@ export default function ProductCard({ product }) {
               e.target.src = 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
             }}
           />
-
-          {/* Wishlist Heart */}
-          <button
-            className="pc-btn"
-            onClick={e => { 
-              e.preventDefault()
-              e.stopPropagation()
-              addToCart(product)
-            }}
-            style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0,
-              padding: '0.75rem',
-              backgroundColor: '#2c635a', color: 'white',
-              fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-              fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
-              border: 'none', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-              opacity: 0, transform: 'translateY(8px)',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2c635a'}
-          >
-            <Heart size={16} strokeWidth={isWishlisted ? 0 : 2} fill={isWishlisted ? '#d4a843' : 'none'} />
-          </button>
-
-          {/* Carousel Controls */}
-          {images.length > 1 && (
-            <div 
-              className="pc-carousel-controls"
-              style={{
-                position: 'absolute', top: '50%', left: 0, right: 0,
-                transform: 'translateY(-50%)',
-                display: 'flex', justifyContent: 'space-between',
-                padding: '0 0.5rem',
-                opacity: 0,
-                transition: 'opacity 0.3s ease',
-                zIndex: 10
-              }}
-            >
-              <button
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setCurrentImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-                }}
-                style={{
-                  width: '28px', height: '28px', borderRadius: '50%',
-                  backgroundColor: 'rgba(255,255,255,0.85)',
-                  border: 'none', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#214e41', boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                  transition: 'background-color 0.2s, transform 0.2s'
-                }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.transform = 'scale(1.1)'; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.85)'; e.currentTarget.style.transform = 'scale(1)'; }}
-              >
-                <ChevronLeft size={16} strokeWidth={2.5} />
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setCurrentImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-                }}
-                style={{
-                  width: '28px', height: '28px', borderRadius: '50%',
-                  backgroundColor: 'rgba(255,255,255,0.85)',
-                  border: 'none', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#214e41', boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                  transition: 'background-color 0.2s, transform 0.2s'
-                }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.transform = 'scale(1.1)'; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.85)'; e.currentTarget.style.transform = 'scale(1)'; }}
-              >
-                <ChevronRight size={16} strokeWidth={2.5} />
-              </button>
-            </div>
-          )}
 
           {/* Sale badge */}
           {product.special && (
