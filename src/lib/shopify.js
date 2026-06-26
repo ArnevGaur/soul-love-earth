@@ -1,6 +1,8 @@
 export const client = {
   request: async (query, { variables } = {}) => {
-    const res = await fetch(import.meta.env.VITE_SHOPIFY_STOREFRONT_URL, {
+    const domain = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN;
+    const url = `https://${domain}/api/2024-01/graphql.json`;
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
