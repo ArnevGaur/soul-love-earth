@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom'
 import { ShoppingBag, Heart } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
+import { useWishlist } from '../../context/WishlistContext'
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
   const { t } = useLanguage()
-  const [isWishlisted, setIsWishlisted] = useState(false)
+  const { toggleWishlist, isWishlisted } = useWishlist()
+  const wishlisted = isWishlisted(product.product_id)
   const image = product.thumb
     ? product.thumb
     : 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
@@ -74,7 +76,7 @@ export default function ProductCard({ product }) {
             onClick={e => { 
               e.preventDefault()
               e.stopPropagation()
-              setIsWishlisted(!isWishlisted)
+              toggleWishlist(product)
             }}
             style={{
               position: 'absolute', top: '1rem', right: '1rem',
@@ -89,7 +91,7 @@ export default function ProductCard({ product }) {
             onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
           >
-            <Heart size={18} strokeWidth={isWishlisted ? 0 : 1.5} fill={isWishlisted ? '#d4a843' : 'none'} color={isWishlisted ? '#d4a843' : '#666'} />
+            <Heart size={18} strokeWidth={wishlisted ? 0 : 1.5} fill={wishlisted ? '#d4a843' : 'none'} color={wishlisted ? '#d4a843' : '#666'} />
           </button>
 
           {/* Sale badge */}

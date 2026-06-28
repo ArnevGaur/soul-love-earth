@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, ShoppingBag, Search, User, Loader2 } from 'lucide-react'
+import { Menu, X, ShoppingBag, Search, User, Loader2, Heart } from 'lucide-react'
 import { fetchProducts } from '../../services/shopify'
 import { useCart } from '../../context/CartContext'
+import { useWishlist } from '../../context/WishlistContext'
 import { useLanguage } from '../../context/LanguageContext'
 import CartDrawer from './CartDrawer'
 
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const { cartCount, setCartDrawerOpen } = useCart()
+  const { wishlistCount } = useWishlist()
   const { lang, t, toggleLang } = useLanguage()
   const navigate = useNavigate()
   const location = useLocation()
@@ -257,6 +259,33 @@ export default function Navbar() {
              >
               {searchOpen ? <X size={20} strokeWidth={1.5} /> : <Search size={20} strokeWidth={1.5} />}
             </button>
+
+            {/* Wishlist */}
+            <Link
+              to="/wishlist"
+              aria-label="Wishlist"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', position: 'relative', transition: 'all 0.2s', display: 'flex', alignItems: 'center' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#d4a843'}
+              onMouseLeave={e => e.currentTarget.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
+            >
+              <Heart size={20} strokeWidth={1.5} />
+              <span style={{
+                position: 'absolute',
+                top: '-2px',
+                right: '-2px',
+                width: '14px',
+                height: '14px',
+                borderRadius: '50%',
+                backgroundColor: '#d4a843',
+                color: 'white',
+                fontSize: '0.55rem',
+                fontFamily: 'Jost, sans-serif',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>{wishlistCount}</span>
+            </Link>
 
             <button
               aria-label="Cart"
