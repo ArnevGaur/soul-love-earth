@@ -268,6 +268,9 @@ export default function ProductPage() {
         .thumb-btn { transition: all 0.2s; }
         .thumb-btn:hover { opacity: 1 !important; transform: scale(1.04); }
         textarea { resize: vertical; }
+        .product-desc-html p { margin-bottom: 1rem; }
+        .product-desc-html ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+        .product-desc-html li { margin-bottom: 0.5rem; }
       `}</style>
 
       <main style={{ backgroundColor: '#faf8f3', minHeight: '100vh', paddingTop: '72px' }}>
@@ -443,7 +446,11 @@ export default function ProductPage() {
                     {originalPrice && <span style={{ fontFamily:'Jost, sans-serif', fontSize:'1.2rem', color:'#bbb', textDecoration:'line-through', fontWeight: 300 }}>{originalPrice}</span>}
                   </div>
  
-                  <p style={{ fontFamily:'Jost, sans-serif', fontSize:'1.05rem', color:'#555', lineHeight:1.8, marginBottom:'2.5rem', fontWeight: 300 }}>{product.description}</p>
+                  <div 
+                    className="product-desc-html"
+                    style={{ fontFamily:'Jost, sans-serif', fontSize:'1.05rem', color:'#555', lineHeight:1.8, marginBottom:'2.5rem', fontWeight: 300 }}
+                    dangerouslySetInnerHTML={{ __html: product.description }} 
+                  />
  
                   {/* Tags */}
                   {product.tags && (

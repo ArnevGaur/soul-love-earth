@@ -32,22 +32,12 @@ export default function ProductCard({ product }) {
           e.currentTarget.style.transform = 'translateY(-4px)'
           const img = e.currentTarget.querySelector('.pc-img')
           if (img) img.style.transform = 'scale(1.05)'
-          const btn = e.currentTarget.querySelector('.pc-btn')
-          if (btn) {
-            btn.style.opacity = '1'
-            btn.style.transform = 'translateY(0)'
-          }
         }}
         onMouseLeave={e => {
           e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.04)'
           e.currentTarget.style.transform = 'translateY(0)'
           const img = e.currentTarget.querySelector('.pc-img')
           if (img) img.style.transform = 'scale(1)'
-          const btn = e.currentTarget.querySelector('.pc-btn')
-          if (btn) {
-            btn.style.opacity = '0'
-            btn.style.transform = 'translateY(8px)'
-          }
         }}
       >
         {/* Image */}
