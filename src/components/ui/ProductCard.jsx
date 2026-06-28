@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ShoppingBag } from 'lucide-react'
+import { ShoppingBag, Heart, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 
@@ -10,6 +10,12 @@ export default function ProductCard({ product }) {
   const image = product.thumb
     ? product.thumb
     : 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80'
+
+  const images = product.images?.length > 0 ? product.images : [image]
+  const [currentImageIdx, setCurrentImageIdx] = useState(0)
+  const currentImage = images[currentImageIdx]
+  
+  const [isWishlisted, setIsWishlisted] = useState(false)
 
   // Format "Add to Bag — <price>" based on language context
   const addToCartText = t?.product?.addToCart?.replace('{price}', product.special ? product.special : product.price) || 'Add to Cart'
@@ -29,27 +35,49 @@ export default function ProductCard({ product }) {
         onMouseEnter={e => {
           e.currentTarget.style.boxShadow = '0 12px 36px rgba(33,78,65,0.08)'
           e.currentTarget.style.transform = 'translateY(-4px)'
-          e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1.05)'
-          e.currentTarget.querySelector('.pc-btn').style.opacity = '1'
-          e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(0)'
+          const img = e.currentTarget.querySelector('.pc-img')
+          if (img) img.style.transform = 'scale(1.05)'
+          const controls = e.currentTarget.querySelector('.pc-carousel-controls')
+          if (controls) controls.style.opacity = '1'
+          const btnAdd = e.currentTarget.querySelector('.pc-btn-add')
+          if (btnAdd) {
+            btnAdd.style.width = '115px'
+            btnAdd.style.opacity = '1'
+          }
+          const btnText = e.currentTarget.querySelector('.pc-btn-add-text')
+          if (btnText) {
+            btnText.style.opacity = '1'
+            btnText.style.transform = 'translateX(0)'
+          }
         }}
         onMouseLeave={e => {
           e.currentTarget.style.boxShadow = '0 4px 16px rgba(33,78,65,0.04)'
           e.currentTarget.style.transform = 'translateY(0)'
-          e.currentTarget.querySelector('.pc-img').style.transform = 'scale(1)'
-          e.currentTarget.querySelector('.pc-btn').style.opacity = '0'
-          e.currentTarget.querySelector('.pc-btn').style.transform = 'translateY(8px)'
+          const img = e.currentTarget.querySelector('.pc-img')
+          if (img) img.style.transform = 'scale(1)'
+          const controls = e.currentTarget.querySelector('.pc-carousel-controls')
+          if (controls) controls.style.opacity = '0'
+          const btnAdd = e.currentTarget.querySelector('.pc-btn-add')
+          if (btnAdd) {
+            btnAdd.style.width = '0px'
+            btnAdd.style.opacity = '0'
+          }
+          const btnText = e.currentTarget.querySelector('.pc-btn-add-text')
+          if (btnText) {
+            btnText.style.opacity = '0'
+            btnText.style.transform = 'translateX(-5px)'
+          }
         }}
       >
         {/* Image */}
-        <div style={{ position: 'relative', overflow: 'hidden', flex: 1, backgroundColor: '#f0f9f7', transition: 'all 0.3s ease' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', flex: 1, backgroundColor: '#f0f9f7', aspectRatio: '1/1', transition: 'all 0.3s ease' }}>
           <img
             className="pc-img"
             src={currentImage}
             alt={product.name}
             style={{
               width: '100%', height: '100%', objectFit: 'cover',
-              transition: 'transform 0.5s ease',
+              transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               display: 'block',
             }}
             onError={e => {
@@ -59,25 +87,25 @@ export default function ProductCard({ product }) {
 
           {/* Wishlist Heart */}
           <button
-            className="pc-btn"
+            className="pc-btn-wishlist"
             onClick={e => { 
               e.preventDefault()
               e.stopPropagation()
-              addToCart(product)
+              setIsWishlisted(!isWishlisted)
             }}
             style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0,
-              padding: '0.75rem',
-              backgroundColor: '#2c635a', color: 'white',
-              fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-              fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
+              position: 'absolute', top: '0.75rem', right: '0.75rem',
+              width: '32px', height: '32px', borderRadius: '50%',
+              backgroundColor: 'rgba(255,255,255,0.95)', 
+              color: isWishlisted ? '#d4a843' : '#2c635a',
               border: 'none', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-              opacity: 0, transform: 'translateY(8px)',
-              transition: 'all 0.3s ease',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+              transition: 'all 0.2s ease',
+              zIndex: 10
             }}
-            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2c635a'}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.backgroundColor = '#ffffff' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.95)' }}
           >
             <Heart size={16} strokeWidth={isWishlisted ? 0 : 2} fill={isWishlisted ? '#d4a843' : 'none'} />
           </button>
@@ -166,59 +194,64 @@ export default function ProductCard({ product }) {
             {product.name}
           </h3>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            {product.special ? (
-              <>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              {product.special ? (
+                <>
+                  <span style={{
+                    fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
+                    fontWeight: 500, color: '#2c635a',
+                  }}>{product.special}</span>
+                  <span style={{
+                    fontFamily: 'Jost, sans-serif', fontSize: '0.78rem',
+                    fontWeight: 300, color: '#999', textDecoration: 'line-through',
+                  }}>{product.price}</span>
+                </>
+              ) : (
                 <span style={{
                   fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                  fontWeight: 500, color: '#2c635a',
-                }}>{product.special}</span>
-                <span style={{
-                  fontFamily: 'Jost, sans-serif', fontSize: '0.78rem',
-                  fontWeight: 300, color: '#999', textDecoration: 'line-through',
+                  fontWeight: 600, color: '#2c635a',
                 }}>{product.price}</span>
-              </>
-            ) : (
-              <span style={{
-                fontFamily: 'Jost, sans-serif', fontSize: '0.9rem',
-                fontWeight: 600, color: '#2c635a',
-              }}>{product.price}</span>
-            )}
-          </div>
+              )}
+            </div>
 
-          {/* Add to cart expanding button */}
-          <div
-            className="pc-btn-container"
-            style={{
-              height: 0,
-              opacity: 0,
-              overflow: 'hidden',
-              transition: 'all 0.3s ease',
-              marginTop: 0
-            }}
-          >
+            {/* Add to cart expanding button */}
             <button
+              className="pc-btn-add"
               onClick={e => { 
                 e.preventDefault()
                 e.stopPropagation()
                 addToCart(product)
               }}
               style={{
-                width: '100%',
-                height: '38px',
-                padding: '0', borderRadius: '30px',
-                backgroundColor: '#2c635a', color: 'white',
-                fontFamily: 'Jost, sans-serif', fontSize: '0.72rem',
-                fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
+                width: '0px', height: '32px', borderRadius: '16px',
+                backgroundColor: '#3d9089', color: 'white',
                 border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                transition: 'background-color 0.3s ease',
+                display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
+                overflow: 'hidden',
+                opacity: 0,
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
               onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d4a843'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2c635a'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = '#3d9089'}
             >
-              <ShoppingBag size={13} strokeWidth={1.5} />
-              Add to Cart
+              <div style={{ width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <ShoppingBag size={14} strokeWidth={2} />
+              </div>
+              <span
+                className="pc-btn-add-text"
+                style={{
+                  fontFamily: 'Jost, sans-serif', fontSize: '0.65rem',
+                  fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  paddingRight: '14px',
+                  opacity: 0,
+                  transform: 'translateX(-5px)',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+              >
+                Add to Cart
+              </span>
             </button>
           </div>
         </div>
