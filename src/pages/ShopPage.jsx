@@ -219,21 +219,7 @@ export default function ShopPage() {
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE)
   const currentProducts = products.slice((currentPage - 1) * PRODUCTS_PER_PAGE, currentPage * PRODUCTS_PER_PAGE)
 
-  // Live suggestions as user types
-  useEffect(() => {
-    if (!searchInput.trim()) { setSuggestions([]); return }
-    const timer = setTimeout(async () => {
-      try {
-        const data = await fetchProducts({ search: searchInput.trim() })
-        const list = Array.isArray(data) ? data : data.products || []
-        setSuggestions(list.slice(0, 6))
-      } catch { setSuggestions([]) }
-    }, 200)
-    return () => clearTimeout(timer)
-  }, [searchInput])
 
-  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE)
-  const currentProducts = products.slice((currentPage - 1) * PRODUCTS_PER_PAGE, currentPage * PRODUCTS_PER_PAGE)
 
   return (
     <>
