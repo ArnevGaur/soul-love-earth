@@ -22,7 +22,6 @@ import { WishlistProvider } from './context/WishlistContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { CustomerProvider } from './context/CustomerContext'
 import AuthPage from './pages/AuthPage'
-import WishlistPage from './pages/WishlistPage'
 import OrdersPage from './pages/OrdersPage'
 import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
@@ -62,7 +61,6 @@ function AnimatedRoutes() {
         <Route path="/register" element={<AuthPage />} />
         <Route path="/orders" element={<ProtectedRoute><PageTransition><OrdersPage /></PageTransition></ProtectedRoute>} />
         <Route path="/hospitality" element={<PageTransition><HospitalityPage /></PageTransition>} />
-        <Route path="/wishlist" element={<PageTransition><WishlistPage /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   )
