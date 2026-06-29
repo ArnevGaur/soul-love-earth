@@ -220,6 +220,7 @@ export default function ShopPage() {
   const currentProducts = products.slice((currentPage - 1) * PRODUCTS_PER_PAGE, currentPage * PRODUCTS_PER_PAGE)
 
 
+
   return (
     <>
       <Navbar />
@@ -626,13 +627,13 @@ export default function ShopPage() {
               {loading && products.length === 0 && (
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                   gap: '1.5rem',
                 }}>
                   {[...Array(8)].map((_, i) => (
                     <div key={i} style={{
                       backgroundColor: '#e8f5f3',
-                      aspectRatio: '3/4',
+                      aspectRatio: '1/1',
                       animation: 'shimmer 1.5s ease-in-out infinite',
                     }} />
                   ))}
@@ -681,7 +682,7 @@ export default function ShopPage() {
                   </p>
                   <div className="shop-products-grid" style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                     gap: '1.5rem',
                   }}>
                     {currentProducts.map(product => (

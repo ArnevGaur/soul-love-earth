@@ -52,8 +52,10 @@ function mapShopifyProduct(node) {
     category_id: category_id,
     thumb: images[0] || 'https://via.placeholder.com/800',
     images: images,
-    description: node.descriptionHtml || node.description || '',
+    description: node.description || '',
+    descriptionHtml: node.descriptionHtml || '',
     tags: node.tags || [],
+    date_added: node.createdAt,
     category_mapping: category_mapping,
     rating: 4,
     reviews: [],
@@ -97,6 +99,7 @@ export async function fetchProducts({
               description
               descriptionHtml
               tags
+              createdAt
               kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
               fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
               giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
@@ -221,6 +224,7 @@ export async function fetchProducts({
           description
           descriptionHtml
           tags
+          createdAt
           kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
           fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
           giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }
@@ -337,6 +341,7 @@ export async function fetchProduct(id) {
       description
       descriptionHtml
       tags
+      createdAt
       kitchenwareSub: metafield(namespace: "custom", key: "kitchenware_subcategories") { value }
       fashionSub: metafield(namespace: "custom", key: "fashion_subcategories") { value }
       giftsSub: metafield(namespace: "custom", key: "gifts_subcategories") { value }

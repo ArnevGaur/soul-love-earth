@@ -1,10 +1,12 @@
 import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
+import { X, Trash2, Plus, Minus, ShoppingBag, Heart } from 'lucide-react'
+import { useWishlist } from '../../context/WishlistContext'
 
 export default function CartDrawer() {
-  const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal } = useCart()
+  const { cartItems, cartDrawerOpen, setCartDrawerOpen, updateQuantity, removeFromCart, cartTotal, addToCart } = useCart()
+  const { wishlistItems, removeFromWishlist, addToWishlist } = useWishlist()
   const { t, lang } = useLanguage()
   const c = t?.cart || {}
   const navigate = useNavigate()
@@ -132,18 +134,33 @@ export default function CartDrawer() {
                         fontFamily: 'Jost, sans-serif', fontSize: '0.95rem', fontWeight: 600,
                         color: '#214e41', margin: '0 0 0.4rem 0' 
                       }}>{item.name}</h4>
-                      <button 
-                        onClick={() => {
-                          const isLast = cartItems.length === 1
-                          removeFromCart(item.product_id)
-                          if (isLast && location.pathname === '/checkout') navigate(-1)
-                        }} 
-                        style={{ background: 'none', border: 'none', color: '#cc3300', cursor: 'pointer', padding: '4px', opacity: 0.6 }}
-                        onMouseEnter={e => e.currentTarget.style.opacity = 1}
-                        onMouseLeave={e => e.currentTarget.style.opacity = 0.6}
-                      >
-                        <Trash2 size={14} />
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button 
+                          onClick={() => {
+                            addToWishlist(item)
+                            removeFromCart(item.product_id)
+                          }} 
+                          title="Move to Wishlist"
+                          style={{ background: 'none', border: 'none', color: '#d4a843', cursor: 'pointer', padding: '4px', opacity: 0.8, transition: 'opacity 0.2s' }}
+                          onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                          onMouseLeave={e => e.currentTarget.style.opacity = 0.8}
+                        >
+                          <Heart size={14} strokeWidth={2} />
+                        </button>
+                        <button 
+                          onClick={() => {
+                            const isLast = cartItems.length === 1
+                            removeFromCart(item.product_id)
+                            if (isLast && location.pathname === '/checkout') navigate(-1)
+                          }} 
+                          title="Remove from Cart"
+                          style={{ background: 'none', border: 'none', color: '#cc3300', cursor: 'pointer', padding: '4px', opacity: 0.6, transition: 'opacity 0.2s' }}
+                          onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                          onMouseLeave={e => e.currentTarget.style.opacity = 0.6}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </div>
                     <div style={{ 
                       fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 600,
@@ -182,6 +199,81 @@ export default function CartDrawer() {
               )
             })}
             </ul>
+          )}
+
+          {/* Wishlist Section */}
+          {wishlistItems.length > 0 && (
+            <div style={{ marginTop: cartItems.length > 0 ? '3rem' : '1rem' }}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                borderBottom: '1px solid rgba(33,78,65,0.08)',
+                paddingBottom: '0.5rem', marginBottom: '1.5rem'
+              }}>
+                <Heart size={16} fill="#d4a843" stroke="none" />
+                <h3 style={{ 
+                  fontFamily: 'Cormorant Garamond, serif', fontSize: '1.2rem', 
+                  fontWeight: 600, color: '#214e41', margin: 0 
+                }}>
+                  Your Wishlist
+                </h3>
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {wishlistItems.map(item => (
+                  <li key={item.product_id} style={{ display: 'flex', gap: '1.25rem', opacity: 0.85, transition: 'opacity 0.2s' }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.85}>
+                    <div style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => { setCartDrawerOpen(false); navigate(`/product/${item.product_id}`) }}>
+                      <img 
+                        src={item.thumb} 
+                        alt={item.name} 
+                        style={{ 
+                          width: '60px', height: '75px', objectFit: 'cover', 
+                          backgroundColor: '#f5f5f5', borderRadius: '10px',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                        }} 
+                      />
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <h4 style={{ 
+                          fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', fontWeight: 500,
+                          color: '#214e41', margin: '0 0 0.3rem 0', cursor: 'pointer' 
+                        }} onClick={() => { setCartDrawerOpen(false); navigate(`/product/${item.product_id}`) }}>
+                          {item.name}
+                        </h4>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button 
+                          onClick={() => {
+                            addToCart(item)
+                            removeFromWishlist(item.product_id)
+                          }}
+                          title="Move to Cart"
+                          style={{ background: 'none', border: 'none', color: '#2c635a', cursor: 'pointer', padding: '4px', opacity: 0.8, transition: 'opacity 0.2s' }}
+                          onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                          onMouseLeave={e => e.currentTarget.style.opacity = 0.8}
+                        >
+                          <ShoppingBag size={14} strokeWidth={2} />
+                        </button>
+                        <button 
+                          onClick={() => removeFromWishlist(item.product_id)} 
+                          title="Remove from Wishlist"
+                          style={{ background: 'none', border: 'none', color: '#cc3300', cursor: 'pointer', padding: '4px', opacity: 0.6, transition: 'opacity 0.2s' }}
+                          onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                          onMouseLeave={e => e.currentTarget.style.opacity = 0.6}
+                        >
+                          <X size={14} strokeWidth={2} />
+                        </button>
+                      </div>
+                      </div>
+                      <div style={{ 
+                        fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', fontWeight: 600,
+                        color: '#d4a843' 
+                      }}>
+                        {item.special ? item.special : item.price}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
 

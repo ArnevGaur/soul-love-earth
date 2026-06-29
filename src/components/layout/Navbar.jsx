@@ -288,6 +288,34 @@ export default function Navbar() {
             </Link>
 
             <button
+              onClick={() => setCartDrawerOpen(true)}
+              aria-label="Wishlist"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', position: 'relative', transition: 'all 0.2s', display: 'flex', alignItems: 'center' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#d4a843'}
+              onMouseLeave={e => e.currentTarget.style.color = isScrolled ? '#0f1f1e' : '#ffffff'}
+            >
+              <Heart size={20} strokeWidth={1.5} />
+              {wishlistCount > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-2px',
+                  right: '-2px',
+                  width: '14px',
+                  height: '14px',
+                  borderRadius: '50%',
+                  backgroundColor: '#d4a843',
+                  color: 'white',
+                  fontSize: '0.55rem',
+                  fontFamily: 'Jost, sans-serif',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>{wishlistCount}</span>
+              )}
+            </button>
+
+            <button
               aria-label="Cart"
               onClick={() => setCartDrawerOpen(true)}
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: isScrolled ? '#0f1f1e' : '#ffffff', padding: '4px', position: 'relative', transition: 'all 0.2s' }}

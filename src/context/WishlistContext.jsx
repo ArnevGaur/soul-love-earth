@@ -6,9 +6,9 @@ export function WishlistProvider({ children }) {
   const [wishlistItems, setWishlistItems] = useState(() => {
     try {
       const saved = localStorage.getItem('sle_wishlist')
-      const parsed = saved ? JSON.parse(saved) : []
-      return Array.isArray(parsed) ? parsed : []
+      return saved ? JSON.parse(saved) : []
     } catch (e) {
+      console.error('Failed to parse wishlist from local storage', e)
       return []
     }
   })
@@ -19,10 +19,10 @@ export function WishlistProvider({ children }) {
 
   const addToWishlist = (product) => {
     setWishlistItems(prev => {
-      if (prev.find(item => item.product_id === product.product_id)) {
-        return prev
+      if (!prev.find(item => item.product_id === product.product_id)) {
+        return [...prev, product]
       }
-      return [...prev, product]
+      return prev
     })
   }
 
@@ -35,28 +35,41 @@ export function WishlistProvider({ children }) {
       const exists = prev.find(item => item.product_id === product.product_id)
       if (exists) {
         return prev.filter(item => item.product_id !== product.product_id)
+      } else {
+        return [...prev, product]
       }
-      return [...prev, product]
     })
+  }
+
+  const isInWishlist = (productId) => {
+    return wishlistItems.some(item => item.product_id === productId)
   }
 
   const clearWishlist = () => {
     setWishlistItems([])
   }
 
-  const isWishlisted = (productId) => {
-    return wishlistItems.some(item => item.product_id === productId)
-  }
-
-  const wishlistCount = wishlistItems.length
-
   return (
-    <WishlistContext.Provider value={{
-      wishlistItems, addToWishlist, removeFromWishlist, toggleWishlist, clearWishlist, isWishlisted, wishlistCount
-    }}>
+    <WishlistContext.Provider
+      value={{
+        wishlistItems,
+        wishlistCount: wishlistItems.length,
+        addToWishlist,
+        removeFromWishlist,
+        toggleWishlist,
+        isInWishlist,
+        clearWishlist
+      }}
+    >
       {children}
     </WishlistContext.Provider>
   )
 }
 
-export const useWishlist = () => useContext(WishlistContext)
+export function useWishlist() {
+  const context = useContext(WishlistContext)
+  if (!context) {
+    throw new Error('useWishlist must be used within a WishlistProvider')
+  }
+  return context
+}
