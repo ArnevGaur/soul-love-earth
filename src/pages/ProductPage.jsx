@@ -443,7 +443,16 @@ export default function ProductPage() {
                     {originalPrice && <span style={{ fontFamily:'Jost, sans-serif', fontSize:'1.2rem', color:'#bbb', textDecoration:'line-through', fontWeight: 300 }}>{originalPrice}</span>}
                   </div>
  
-                  <p style={{ fontFamily:'Jost, sans-serif', fontSize:'1.05rem', color:'#555', lineHeight:1.8, marginBottom:'2.5rem', fontWeight: 300 }}>{product.description}</p>
+                  {product.descriptionHtml ? (
+                    <div 
+                      className="product-description-html"
+                      dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} 
+                    />
+                  ) : (
+                    <p style={{ fontFamily:'Jost, sans-serif', fontSize:'1.05rem', color:'#555', lineHeight:1.8, marginBottom:'2.5rem', fontWeight: 300 }}>
+                      {product.description}
+                    </p>
+                  )}
  
                   {/* Tags */}
                   {product.tags && (

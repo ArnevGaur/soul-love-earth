@@ -26,8 +26,10 @@ import HospitalityPage from './pages/HospitalityPage'
 import PageTransition from './components/layout/PageTransition'
 import AuthBackdrop from './components/layout/AuthBackdrop'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import { WishlistProvider } from './context/WishlistContext'
 import './index.css'
 import './mobile.css'
+import './description.css'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -68,14 +70,16 @@ export default function App() {
   return (
     <LanguageProvider>
       <CustomerProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <AuthBackdrop />
-            <AnimatedRoutes />
-            <RouteProgress />
-            <WhatsAppButton />
-          </BrowserRouter>
-        </CartProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <BrowserRouter>
+              <AuthBackdrop />
+              <AnimatedRoutes />
+              <RouteProgress />
+              <WhatsAppButton />
+            </BrowserRouter>
+          </CartProvider>
+        </WishlistProvider>
       </CustomerProvider>
     </LanguageProvider>
   )

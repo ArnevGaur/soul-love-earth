@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ShoppingBag, Heart, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
+import { useWishlist } from '../../context/WishlistContext'
 import { useLanguage } from '../../context/LanguageContext'
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
+  const { toggleWishlist, isInWishlist } = useWishlist()
   const { t } = useLanguage()
   const image = product.thumb
     ? product.thumb
@@ -15,7 +17,7 @@ export default function ProductCard({ product }) {
   const [currentImageIdx, setCurrentImageIdx] = useState(0)
   const currentImage = images[currentImageIdx]
   
-  const [isWishlisted, setIsWishlisted] = useState(false)
+  const isWishlisted = isInWishlist(product.product_id)
 
   // Format "Add to Bag — <price>" based on language context
   const addToCartText = t?.product?.addToCart?.replace('{price}', product.special ? product.special : product.price) || 'Add to Cart'
@@ -91,7 +93,7 @@ export default function ProductCard({ product }) {
             onClick={e => { 
               e.preventDefault()
               e.stopPropagation()
-              setIsWishlisted(!isWishlisted)
+              toggleWishlist(product)
             }}
             style={{
               position: 'absolute', top: '0.75rem', right: '0.75rem',
